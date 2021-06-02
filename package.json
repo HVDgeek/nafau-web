@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "generate": "yarn plop --plopfile ./generators/plopfile.js",
     "lint": "eslint src --max-warnings=0",
     "storybook": "start-storybook -s public -p 6006",
     "build-storybook": "build-storybook -s public"
@@ -34,6 +35,7 @@
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "plop": "^2.7.4",
     "prettier": "2.3.0",
     "typescript": "^4.3.2"
   }

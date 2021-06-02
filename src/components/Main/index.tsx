@@ -4,7 +4,8 @@ export interface Props {
   title: string
   description: string
 }
-export default function Main({ title, description }: Props) {
+
+const Main = ({ title, description }: Props) => {
   return (
     <>
       <Text as="h1">{title}</Text>
@@ -17,3 +18,5 @@ export default function Main({ title, description }: Props) {
     </>
   )
 }
+
+export default Main
