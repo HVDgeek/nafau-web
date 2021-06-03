@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  Heading as ChakraHEading,
+  Heading as ChakraHeading,
   HeadingProps as ChakraHeadingProps,
   useBreakpointValue
 } from '@chakra-ui/react'
@@ -21,7 +21,7 @@ const Heading = ({
   const size = useBreakpointValue({ base: 'sm', md: 'md' })
 
   return (
-    <ChakraHEading
+    <ChakraHeading
       as="h2"
       size={size}
       fontWeight="semibold"
@@ -29,7 +29,7 @@ const Heading = ({
       css={lineLeft && headerLineLeft}
     >
       {children}
-    </ChakraHEading>
+    </ChakraHeading>
   )
 }
 
