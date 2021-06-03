@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button as ChakraButton, Icon } from '@chakra-ui/react'
+import { Button as ChakraButton } from '@chakra-ui/react'
 import React from 'react'
 import themes from 'styles/alt-themes'
 
