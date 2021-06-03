@@ -4,7 +4,7 @@ export default {
     gutter: '3.2rem'
   },
   border: {
-    radius: '0.4rem'
+    radius: '0.2rem'
   },
   font: {
     family:
@@ -22,7 +22,7 @@ export default {
     }
   },
   colors: {
-    primary: '##6B46C1',
+    primary: '#805AD5', /// purple.500 do Chakra ui
     secondary: '#F231A5',
     mainBg: '#06092B',
     white: '#FAFAFA',
