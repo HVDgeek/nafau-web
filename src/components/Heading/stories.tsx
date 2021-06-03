@@ -4,9 +4,14 @@ import Heading, { HeadingProps } from '.'
 export default {
   title: 'Heading',
   component: Heading,
-  args: {
-    title: 'My Title'
+  argTypes: {
+    children: {
+      type: 'string'
+    }
   }
 } as Meta
 
-export const Basic: Story<HeadingProps> = (args) => <Heading {...args} />
+export const Default: Story<HeadingProps> = (args) => <Heading {...args} />
+Default.args = {
+  children: 'Alunos'
+}

@@ -1,13 +1,14 @@
 import { Text, Box } from '@chakra-ui/react'
 
 export type {{pascalCase name}}Props = {
-  title: string
+  children: React.ReactNode
 }
 
-const {{pascalCase name}} = ({ title }: {{pascalCase name}}Props) => {
+const {{pascalCase name}} = ({ children }: {{pascalCase name}}Props) => {
   return (
     <Box>
       <Text>{{pascalCase name}}</Text>
+      <Text>{children}</Text>
     </Box>
   )
 }
