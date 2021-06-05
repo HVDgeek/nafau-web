@@ -11,6 +11,9 @@ export type ButtonProps = {
   rightIcon?: React.ReactNode | any
   onClick?: () => (event: React.MouseEvent<HTMLButtonElement>) => void
   isLoading?: boolean
+  as?: 'button' | 'a'
+  href?: string
+  target?: string
 }
 
 const Button = ({
@@ -20,6 +23,7 @@ const Button = ({
   leftIcon,
   rightIcon,
   onClick,
+  as = 'button',
   isLoading = false,
   ...props
 }: ButtonProps) => {
@@ -32,6 +36,7 @@ const Button = ({
       leftIcon={leftIcon}
       rightIcon={rightIcon}
       isLoading={isLoading}
+      as={as}
       onClick={onClick}
       borderRadius={themes.border.radius}
       _focus={{ shadow: 'none' }}

@@ -6,6 +6,7 @@ import Button, { ButtonProps } from '.'
 export default {
   title: 'Button',
   component: Button,
+  args: {},
   argTypes: {
     children: {
       type: 'string'
@@ -28,4 +29,12 @@ export const RightIcon: Story<ButtonProps> = (args) => <Button {...args} />
 RightIcon.args = {
   children: 'My school',
   rightIcon: <Icon as={FaSchool} />
+}
+
+export const LinkButton: Story<ButtonProps> = (args) => <Button {...args} />
+LinkButton.args = {
+  children: 'My Link',
+  as: 'a',
+  href: 'http://site.nafau.com',
+  target: '_blank'
 }

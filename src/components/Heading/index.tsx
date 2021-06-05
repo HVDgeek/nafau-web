@@ -33,7 +33,7 @@ const Heading = ({
   )
 }
 
-const headerLineLeft: ChakraHeadingProps = {
+const headerLineLeft = {
   paddingLeft: themes.spacings.xxsmall,
   borderLeft: `0.5rem solid ${themes.colors.secondary}`
 }
