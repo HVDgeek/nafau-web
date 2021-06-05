@@ -9,8 +9,9 @@ import { IoMdNotificationsOutline } from 'react-icons/io'
 import { RiMenu2Fill } from 'react-icons/ri'
 import Logo from 'components/Logo'
 import IconButton from 'components/IconButton'
-import ProfileHeader from 'components/ProfileHeader'
-import SideMenu from 'components/SideMenu'
+import ProfileHeader from './ProfileHeader'
+import SideMenu from './SideMenu'
+import Link from 'components/Link'
 
 export type MenuProps = {
   children: React.ReactNode
@@ -33,14 +34,22 @@ const Menu = ({ children }: MenuProps) => {
 
   return (
     <Flex as="nav" align="center" py={2} px={0} justify="space-between">
-      {!isDesktopVersion && (
-        <IconButton onClick={onOpen} ariaLabel="Menu navigation">
-          <RiMenu2Fill size={iconSize} />
+      <HStack spacing={[4, 8]} alignItems="center">
+        {!isDesktopVersion && (
+          <IconButton onClick={onOpen} ariaLabel="Menu navigation">
+            <RiMenu2Fill size={iconSize} />
+          </IconButton>
+        )}
+        <IconButton ariaLabel="logo">
+          <Logo />
         </IconButton>
-      )}
-      <IconButton ariaLabel="logo">
-        <Logo />
-      </IconButton>
+        {isDesktopVersion && (
+          <HStack spacing={8}>
+            <Link>Gestão</Link>
+            <Link>Salas de aula</Link>
+          </HStack>
+        )}
+      </HStack>
       <HStack>
         <IconButton ariaLabel="Search on platform">
           <AiOutlineSearch size={iconSize} />
