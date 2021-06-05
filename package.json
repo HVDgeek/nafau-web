@@ -41,6 +41,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "plop": "^2.7.4",
     "prettier": "2.3.0",
+    "storybook-react-context": "^0.2.5",
     "typescript": "^4.3.2"
   }
 }

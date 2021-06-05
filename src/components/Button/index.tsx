@@ -19,6 +19,7 @@ const Button = ({
   fullWidth = false,
   leftIcon,
   rightIcon,
+  onClick,
   isLoading = false,
   ...props
 }: ButtonProps) => {
@@ -31,6 +32,7 @@ const Button = ({
       leftIcon={leftIcon}
       rightIcon={rightIcon}
       isLoading={isLoading}
+      onClick={onClick}
       borderRadius={themes.border.radius}
       _focus={{ shadow: 'none' }}
       {...props}
