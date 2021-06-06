@@ -4,10 +4,16 @@ import { ReactElement } from 'react'
 export type IconButtonProps = {
   children: ReactElement
   ariaLabel: string
+  size?: 'sm' | 'md'
   onClick?: () => void
 }
 
-const IconButton = ({ children, ariaLabel, onClick }: IconButtonProps) => {
+const IconButton = ({
+  children,
+  ariaLabel,
+  onClick,
+  size = 'sm'
+}: IconButtonProps) => {
   return (
     <Box>
       <ChakraIconButton
@@ -16,7 +22,7 @@ const IconButton = ({ children, ariaLabel, onClick }: IconButtonProps) => {
         display="flex"
         alignItems="center"
         justifyContent="center"
-        size="sm"
+        size={size}
         onClick={onClick}
         _focus={{ shadow: 'none' }}
         icon={children}

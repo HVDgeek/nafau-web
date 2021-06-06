@@ -11,7 +11,7 @@ const ProfileHeader = ({ showProfileData }: ProfileHeaderProps) => {
       {showProfileData && (
         <Box mr="4" textAlign="right">
           <Text fontSize="sm">Hiduíno Domingos</Text>
-          <Text color="gray.300" fontSize="small">
+          <Text color="gray.300" fontSize="xs">
             hvduino@gmail.com
           </Text>
         </Box>
