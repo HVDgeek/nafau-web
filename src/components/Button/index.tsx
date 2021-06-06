@@ -14,6 +14,8 @@ export type ButtonProps = {
   as?: 'button' | 'a'
   href?: string
   target?: string
+  color?: string
+  variant?: 'solid' | 'outline'
 }
 
 const Button = ({
@@ -23,19 +25,22 @@ const Button = ({
   leftIcon,
   rightIcon,
   onClick,
+  color = 'purple',
+  variant = 'solid',
   as = 'button',
   isLoading = false,
   ...props
 }: ButtonProps) => {
   return (
     <ChakraButton
-      colorScheme="purple"
+      colorScheme={color}
       size={size}
       isFullWidth={fullWidth}
       fontWeight="medium"
       leftIcon={leftIcon}
       rightIcon={rightIcon}
       isLoading={isLoading}
+      variant={variant}
       as={as}
       onClick={onClick}
       borderRadius={themes.border.radius}

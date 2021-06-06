@@ -10,6 +10,9 @@ export default {
     username: '@hiduino',
     avatar: 'https://avatars.githubusercontent.com/u/34204904?v=4',
     isActive: true
+  },
+  argTypes: {
+    onRemove: { action: 'Click on remove' }
   }
 } as Meta
 

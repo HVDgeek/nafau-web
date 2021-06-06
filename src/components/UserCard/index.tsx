@@ -11,6 +11,7 @@ export type UserCardProps = {
   username?: string
   avatar?: string
   isActive: boolean
+  onRemove?: () => void
 }
 
 const UserCard = ({
@@ -18,7 +19,8 @@ const UserCard = ({
   email,
   username,
   avatar,
-  isActive
+  isActive,
+  onRemove
 }: UserCardProps) => {
   return (
     <Center py={6}>
@@ -41,7 +43,7 @@ const UserCard = ({
             <Text fontSize="small" color="gray.300">
               {email}
             </Text>
-            {username && (
+            {!!username && (
               <Text fontSize="small" color="gray.300">
                 {username}
               </Text>
@@ -52,11 +54,11 @@ const UserCard = ({
           </Badge>
         </VStack>
         <Box p={2} position="absolute" top={0} right={0}>
-          <IconButton ariaLabel="Remover usuário">
+          <IconButton onClick={onRemove} ariaLabel="Remover usuário">
             <AiOutlineClose size={18} />
           </IconButton>
         </Box>
-        <Button size="sm" fullWidth>
+        <Button color="purple" size="sm" fullWidth>
           Ver perfil
         </Button>
       </Box>
