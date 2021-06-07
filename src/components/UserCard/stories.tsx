@@ -1,5 +1,6 @@
 import { Meta, Story } from '@storybook/react/types-6-0'
 import UserCard, { UserCardProps } from '.'
+import { Center } from '@chakra-ui/react'
 
 export default {
   title: 'UserCard',
@@ -16,4 +17,8 @@ export default {
   }
 } as Meta
 
-export const Default: Story<UserCardProps> = (args) => <UserCard {...args} />
+export const Default: Story<UserCardProps> = (args) => (
+  <Center py={6}>
+    <UserCard {...args} />
+  </Center>
+)

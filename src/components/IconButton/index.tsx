@@ -24,6 +24,7 @@ const IconButton = ({
         justifyContent="center"
         size={size}
         onClick={onClick}
+        _hover={{ opacity: '0.9' }}
         _focus={{ shadow: 'none' }}
         icon={children}
       />
