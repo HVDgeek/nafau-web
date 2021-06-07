@@ -5,7 +5,7 @@ import themes from 'styles/alt-themes'
 
 export type ButtonProps = {
   children: React.ReactNode
-  size?: 'xs' | 'sm' | 'md' | 'lg'
+  size?: 'xs' | 'sm' | 'md' | 'lg' | string
   fullWidth?: boolean
   leftIcon?: React.ReactNode | any
   rightIcon?: React.ReactNode | any

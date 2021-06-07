@@ -7,7 +7,8 @@ import {
   Tag,
   TagLabel,
   Avatar,
-  Badge
+  Badge,
+  useBreakpointValue
 } from '@chakra-ui/react'
 import themes from 'styles/alt-themes'
 import { stringToColour } from 'utils/stringToColor'
@@ -46,20 +47,31 @@ const ClassCard = ({
   lastLesson
 }: ClassCardProps) => {
   const color = shade(0.7, stringToColour(title))
+  const width = useBreakpointValue({
+    base: '300px',
+    md: '700px'
+  })
+
+  const sizeButton = useBreakpointValue({
+    base: 'xs',
+    md: 'sm'
+  })
 
   return (
     <Flex
       position="relative"
-      maxW={'700px'}
+      maxW={width}
       w={'full'}
+      flexDir={['column', 'row']}
       bg="gray.800"
       boxShadow={'2xl'}
       borderRadius={themes.border.radius}
-      h={150}
+      h={[350, 150]}
     >
       <Box
         borderTopStartRadius={themes.border.radius}
-        borderBottomLeftRadius={themes.border.radius}
+        borderBottomLeftRadius={[0, themes.border.radius]}
+        borderTopRightRadius={[themes.border.radius, 0]}
         bg={color}
         maxW="300px"
         flex="1"
@@ -70,11 +82,11 @@ const ClassCard = ({
           TURMA
         </Text>
 
-        <Text noOfLines={3}>
+        <Text noOfLines={[3, 3]} fontSize={['small', 'sm']}>
           {title} - {code}
         </Text>
         <Icon position="absolute" right={2} top={2} as={IoMdSchool} />
-        <Box position="absolute" left={2} bottom={2}>
+        <Box position="absolute" left={4} bottom={2}>
           <Badge
             fontSize="x-small"
             variant="outline"
@@ -98,7 +110,7 @@ const ClassCard = ({
           position="absolute"
           right={2}
           bottom={2}
-          fontSize="small"
+          fontSize={['x-small', 'small']}
           color="gray.300"
         >
           {countAlunos} Inscritos
@@ -110,11 +122,11 @@ const ClassCard = ({
         flex="1"
       >
         {lastLesson?.title ? (
-          <Box position="absolute" pl={4} top={4}>
+          <Box position="absolute" pl={4} top={[200, 2]}>
             <Text fontSize="x-small" color="gray.300">
               AULA {lastLesson?.lessonNumber}
             </Text>
-            <Text fontSize="x-small" noOfLines={2} pr={4}>
+            <Text fontSize="x-small" noOfLines={[2]} pr={4}>
               {lastLesson?.title}
             </Text>
           </Box>
@@ -150,7 +162,7 @@ const ClassCard = ({
           </Box>
         </Box>
 
-        <Box position="absolute" right={4} top={2}>
+        <Box position="absolute" right={4} top={[200, 2]}>
           <Progress w={100} value={timing} size="xs" colorScheme="purple" />
           <Text textAlign="end" fontSize="x-small" color="gray.300">
             {timing}%
@@ -158,7 +170,7 @@ const ClassCard = ({
         </Box>
 
         <Box position="absolute" right={0} bottom={0} p={4}>
-          <Button size="sm" rightIcon={<Icon as={AiOutlineRight} />}>
+          <Button size={sizeButton} rightIcon={<Icon as={AiOutlineRight} />}>
             Acessar
           </Button>
         </Box>
