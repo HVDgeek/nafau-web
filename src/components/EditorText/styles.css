@@ -1,0 +1,35 @@
+:root {
+  /* Overrides the border radius setting in the theme. */
+  --ck-border-radius: 2px;
+  --ck-color-focus-border: #805AD5;
+  --ck-color-base-background: #1F2029;
+  --ck-color-base-border: #181b23;
+
+  --ck-color-list-button-on-background: #805AD5;
+  --ck-color-list-button-on-background-focus: #805AD5;
+  --ck-color-list-button-on-text: #ffffff;
+
+  --ck-color-toolbar-background: #1F2029;
+  --ck-color-tooltip-text: #ffffff;
+
+  --ck-color-button-default-hover-background: #181b23;
+  --ck-color-button-default-active-background: #181b23;
+  --ck-color-button-default-active-shadow: #181b23;
+  --ck-color-button-on-background: #181b23;
+  --ck-color-input-disabled-background: #181b23;
+
+  --ck-color-input-background: #181b23;
+  --ck-color-input-text: #ffffff;
+
+  --ck-color-tooltip-text: #ffffff;
+  --ck-color-button-on-disabled-background: #ffffff;
+  --ck-color-text: #ffffff;
+  --ck-color-button-action-hover-background: #181b23;
+
+  --ck-color-switch-button-off-hover-background: #181b23;
+  --ck-color-button-on-hover-background: #181b23;
+  --ck-color-button-off-hover-background: #181b23;
+
+  --ck-font-size-base: 12px;
+  --ck-spacing-unit: 20px;
+}

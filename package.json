@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^1.6.3",
+    "@ckeditor/ckeditor5-build-classic": "^28.0.0",
+    "@ckeditor/ckeditor5-react": "^3.0.2",
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
     "framer-motion": "^4.1.17",
