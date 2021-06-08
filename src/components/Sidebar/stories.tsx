@@ -3,15 +3,7 @@ import Sidebar, { SidebarProps } from '.'
 
 export default {
   title: 'Sidebar',
-  component: Sidebar,
-  argTypes: {
-    children: {
-      type: 'string'
-    }
-  }
+  component: Sidebar
 } as Meta
 
-export const Default: Story<SidebarProps> = (args) => <Sidebar {...args} />
-Default.args = {
-  children: 'My Title'
-}
+export const Default: Story = () => <Sidebar />

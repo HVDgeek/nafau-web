@@ -2,6 +2,7 @@ const path = require("path");
 const toPath = (_path) => path.join(process.cwd(), _path);
 
 module.exports = {
+  typescript: { reactDocgen: 'react-docgen' },
   "stories": [
     "../src/components/**/stories.tsx"
   ],
@@ -12,6 +13,7 @@ module.exports = {
   //   ...options,
   //   plugins: [...options.plugins,  require.resolve('@babel/plugin-transform-react-jsx')]
   // }),
+
   webpackFinal: async (config) => {
     config.resolve.modules.push(`${process.cwd()}/src`)
     return {

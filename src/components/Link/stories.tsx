@@ -3,12 +3,7 @@ import Link, { LinkProps } from '.'
 
 export default {
   title: 'Link',
-  component: Link,
-  argTypes: {
-    children: {
-      type: 'string'
-    }
-  }
+  component: Link
 } as Meta
 
 export const Default: Story<LinkProps> = (args) => <Link {...args} />
