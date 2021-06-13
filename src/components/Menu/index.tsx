@@ -17,7 +17,7 @@ export type MenuProps = {
   children: React.ReactNode
 }
 
-const Menu = ({ children }: MenuProps) => {
+const Menu = () => {
   const disclosure = useDisclosure()
 
   const { onOpen } = disclosure
