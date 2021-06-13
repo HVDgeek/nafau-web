@@ -1,16 +1,8 @@
 import { Meta, Story } from '@storybook/react/types-6-0'
-import Menu, { MenuProps } from '.'
+import Menu from '.'
 export default {
   title: 'Menu',
-  component: Menu,
-  argTypes: {
-    children: {
-      type: 'string'
-    }
-  }
+  component: Menu
 } as Meta
 
-export const Default: Story<MenuProps> = (args) => <Menu {...args} />
-Default.args = {
-  children: 'My Title'
-}
+export const Default: Story = () => <Menu />

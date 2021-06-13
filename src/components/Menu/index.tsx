@@ -17,7 +17,7 @@ export type MenuProps = {
   children: React.ReactNode
 }
 
-const Menu = ({ children }: MenuProps) => {
+const Menu = () => {
   const disclosure = useDisclosure()
 
   const { onOpen } = disclosure
@@ -45,6 +45,7 @@ const Menu = ({ children }: MenuProps) => {
         </IconButton>
         {isDesktopVersion && (
           <HStack spacing={8}>
+            <Link>Início</Link>
             <Link>Gestão</Link>
             <Link>Salas de aula</Link>
           </HStack>
