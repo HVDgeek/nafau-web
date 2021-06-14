@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "typecheck": "tsc --project tsconfig.json --noEmit",
     "generate": "yarn plop --plopfile ./generators/plopfile.js",
     "lint": "eslint src --max-warnings=0",
     "storybook": "start-storybook -s public -p 6006",

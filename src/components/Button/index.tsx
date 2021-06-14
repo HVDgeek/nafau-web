@@ -15,7 +15,7 @@ export type ButtonProps = {
   href?: string
   target?: string
   color?: string
-  variant?: 'solid' | 'outline'
+  variant?: 'solid' | 'outline' | 'ghost'
 }
 
 const Button = ({
