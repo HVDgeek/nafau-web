@@ -1,9 +1,5 @@
 import React from 'react'
-import {
-  Heading as ChakraHeading,
-  HeadingProps as ChakraHeadingProps,
-  useBreakpointValue
-} from '@chakra-ui/react'
+import { Heading as ChakraHeading, useBreakpointValue } from '@chakra-ui/react'
 
 import themes from 'styles/alt-themes'
 
@@ -11,19 +7,21 @@ export type HeadingProps = {
   children: React.ReactNode
   color?: 'white' | 'black'
   lineLeft?: boolean
+  huge?: boolean
 }
 
 const Heading = ({
   children,
   color = 'white',
-  lineLeft = false
+  lineLeft = false,
+  huge = false
 }: HeadingProps) => {
   const size = useBreakpointValue({ base: 'sm', md: 'md' })
 
   return (
     <ChakraHeading
       as="h2"
-      size={size}
+      size={huge ? 'lg' : size}
       fontWeight="semibold"
       color={color}
       css={lineLeft && headerLineLeft}
