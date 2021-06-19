@@ -18,7 +18,7 @@ import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 
 export type TextFieldProps = {
   mask?: 'cep' | 'currency' | 'birthday'
-  label: string
+  label?: string
   name: string
   isRequired?: boolean
   withIcon?: boolean
@@ -79,6 +79,7 @@ const TextField = ({
             bgColor: 'gray.900'
           }}
           focusBorderColor="purple.500"
+          errorBorderColor="red.300"
         />
         {isPasswordField && (
           <InputRightElement width="4.5rem">
@@ -95,7 +96,9 @@ const TextField = ({
             </Button>
           </InputRightElement>
         )}
-        {error ? <FormErrorMessage>{error}</FormErrorMessage> : null}
+        {error ? (
+          <FormErrorMessage color="red.300">{error}</FormErrorMessage>
+        ) : null}
       </InputGroup>
     </FormControl>
   )

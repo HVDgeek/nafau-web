@@ -4,7 +4,7 @@ import TextField, { TextFieldProps } from '.'
 import { HiOutlineMail } from 'react-icons/hi'
 import { Box } from '@chakra-ui/react'
 export default {
-  title: 'TextField',
+  title: 'Form/TextField',
   component: TextField,
   args: {
     label: 'E-mail',
