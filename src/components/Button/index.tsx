@@ -6,6 +6,7 @@ import themes from 'styles/alt-themes'
 export type ButtonProps = {
   children: React.ReactNode
   size?: 'xs' | 'sm' | 'md' | 'lg'
+  type?: 'submit' | 'button'
   fullWidth?: boolean
   leftIcon?: React.ReactNode | any
   rightIcon?: React.ReactNode | any
@@ -21,6 +22,7 @@ export type ButtonProps = {
 const Button = ({
   children,
   size = 'md',
+  type = 'button',
   fullWidth = false,
   leftIcon,
   rightIcon,
@@ -41,6 +43,7 @@ const Button = ({
       rightIcon={rightIcon}
       isLoading={isLoading}
       variant={variant}
+      type={type}
       as={as}
       onClick={onClick}
       borderRadius={themes.border.radius}
