@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Text, Box, Grid, useBreakpointValue, Flex } from '@chakra-ui/react'
 import Heading from 'components/Heading'
 import themes from 'styles/alt-themes'
@@ -45,7 +46,11 @@ const Auth = ({ title, children }: AuthProps) => {
             position="relative"
             zIndex={themes.layers.base}
           >
-            <Logo hideOnMobile />
+            <Link href="/">
+              <a style={link}>
+                <Logo hideOnMobile />
+              </a>
+            </Link>
             <Box>
               <Heading huge>Aprendizagem de qualquer lugar!</Heading>
               <Text fontSize="md" fontWeight="light" mt={2} as="h3">
@@ -70,7 +75,11 @@ const Auth = ({ title, children }: AuthProps) => {
       >
         <Box w={['300px', '360px']}>
           <Flex mb={10} justifyContent="center">
-            <Logo />
+            <Link href="/">
+              <a>
+                <Logo />
+              </a>
+            </Link>
           </Flex>
           <Box mb={5}>
             <Heading lineLeft>{title}</Heading>
@@ -80,6 +89,11 @@ const Auth = ({ title, children }: AuthProps) => {
       </Grid>
     </Grid>
   )
+}
+
+const link = {
+  width: 'fit-content',
+  height: 'fit-content'
 }
 
 export default Auth
