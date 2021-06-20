@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button as ChakraButton } from '@chakra-ui/react'
-import React from 'react'
+import {
+  Button as ChakraButton,
+  ButtonProps as ChakraButtonProps
+} from '@chakra-ui/react'
+import React, { forwardRef } from 'react'
 import themes from 'styles/alt-themes'
 
 export type ButtonProps = {
@@ -19,20 +22,23 @@ export type ButtonProps = {
   variant?: 'solid' | 'outline' | 'ghost'
 }
 
-const Button = ({
-  children,
-  size = 'md',
-  type = 'button',
-  fullWidth = false,
-  leftIcon,
-  rightIcon,
-  onClick,
-  color = 'purple',
-  variant = 'solid',
-  as = 'button',
-  isLoading = false,
-  ...props
-}: ButtonProps) => {
+const Button: React.ForwardRefRenderFunction<ChakraButtonProps, ButtonProps> = (
+  {
+    children,
+    size = 'md',
+    type = 'button',
+    fullWidth = false,
+    leftIcon,
+    rightIcon,
+    onClick,
+    color = 'purple',
+    variant = 'solid',
+    as = 'button',
+    isLoading = false,
+    ...props
+  },
+  ref
+) => {
   return (
     <ChakraButton
       colorScheme={color}
@@ -48,6 +54,7 @@ const Button = ({
       onClick={onClick}
       borderRadius={themes.border.radius}
       _focus={{ shadow: 'none' }}
+      ref={ref}
       {...props}
     >
       {children}
@@ -55,4 +62,4 @@ const Button = ({
   )
 }
 
-export default Button
+export default forwardRef(Button)
