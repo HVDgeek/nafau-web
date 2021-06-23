@@ -2,9 +2,9 @@ import dynamic from 'next/dynamic'
 import { Text, Box, SimpleGrid } from '@chakra-ui/react'
 import { Container } from 'components/Container'
 import Heading from 'components/Heading'
-import Menu from 'components/Menu'
 import theme from 'styles/alt-themes'
 import { ApexOptions } from 'apexcharts'
+import Base from 'templates/Base'
 
 const Chart = dynamic(() => import('react-apexcharts'), {
   ssr: false
@@ -68,11 +68,7 @@ const series = [{ name: 'series1', data: [31, 120, 10, 28, 61, 16, 109] }]
 
 const Home = () => {
   return (
-    <section>
-      <Container>
-        <Menu />
-      </Container>
-
+    <Base>
       <Container>
         <Box mt={10}>
           <Heading lineLeft>Estatísticas</Heading>
@@ -98,7 +94,7 @@ const Home = () => {
           </Box>
         </SimpleGrid>
       </Container>
-    </section>
+    </Base>
   )
 }
 
