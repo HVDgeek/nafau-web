@@ -13,7 +13,10 @@ import { MinusIcon, AddIcon } from '@chakra-ui/icons'
 import { AiOutlineFile, AiOutlineLink } from 'react-icons/ai'
 import { RiVideoLine } from 'react-icons/ri'
 import { FaFileAudio } from 'react-icons/fa'
+<<<<<<< HEAD
 import { BiTask } from 'react-icons/bi'
+=======
+>>>>>>> 4c06756ce46986a50d2713e40706e9e35243d9df
 import themes from 'styles/alt-themes'
 import { shade } from 'polished'
 import ClassSession from 'components/ClassSession'
@@ -140,7 +143,11 @@ const ClassItem = ({
                 )}
               </Box>
               <ClassSession title="Tarefas" color="pink.300">
+<<<<<<< HEAD
                 <Icon as={BiTask} color="pink.300" />
+=======
+                <Icon as={FaFileAudio} color="pink.300" />
+>>>>>>> 4c06756ce46986a50d2713e40706e9e35243d9df
               </ClassSession>
               <Box>
                 {!files?.length && (
