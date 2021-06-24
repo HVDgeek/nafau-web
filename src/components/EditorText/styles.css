@@ -1,12 +1,12 @@
 :root {
   /* Overrides the border radius setting in the theme. */
   --ck-border-radius: 2px;
-  --ck-color-focus-border: #805AD5;
+  --ck-color-focus-border: #322659;
   --ck-color-base-background: #1F2029;
   --ck-color-base-border: #181b23;
 
-  --ck-color-list-button-on-background: #805AD5;
-  --ck-color-list-button-on-background-focus: #805AD5;
+  --ck-color-list-button-on-background: #322659;
+  --ck-color-list-button-on-background-focus: #322659;
   --ck-color-list-button-on-text: #ffffff;
 
   --ck-color-toolbar-background: #1F2029;
