@@ -17,6 +17,7 @@ import { BiTask } from 'react-icons/bi'
 import themes from 'styles/alt-themes'
 import { shade } from 'polished'
 import ClassSession, { ClassSessionTitle } from 'components/ClassSession'
+import TextContent from 'components/TextContent'
 
 export type ClassContent = {
   title: string
@@ -53,7 +54,9 @@ const ClassItem = ({
           <h2>
             <AccordionButton _focus={{ shadow: 'none' }}>
               <Box flex="1" textAlign="left">
-                <Text>🚀 {title}</Text>
+                <Text fontWeight="medium" fontSize={['sm', 'md']}>
+                  🚀 {title}
+                </Text>
               </Box>
               {isExpanded ? (
                 <MinusIcon fontSize="12px" />
@@ -63,7 +66,7 @@ const ClassItem = ({
             </AccordionButton>
           </h2>
           <AccordionPanel pb={4}>
-            <Text fontSize="sm">{description}</Text>
+            {!!description && <TextContent>{description}</TextContent>}
             <VStack mt={6} spacing={6}>
               <ClassSession
                 data={files!}
