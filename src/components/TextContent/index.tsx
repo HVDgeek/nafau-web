@@ -7,7 +7,11 @@ export type TextContentProps = {
 const TextContent = ({ children }: TextContentProps) => {
   return (
     <Box px={4}>
-      <Box fontSize="sm" dangerouslySetInnerHTML={{ __html: children }} />
+      <Box
+        color="gray.100"
+        fontSize="sm"
+        dangerouslySetInnerHTML={{ __html: children }}
+      />
     </Box>
   )
 }
