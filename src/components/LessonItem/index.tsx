@@ -1,14 +1,15 @@
 import { Text, Box, Flex, Link, Icon } from '@chakra-ui/react'
 import { FaFilePdf, FaFileExcel, FaFile, FaFileImage } from 'react-icons/fa'
-import { AiFillFileWord } from 'react-icons/ai'
+import { AiFillFileWord, AiOutlineClose } from 'react-icons/ai'
+import IconButton from 'components/IconButton'
 
-export type FileItemProps = {
+export type LessonItemProps = {
   title?: string
   description?: string
   url: string
 }
 
-const getIconFile = (format: string) => {
+const getIcon = (format: string) => {
   if (format.includes('pdf')) {
     return FaFilePdf
   }
@@ -32,11 +33,10 @@ const getIconFile = (format: string) => {
   return FaFile
 }
 
-const FileItem = ({ title, description, url }: FileItemProps) => {
+const LessonItem = ({ title, description, url }: LessonItemProps) => {
   return (
     <Flex align="center">
-      <Icon as={getIconFile(url)} mr={2} />
-
+      <Icon as={getIcon(url)} mr={2} />
       <Box>
         <Link
           fontSize="sm"
@@ -52,8 +52,11 @@ const FileItem = ({ title, description, url }: FileItemProps) => {
           </Text>
         )}
       </Box>
+      <IconButton ariaLabel="remove item">
+        <AiOutlineClose />
+      </IconButton>
     </Flex>
   )
 }
 
-export default FileItem
+export default LessonItem

@@ -1,13 +1,8 @@
-import {
-  Text,
-  Flex,
-  Box,
-  AlertIcon,
-  Alert,
-  Icon,
-  VStack
-} from '@chakra-ui/react'
+import { Text, Flex, Box, Alert, Icon, VStack } from '@chakra-ui/react'
+import { FaPlus } from 'react-icons/fa'
 import { ClassContent } from 'components/ClassItem'
+import LessonItem from 'components/LessonItem'
+import Button from 'components/Button'
 
 export type ClassSessionTitleProps = {
   children: React.ReactNode
@@ -50,16 +45,25 @@ const ClassSession = ({ data, dataType, icon, color }: ClassSessionProps) => {
           <Alert
             height={8}
             status="warning"
-            colorScheme={color}
-            color="gray.900"
+            // colorScheme={color}
+            bg="gray.900"
+            color="gray.200"
             fontSize="smaller"
             borderRadius={50}
           >
-            <AlertIcon />
             Sem {dataType} nesta aula!
           </Alert>
         )}
+        {data.map((item) => (
+          <VStack key={item.id}>
+            <LessonItem {...item} />
+          </VStack>
+        ))}
       </Box>
+
+      <Button size="xs" leftIcon={<Icon as={FaPlus} />}>
+        Adicionar {dataType}
+      </Button>
     </VStack>
   )
 }

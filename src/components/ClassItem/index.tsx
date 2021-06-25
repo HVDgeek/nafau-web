@@ -6,23 +6,25 @@ import {
   AccordionPanel,
   Icon,
   VStack,
-  Alert,
-  AlertIcon
+  Alert
 } from '@chakra-ui/react'
 import { MinusIcon, AddIcon } from '@chakra-ui/icons'
 import { AiOutlineFile, AiOutlineLink } from 'react-icons/ai'
 import { RiVideoLine } from 'react-icons/ri'
 import { FaFileAudio } from 'react-icons/fa'
 import { BiTask } from 'react-icons/bi'
+import { FaPlus } from 'react-icons/fa'
+import Button from 'components/Button'
 import themes from 'styles/alt-themes'
 import { shade } from 'polished'
 import ClassSession, { ClassSessionTitle } from 'components/ClassSession'
 import TextContent from 'components/TextContent'
 
 export type ClassContent = {
+  id: string
   title: string
   description?: string
-  url?: string
+  url: string
 }
 
 export type ClassItemProps = {
@@ -92,23 +94,27 @@ const ClassItem = ({
                 dataType="Áudios"
                 icon={FaFileAudio}
               />
-
-              <ClassSessionTitle title="Tarefas" color="pink.300">
-                <Icon as={BiTask} color="pink.300" />
-              </ClassSessionTitle>
-              <Box>
-                <Alert
-                  height={8}
-                  status="warning"
-                  colorScheme="pink"
-                  color="gray.900"
-                  fontSize="smaller"
-                  borderRadius={50}
-                >
-                  <AlertIcon />
-                  Nenhuma tarefa nesta aula!
-                </Alert>
-              </Box>
+              <VStack>
+                <ClassSessionTitle title="Tarefas" color="pink.300">
+                  <Icon as={BiTask} color="pink.300" />
+                </ClassSessionTitle>
+                <Box>
+                  <Alert
+                    height={8}
+                    status="warning"
+                    // colorScheme="pink"
+                    bg="gray.900"
+                    color="gray.200"
+                    fontSize="smaller"
+                    borderRadius={50}
+                  >
+                    Nenhuma tarefa nesta aula!
+                  </Alert>
+                </Box>
+                <Button size="xs" leftIcon={<Icon as={FaPlus} />}>
+                  Adicionar Tarefas
+                </Button>
+              </VStack>
             </VStack>
           </AccordionPanel>
         </>
