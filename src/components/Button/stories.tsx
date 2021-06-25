@@ -10,6 +10,18 @@ export default {
   argTypes: {
     children: {
       type: 'string'
+    },
+    size: {
+      control: {
+        type: 'inline-radio',
+        options: ['xs', 'sm', 'md', 'lg']
+      }
+    },
+    fullWidth: {
+      control: {
+        type: 'boolean',
+        options: [true, false]
+      }
     }
   }
 } as Meta

@@ -7,6 +7,11 @@ export default {
   argTypes: {
     children: {
       type: 'string'
+    },
+    color: {
+      control: {
+        type: 'color'
+      }
     }
   }
 } as Meta

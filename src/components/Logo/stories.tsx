@@ -6,6 +6,19 @@ export default {
   component: Logo,
   args: {
     title: 'My Title'
+  },
+  argTypes: {
+    color: {
+      control: {
+        type: 'color'
+      }
+    },
+    size: {
+      control: {
+        type: 'radio',
+        options: ['normal', 'large']
+      }
+    }
   }
 } as Meta
 

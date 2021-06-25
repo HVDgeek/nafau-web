@@ -6,7 +6,15 @@ import item from './mock'
 export default {
   title: 'ClassCard',
   component: ClassCard,
-  args: { ...item }
+  args: { ...item },
+  argTypes: {
+    status: {
+      control: {
+        type: 'inline-radio',
+        options: ['EMCURSO', 'PAUSE', 'ENCERRADA']
+      }
+    }
+  }
 } as Meta
 
 export const Default: Story<ClassCardProps> = (args) => (

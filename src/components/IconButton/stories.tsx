@@ -4,7 +4,15 @@ import { FaSchool } from 'react-icons/fa'
 
 export default {
   title: 'IconButton',
-  component: IconButton
+  component: IconButton,
+  argTypes: {
+    size: {
+      control: {
+        type: 'radio',
+        options: ['sm', 'md']
+      }
+    }
+  }
 } as Meta
 
 export const Default: Story<IconButtonProps> = (args) => (
