@@ -1,18 +1,34 @@
-import { Text, Flex } from '@chakra-ui/react'
+import {
+  Text,
+  Flex,
+  Box,
+  AlertIcon,
+  Alert,
+  Icon,
+  VStack
+} from '@chakra-ui/react'
+import { ClassContent } from 'components/ClassItem'
 
-export type ClassSessionProps = {
+export type ClassSessionTitleProps = {
   children: React.ReactNode
   title?: string
   color?: string
   fontWeight?: string
 }
 
-const ClassSession = ({
+export type ClassSessionProps = {
+  data: ClassContent[]
+  dataType: 'Arquivos' | 'Áudios' | 'Vídeos' | 'Tarefas' | 'Links úteis'
+  icon: React.ReactNode | any
+  color: string
+}
+
+export const ClassSessionTitle = ({
   children,
   title,
   color,
   fontWeight
-}: ClassSessionProps) => {
+}: ClassSessionTitleProps) => {
   return (
     <Flex alignItems="center">
       {children}
@@ -20,6 +36,31 @@ const ClassSession = ({
         {title}
       </Text>
     </Flex>
+  )
+}
+
+const ClassSession = ({ data, dataType, icon, color }: ClassSessionProps) => {
+  return (
+    <VStack>
+      <ClassSessionTitle title={dataType} color={`${color}.300`}>
+        <Icon as={icon} color={`${color}.300`} />
+      </ClassSessionTitle>
+      <Box>
+        {!data?.length && (
+          <Alert
+            height={8}
+            status="warning"
+            colorScheme={color}
+            color="gray.900"
+            fontSize="smaller"
+            borderRadius={50}
+          >
+            <AlertIcon />
+            Sem {dataType} nesta aula!
+          </Alert>
+        )}
+      </Box>
+    </VStack>
   )
 }
 

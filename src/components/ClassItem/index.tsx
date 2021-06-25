@@ -13,13 +13,10 @@ import { MinusIcon, AddIcon } from '@chakra-ui/icons'
 import { AiOutlineFile, AiOutlineLink } from 'react-icons/ai'
 import { RiVideoLine } from 'react-icons/ri'
 import { FaFileAudio } from 'react-icons/fa'
-<<<<<<< HEAD
 import { BiTask } from 'react-icons/bi'
-=======
->>>>>>> 4c06756ce46986a50d2713e40706e9e35243d9df
 import themes from 'styles/alt-themes'
 import { shade } from 'polished'
-import ClassSession from 'components/ClassSession'
+import ClassSession, { ClassSessionTitle } from 'components/ClassSession'
 
 export type ClassContent = {
   title: string
@@ -68,101 +65,46 @@ const ClassItem = ({
           <AccordionPanel pb={4}>
             <Text fontSize="sm">{description}</Text>
             <VStack mt={6} spacing={6}>
-              <ClassSession title="Arquivos" color="green.300">
-                <Icon as={AiOutlineFile} color="green.300" />
-              </ClassSession>
-              <Box>
-                {!files?.length && (
-                  <Alert
-                    height={8}
-                    status="warning"
-                    colorScheme="green"
-                    color="gray.900"
-                    fontSize="smaller"
-                    borderRadius={50}
-                  >
-                    <AlertIcon />
-                    Sem arquivos nesta aula!
-                  </Alert>
-                )}
-              </Box>
-              <ClassSession title="Links úteis" color="blue.300">
-                <Icon as={AiOutlineLink} color="blue.300" />
-              </ClassSession>
-              <Box>
-                <Box>
-                  {!files?.length && (
-                    <Alert
-                      height={8}
-                      status="warning"
-                      colorScheme="blue"
-                      color="gray.900"
-                      fontSize="smaller"
-                      borderRadius={50}
-                    >
-                      <AlertIcon />
-                      Sem links úteis nesta aula!
-                    </Alert>
-                  )}
-                </Box>
-              </Box>
-              <ClassSession title="Vídeos" color="orange.300">
-                <Icon as={RiVideoLine} color="orange.300" />
-              </ClassSession>
-              <Box>
-                {!files?.length && (
-                  <Alert
-                    height={8}
-                    status="warning"
-                    colorScheme="orange"
-                    color="gray.900"
-                    fontSize="smaller"
-                    borderRadius={50}
-                  >
-                    <AlertIcon />
-                    Sem vídeos nesta aula!
-                  </Alert>
-                )}
-              </Box>
-              <ClassSession title="Áudios" color="yellow.300">
-                <Icon as={FaFileAudio} color="yellow.300" />
-              </ClassSession>
-              <Box>
-                {!files?.length && (
-                  <Alert
-                    height={8}
-                    status="warning"
-                    colorScheme="yellow"
-                    color="gray.900"
-                    fontSize="smaller"
-                    borderRadius={50}
-                  >
-                    <AlertIcon />
-                    Sem áudios nesta aula!
-                  </Alert>
-                )}
-              </Box>
-              <ClassSession title="Tarefas" color="pink.300">
-<<<<<<< HEAD
+              <ClassSession
+                data={files!}
+                color="green"
+                dataType="Arquivos"
+                icon={AiOutlineFile}
+              />
+              <ClassSession
+                data={links!}
+                color="blue"
+                dataType="Links úteis"
+                icon={AiOutlineLink}
+              />
+              <ClassSession
+                data={videos!}
+                color="orange"
+                dataType="Vídeos"
+                icon={RiVideoLine}
+              />
+              <ClassSession
+                data={audios!}
+                color="yellow"
+                dataType="Áudios"
+                icon={FaFileAudio}
+              />
+
+              <ClassSessionTitle title="Tarefas" color="pink.300">
                 <Icon as={BiTask} color="pink.300" />
-=======
-                <Icon as={FaFileAudio} color="pink.300" />
->>>>>>> 4c06756ce46986a50d2713e40706e9e35243d9df
-              </ClassSession>
+              </ClassSessionTitle>
               <Box>
-                {!files?.length && (
-                  <Alert
-                    height={8}
-                    status="warning"
-                    colorScheme="pink"
-                    color="gray.900"
-                    fontSize="smaller"
-                    borderRadius={50}
-                  >
-                    <AlertIcon />
-                    Nenhuma tarefa nesta aula!
-                  </Alert>
-                )}
+                <Alert
+                  height={8}
+                  status="warning"
+                  colorScheme="pink"
+                  color="gray.900"
+                  fontSize="smaller"
+                  borderRadius={50}
+                >
+                  <AlertIcon />
+                  Nenhuma tarefa nesta aula!
+                </Alert>
               </Box>
             </VStack>
           </AccordionPanel>
