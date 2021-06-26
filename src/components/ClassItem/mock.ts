@@ -17,9 +17,42 @@ export default [
         url: 'introduction.docx'
       }
     ],
-    audios: [],
-    videos: [],
-    links: []
+    audios: [
+      {
+        id: 'ghcuwg87',
+        title: 'Estágios do autoconhecimento',
+        description: 'Psicologia comportamental',
+        url: 'https://soundcloud.com/karen-ogassawara/tres-estagios-ate-autoconhecimento'
+      }
+    ],
+    videos: [
+      {
+        id: '83432542',
+        title: 'Tutorial Regressao Logdistoica',
+        description: 'uma Introducao a regrecao logistica',
+        url: 'https://www.youtube.com/watch?v=8oE5FLGPDXw'
+      },
+      {
+        id: '83432sdfsd',
+        title: 'Tutorial Função Sigmoid',
+        description: 'Entendendo a função Sigmoid',
+        url: 'https://www.youtube.com/watch?v=Cu5u9lbwEV0'
+      }
+    ],
+    links: [
+      {
+        id: '86734',
+        title: 'Tutorial de instalação DEV C++',
+        description: 'uma introducao a programacao',
+        url: 'https://google.com'
+      },
+      {
+        id: '86knjn9',
+        title: 'Tutorial de instalação VISUAL G',
+        description: 'uma introducao a programacao',
+        url: 'https://google.com'
+      }
+    ]
   },
   {
     id: '2',

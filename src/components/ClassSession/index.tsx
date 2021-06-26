@@ -56,11 +56,11 @@ const ClassSession = ({ data, dataType, icon, color }: ClassSessionProps) => {
         )}
         {data.map((item) => (
           <VStack key={item.id}>
-            <LessonItem {...item} />
+            <LessonItem {...item} dataType={dataType} />
           </VStack>
         ))}
       </Box>
-
+      <Box />
       <Button size="xs" leftIcon={<Icon as={FaPlus} />}>
         Adicionar {dataType}
       </Button>

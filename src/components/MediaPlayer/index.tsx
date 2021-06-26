@@ -8,7 +8,7 @@ export type MediaPlayerProps = {
 
 const MediaPlayer = ({ url }: MediaPlayerProps) => {
   const width = useBreakpointValue({
-    base: '300px',
+    base: '260px',
     md: '640px'
   })
 
