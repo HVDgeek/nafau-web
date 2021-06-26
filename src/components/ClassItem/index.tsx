@@ -10,10 +10,8 @@ import {
 } from '@chakra-ui/react'
 import { MinusIcon, AddIcon } from '@chakra-ui/icons'
 import { AiOutlineFile, AiOutlineLink } from 'react-icons/ai'
-import { RiVideoLine } from 'react-icons/ri'
-import { FaFileAudio } from 'react-icons/fa'
+import { FaMusic, FaVideo, FaPlus } from 'react-icons/fa'
 import { BiTask } from 'react-icons/bi'
-import { FaPlus } from 'react-icons/fa'
 import Button from 'components/Button'
 import themes from 'styles/alt-themes'
 import { shade } from 'polished'
@@ -86,13 +84,13 @@ const ClassItem = ({
                 data={videos!}
                 color="orange"
                 dataType="Vídeos"
-                icon={RiVideoLine}
+                icon={FaVideo}
               />
               <ClassSession
                 data={audios!}
                 color="yellow"
                 dataType="Áudios"
-                icon={FaFileAudio}
+                icon={FaMusic}
               />
               <VStack>
                 <ClassSessionTitle title="Tarefas" color="pink.300">
