@@ -1,6 +1,13 @@
-import { Text, Box, Flex, Link, Icon } from '@chakra-ui/react'
+import {
+  Text,
+  Box,
+  Flex,
+  Link,
+  Icon,
+  useBreakpointValue
+} from '@chakra-ui/react'
 import { FaFilePdf, FaFileExcel, FaFile, FaFileImage } from 'react-icons/fa'
-import { AiFillFileWord, AiOutlineClose, AiOutlineLink } from 'react-icons/ai'
+import { AiFillFileWord, AiOutlineLink, AiOutlineDelete } from 'react-icons/ai'
 import IconButton from 'components/IconButton'
 import MediaPlayer from 'components/MediaPlayer'
 
@@ -36,6 +43,11 @@ const getIcon = (format: string) => {
 }
 
 const LessonItem = ({ title, description, url, dataType }: LessonItemProps) => {
+  const isMobileVersion = useBreakpointValue({
+    base: false,
+    md: true
+  })
+
   return (
     <Flex align="center" mt={4}>
       {dataType === 'Arquivos' && <Icon as={getIcon(url)} mr={2} />}
@@ -65,9 +77,11 @@ const LessonItem = ({ title, description, url, dataType }: LessonItemProps) => {
           </Box>
         )}
       </Box>
-      {/* <IconButton ariaLabel="remove item">
-        <AiOutlineClose />
-      </IconButton> */}
+      {isMobileVersion && (
+        <IconButton ariaLabel="remove item">
+          <AiOutlineDelete />
+        </IconButton>
+      )}
     </Flex>
   )
 }
