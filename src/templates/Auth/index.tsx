@@ -3,6 +3,7 @@ import { Text, Box, Grid, useBreakpointValue, Flex } from '@chakra-ui/react'
 import Heading from 'components/Heading'
 import themes from 'styles/alt-themes'
 import Logo from 'components/Logo'
+import Footer from 'components/Footer'
 
 export type AuthTemplateProps = {
   title: string
@@ -57,14 +58,9 @@ const Auth = ({ title, children }: AuthTemplateProps) => {
                 Gerencie o ensino e a aprendizagem de forma completa e otimizada
               </Text>
             </Box>
-            <Text
-              alignSelf="end"
-              fontSize="x-small"
-              textAlign="center"
-              as="span"
-            >
-              NAFAU 2021 © Todos os Direitos Reservados
-            </Text>
+            <Box display="flex" alignSelf="end" justifyContent="center">
+              <Footer />
+            </Box>
           </Grid>
         </Box>
       )}

@@ -7,7 +7,7 @@ type ContainerProps = {
 
 export const Container = ({ children }: ContainerProps) => {
   return (
-    <Box maxW="1300px" mr="auto" ml="auto" pl={4} pr={4}>
+    <Box w="100%" maxW="1300px" mr="auto" ml="auto" pl={4} pr={4}>
       {children}
     </Box>
   )

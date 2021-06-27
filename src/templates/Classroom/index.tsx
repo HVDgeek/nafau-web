@@ -9,7 +9,7 @@ export type ClassroomTemplateProps = {
 const Classroom = ({ lessons }: ClassroomTemplateProps) => {
   return (
     <Base>
-      <Box maxW="800px" margin="0 auto" mt={6} px={4}>
+      <Box w="100%" maxW="800px" margin="0 auto" mt={6} px={4}>
         <Accordion allowToggle>
           {lessons?.map((lesson) => (
             <>

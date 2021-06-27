@@ -1,4 +1,6 @@
+import { Box, Flex } from '@chakra-ui/react'
 import { Container } from 'components/Container'
+import Footer from 'components/Footer'
 import Menu from 'components/Menu'
 
 export type BaseTemplateProps = {
@@ -7,12 +9,28 @@ export type BaseTemplateProps = {
 
 const Base = ({ children }: BaseTemplateProps) => {
   return (
-    <section>
+    <Flex
+      as="section"
+      flexDir="column"
+      justifyContent="space-between"
+      height="100vh"
+    >
       <Container>
         <Menu />
       </Container>
-      {children}
-    </section>
+      <Box flex="1 0 auto">{children}</Box>
+      <Container>
+        <Box
+          mb={4}
+          mt={8}
+          display="flex"
+          alignSelf="end"
+          justifyContent="center"
+        >
+          <Footer />
+        </Box>
+      </Container>
+    </Flex>
   )
 }
 
