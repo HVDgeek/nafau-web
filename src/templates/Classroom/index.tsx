@@ -1,5 +1,7 @@
-import { Box, Accordion } from '@chakra-ui/react'
+import { Box, Flex, Accordion, Icon } from '@chakra-ui/react'
+import { FaPlus } from 'react-icons/fa'
 import Base from 'templates/Base'
+import Button from 'components/Button'
 import ClassItem, { ClassItemProps } from 'components/ClassItem'
 
 import { Container } from 'components/Container'
@@ -19,16 +21,21 @@ const Classroom = ({ lessons, courseInfo }: ClassroomTemplateProps) => {
         <Box mt={8} ml={4}>
           <ClassroomHeader {...courseInfo} />
         </Box>
+        <Flex mt={8} mr={8} justify="flex-end">
+          <Button size="sm" leftIcon={<Icon as={FaPlus} />}>
+            Adicionar aula
+          </Button>
+        </Flex>
       </Container>
       <Box w="100%" maxW="800px" margin="0 auto" mt={6} px={4}>
-        {lessons?.map((lesson) => (
-          <Accordion key={lesson.id} allowToggle>
-            <>
+        <Accordion allowToggle>
+          {lessons?.map((lesson) => (
+            <Box key={lesson.id}>
               <ClassItem {...lesson} />
               <Box mt={2} />
-            </>
-          </Accordion>
-        ))}
+            </Box>
+          ))}
+        </Accordion>
       </Box>
     </Base>
   )
