@@ -21,14 +21,14 @@ const Classroom = ({ lessons, courseInfo }: ClassroomTemplateProps) => {
         </Box>
       </Container>
       <Box w="100%" maxW="800px" margin="0 auto" mt={6} px={4}>
-        <Accordion allowToggle>
-          {lessons?.map((lesson) => (
+        {lessons?.map((lesson) => (
+          <Accordion key={lesson.id} allowToggle>
             <>
-              <ClassItem key={lesson.id} {...lesson} />
+              <ClassItem {...lesson} />
               <Box mt={2} />
             </>
-          ))}
-        </Accordion>
+          </Accordion>
+        ))}
       </Box>
     </Base>
   )
