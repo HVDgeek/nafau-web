@@ -5,7 +5,7 @@ import themes from 'styles/alt-themes'
 
 export type HeadingProps = {
   children: React.ReactNode
-  color?: 'white' | 'black'
+  color?: string
   lineLeft?: boolean
   huge?: boolean
 }
