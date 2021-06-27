@@ -1,10 +1,14 @@
-import styled from 'styled-components'
-import theme from 'styles/alt-themes'
+import { Box } from '@chakra-ui/react'
+import React from 'react'
 
-export const Container = styled.div`
-  max-width: 1300px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: calc(${theme.grid.gutter} / 2);
-  padding-right: calc(${theme.grid.gutter} / 2);
-`
+type ContainerProps = {
+  children: React.ReactNode
+}
+
+export const Container = ({ children }: ContainerProps) => {
+  return (
+    <Box maxW="1300px" mr="auto" ml="auto" pl={4} pr={4}>
+      {children}
+    </Box>
+  )
+}
