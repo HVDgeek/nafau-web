@@ -18,7 +18,9 @@ const Base = ({ children }: BaseTemplateProps) => {
       <Container>
         <Menu />
       </Container>
-      <Box flex="1 0 auto">{children}</Box>
+      <Box mt={10} flex="1 0 auto">
+        {children}
+      </Box>
       <Container>
         <Box
           mb={4}

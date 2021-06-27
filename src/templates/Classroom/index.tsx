@@ -18,7 +18,7 @@ const Classroom = ({ lessons, courseInfo }: ClassroomTemplateProps) => {
   return (
     <Base>
       <Container>
-        <Box mt={8} ml={4}>
+        <Box ml={4}>
           <ClassroomHeader {...courseInfo} />
         </Box>
         <Flex mt={8} mr={8} justify="flex-end">

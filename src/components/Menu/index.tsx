@@ -1,3 +1,4 @@
+import NextLink from 'next/link'
 import {
   Flex,
   useBreakpointValue,
@@ -41,11 +42,19 @@ const Menu = () => {
           </IconButton>
         )}
         <IconButton ariaLabel="logo">
-          <Logo />
+          <NextLink href="/" passHref>
+            <a>
+              <Logo />
+            </a>
+          </NextLink>
         </IconButton>
         {isDesktopVersion && (
           <HStack spacing={8}>
-            <Link>Início</Link>
+            <NextLink href="/" passHref>
+              <a>
+                <Link>Início</Link>
+              </a>
+            </NextLink>
             <Link>Gestão</Link>
             <Link>Salas de aula</Link>
           </HStack>

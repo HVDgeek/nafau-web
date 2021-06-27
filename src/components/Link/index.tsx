@@ -6,11 +6,7 @@ export type LinkProps = {
 }
 
 const Link = ({ children }: LinkProps) => {
-  return (
-    <Box>
-      <S.MenuLink colorMode="dark">{children}</S.MenuLink>
-    </Box>
-  )
+  return <S.MenuLink colorMode="dark">{children}</S.MenuLink>
 }
 
 export default Link

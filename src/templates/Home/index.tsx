@@ -70,7 +70,7 @@ const Home = () => {
   return (
     <Base>
       <Container>
-        <Box mt={10}>
+        <Box>
           <Heading lineLeft>Estatísticas</Heading>
         </Box>
         <SimpleGrid
