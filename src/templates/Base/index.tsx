@@ -1,11 +1,11 @@
 import { Container } from 'components/Container'
 import Menu from 'components/Menu'
 
-export type BaseProps = {
+export type BaseTemplateProps = {
   children: React.ReactNode
 }
 
-const Base = ({ children }: BaseProps) => {
+const Base = ({ children }: BaseTemplateProps) => {
   return (
     <section>
       <Container>

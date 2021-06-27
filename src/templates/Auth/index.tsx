@@ -4,12 +4,12 @@ import Heading from 'components/Heading'
 import themes from 'styles/alt-themes'
 import Logo from 'components/Logo'
 
-export type AuthProps = {
+export type AuthTemplateProps = {
   title: string
   children: React.ReactNode
 }
 
-const Auth = ({ title, children }: AuthProps) => {
+const Auth = ({ title, children }: AuthTemplateProps) => {
   const isDesktopVersion = useBreakpointValue({
     base: false,
     md: true,

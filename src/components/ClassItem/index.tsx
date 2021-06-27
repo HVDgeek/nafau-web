@@ -26,6 +26,7 @@ export type ClassContent = {
 }
 
 export type ClassItemProps = {
+  id: string
   title: string
   description?: string
   videos?: ClassContent[]
