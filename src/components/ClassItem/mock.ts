@@ -8,7 +8,7 @@ export default [
         id: '86782687',
         title: 'Introducao a programacao',
         description: 'uma introducao a programacao',
-        url: 'introduction.pdf'
+        url: 'https://introduction.pdf'
       },
       {
         id: '86782',

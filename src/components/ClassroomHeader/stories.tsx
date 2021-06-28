@@ -5,6 +5,7 @@ import item from './mock'
 export default {
   title: 'ClassroomHeader',
   component: ClassroomHeader,
+  args: { ...item },
   argTypes: {
     title: {
       type: 'string'
@@ -17,5 +18,5 @@ export default {
 } as Meta
 
 export const Default: Story<ClassroomHeaderProps> = (args) => (
-  <ClassroomHeader {...item} {...args} />
+  <ClassroomHeader {...args} />
 )

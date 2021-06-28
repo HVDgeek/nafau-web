@@ -47,10 +47,6 @@ const ClassCard = ({
   lastLesson
 }: ClassCardProps) => {
   const color = shade(0.7, stringToColour(title))
-  const width = useBreakpointValue({
-    base: '300px',
-    md: '700px'
-  })
 
   const sizeButton = useBreakpointValue({
     base: 'xs',
@@ -60,7 +56,7 @@ const ClassCard = ({
   return (
     <Flex
       position="relative"
-      maxW={width}
+      maxWidth={['300px', '700px']}
       w={'full'}
       flexDir={['column', 'row']}
       bg="gray.800"
@@ -170,7 +166,7 @@ const ClassCard = ({
         </Box>
 
         <Box position="absolute" right={0} bottom={0} p={4}>
-          <Button size={sizeButton} rightIcon={<Icon as={AiOutlineRight} />}>
+          <Button size={'xs'} rightIcon={<Icon as={AiOutlineRight} />}>
             Acessar
           </Button>
         </Box>

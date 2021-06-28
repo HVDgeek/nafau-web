@@ -6,7 +6,7 @@ import item from './mock'
 export default {
   title: 'ClassCard',
   component: ClassCard,
-  args: { ...item },
+  args: { ...item[0] },
   argTypes: {
     status: {
       control: {
