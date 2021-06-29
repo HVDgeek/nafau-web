@@ -1,11 +1,12 @@
 import NextLink from 'next/link'
 import {
   Flex,
+  Box,
   useBreakpointValue,
   HStack,
   useDisclosure
 } from '@chakra-ui/react'
-import { AiOutlineSearch } from 'react-icons/ai'
+// import { AiOutlineSearch } from 'react-icons/ai'
 import { IoMdNotificationsOutline } from 'react-icons/io'
 import { RiMenu2Fill } from 'react-icons/ri'
 import Logo from 'components/Logo'
@@ -29,8 +30,8 @@ const Menu = () => {
   })
 
   const iconSize = useBreakpointValue({
-    base: 16,
-    md: 18
+    base: 18,
+    md: 24
   })
 
   return (
@@ -61,11 +62,25 @@ const Menu = () => {
         )}
       </HStack>
       <HStack>
-        <IconButton ariaLabel="Search on platform">
+        {/* <IconButton ariaLabel="Search on platform">
           <AiOutlineSearch size={iconSize} />
-        </IconButton>
+        </IconButton> */}
         <IconButton ariaLabel="Notifications">
-          <IoMdNotificationsOutline size={iconSize} />
+          <Box position="relative" mr={4}>
+            <IoMdNotificationsOutline size={iconSize} />
+            <Box
+              fontSize="10px"
+              position="absolute"
+              right={5}
+              bottom="50%"
+              backgroundColor="pink.500"
+              p="1px 5px"
+              borderRadius="full"
+              transform="translateX(10px)"
+            >
+              8
+            </Box>
+          </Box>
         </IconButton>
         <ProfileHeader showProfileData={isDesktopVersion} />
       </HStack>
