@@ -1,6 +1,7 @@
 import NextLink from 'next/link'
 import {
   Flex,
+  Box,
   useBreakpointValue,
   HStack,
   useDisclosure
@@ -29,8 +30,8 @@ const Menu = () => {
   })
 
   const iconSize = useBreakpointValue({
-    base: 16,
-    md: 18
+    base: 18,
+    md: 20
   })
 
   return (
@@ -61,11 +62,25 @@ const Menu = () => {
         )}
       </HStack>
       <HStack>
-        <IconButton ariaLabel="Search on platform">
+        {/* <IconButton ariaLabel="Search on platform">
           <AiOutlineSearch size={iconSize} />
-        </IconButton>
+        </IconButton> */}
         <IconButton ariaLabel="Notifications">
-          <IoMdNotificationsOutline size={iconSize} />
+          <Box position="relative" mr={4}>
+            <IoMdNotificationsOutline size={iconSize} />
+            <Box
+              fontSize="xx-small"
+              position="absolute"
+              right={5}
+              bottom="65%"
+              backgroundColor="red.400"
+              p="2px 6px"
+              borderRadius="full"
+              transform="translateX(8px)"
+            >
+              8
+            </Box>
+          </Box>
         </IconButton>
         <ProfileHeader showProfileData={isDesktopVersion} />
       </HStack>
