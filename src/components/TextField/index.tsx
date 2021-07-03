@@ -81,6 +81,11 @@ const TextField = ({
           }}
           focusBorderColor="purple.500"
           errorBorderColor="red.300"
+          css={{
+            ':focus': {
+              background: '#181b23'
+            }
+          }}
         />
         {isPasswordField && (
           <InputRightElement width="4.5rem">

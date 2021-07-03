@@ -28,7 +28,7 @@ const Link = ({ title, href, icon, isActive }: LinkProps) => {
         backgroundColor={isActive ? 'purple.500' : 'gray.800'}
         padding={2}
         alignItems="center"
-        justifyContent={['center', 'flex-start']}
+        justifyContent={['center', 'center', 'flex-start']}
         as="a"
         transition="ease-in 0.2s"
         _hover={{
@@ -37,7 +37,7 @@ const Link = ({ title, href, icon, isActive }: LinkProps) => {
       >
         {icon}
         <Text
-          display={['none', 'inline']}
+          display={['none', 'none', 'inline']}
           fontSize="small"
           marginLeft={2}
           as="span"
@@ -55,7 +55,7 @@ const ProfileMenu = ({ activeLink }: ProfileMenuProps) => {
   })
 
   return (
-    <Flex border={border} flexDir={['row', 'column']} as="nav">
+    <Flex border={border} flexDir={['row', 'row', 'column']} as="nav">
       <Link
         isActive={activeLink === '/profile/me'}
         title="Meu perfil"
