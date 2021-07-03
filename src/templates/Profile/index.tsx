@@ -1,12 +1,19 @@
-import { Box, useBreakpointValue } from '@chakra-ui/react'
+import { Box, Grid, useBreakpointValue } from '@chakra-ui/react'
 import { Container } from 'components/Container'
 import Heading from 'components/Heading'
 import ProfileMenu from 'components/ProfileMenu'
 import Base from 'templates/Base'
-import * as S from './styles'
 
 export type ProfileTemplateProps = {
   children: React.ReactNode
+}
+
+const Main = ({ children }: ProfileTemplateProps) => {
+  return (
+    <Grid mt={8} display="grid" gridTemplateColumns="200px 1fr" gap={10}>
+      {children}
+    </Grid>
+  )
 }
 
 const Profile = ({ children }: ProfileTemplateProps) => {
@@ -19,12 +26,21 @@ const Profile = ({ children }: ProfileTemplateProps) => {
     <Base>
       <Container>
         <Heading lineLeft>Meu perfil</Heading>
-        <S.Main>
-          <ProfileMenu />
-          <Box w="100%" bgColor="gray.800" p={4}>
-            {children}
+        {isDesktopVersion ? (
+          <Main>
+            <ProfileMenu />
+            <Box w="100%" bgColor="gray.800" p={4}>
+              {children}
+            </Box>
+          </Main>
+        ) : (
+          <Box mt={8}>
+            <ProfileMenu />
+            <Box w="100%" bgColor="gray.800" p={4}>
+              {children}
+            </Box>
           </Box>
-        </S.Main>
+        )}
       </Container>
     </Base>
   )
