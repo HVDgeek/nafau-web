@@ -82,7 +82,7 @@ const Menu = () => {
             </Box>
           </Box>
         </IconButton>
-        <ProfileHeader showProfileData={isDesktopVersion} />
+        <ProfileHeader />
       </HStack>
       {!isDesktopVersion && <SideMenu {...disclosure} />}
     </Flex>

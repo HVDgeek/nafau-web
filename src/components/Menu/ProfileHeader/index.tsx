@@ -1,27 +1,20 @@
-import { Flex, Box, Avatar, Text } from '@chakra-ui/react'
+import { Flex, Avatar } from '@chakra-ui/react'
 import IconButton from 'components/IconButton'
+import { IoMdArrowDropdown } from 'react-icons/io'
 
-export type ProfileHeaderProps = {
-  showProfileData?: boolean
-}
-
-const ProfileHeader = ({ showProfileData }: ProfileHeaderProps) => {
+const ProfileHeader = () => {
   return (
     <Flex align="center">
-      {showProfileData && (
-        <Box mr="4" textAlign="right">
-          <Text fontSize="sm">Hiduíno Domingos</Text>
-          <Text color="gray.300" fontSize="xs">
-            hvduino@gmail.com
-          </Text>
-        </Box>
-      )}
       <IconButton ariaLabel="Avatar">
-        <Avatar
-          size="sm"
-          name="Hiduino Domingos"
-          src="https://avatars.githubusercontent.com/u/34204904?v=4"
-        />
+        <Flex alignItems="center">
+          <Avatar
+            mr={1}
+            size="xs"
+            name="Hiduino Domingos"
+            src="https://avatars.githubusercontent.com/u/34204904?v=4"
+          />
+          <IoMdArrowDropdown />
+        </Flex>
       </IconButton>
     </Flex>
   )
