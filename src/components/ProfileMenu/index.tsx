@@ -64,7 +64,7 @@ const ProfileMenu = ({ activeLink }: ProfileMenuProps) => {
       />
       <Link
         isActive={activeLink === '/profile/courses'}
-        title="Meus cursos"
+        title="Minhas turmas"
         href="/profile/courses"
         icon={<IoSchoolOutline size={18} />}
       />
