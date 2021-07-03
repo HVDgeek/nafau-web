@@ -138,7 +138,7 @@ const ClassCard = ({
             PROFESSOR
           </Text>
           <Box w={250}>
-            <Tag mt={2} mW={200} size="md" bg={color} borderRadius="full">
+            <Tag mt={2} maxWidth={200} size="md" bg={color} borderRadius="full">
               <Avatar
                 src={teacher?.avatar}
                 size="2xs"

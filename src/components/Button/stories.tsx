@@ -22,6 +22,12 @@ export default {
         type: 'boolean',
         options: [true, false]
       }
+    },
+    leftIcon: {
+      type: ''
+    },
+    rightIcon: {
+      type: ''
     }
   }
 } as Meta

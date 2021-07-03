@@ -6,6 +6,9 @@ export default {
   title: 'IconButton',
   component: IconButton,
   argTypes: {
+    children: {
+      type: ''
+    },
     size: {
       control: {
         type: 'radio',
