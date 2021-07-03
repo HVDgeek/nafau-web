@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { Box, Grid, useBreakpointValue } from '@chakra-ui/react'
 import { Container } from 'components/Container'
 import Heading from 'components/Heading'
@@ -17,6 +18,8 @@ const Main = ({ children }: ProfileTemplateProps) => {
 }
 
 const Profile = ({ children }: ProfileTemplateProps) => {
+  const { asPath } = useRouter()
+
   const isDesktopVersion = useBreakpointValue({
     base: false,
     md: true
@@ -28,14 +31,14 @@ const Profile = ({ children }: ProfileTemplateProps) => {
         <Heading lineLeft>Meu perfil</Heading>
         {isDesktopVersion ? (
           <Main>
-            <ProfileMenu />
+            <ProfileMenu activeLink={asPath} />
             <Box w="100%" bgColor="gray.800" p={4}>
               {children}
             </Box>
           </Main>
         ) : (
           <Box mt={8}>
-            <ProfileMenu />
+            <ProfileMenu activeLink={asPath} />
             <Box w="100%" bgColor="gray.800" p={4}>
               {children}
             </Box>

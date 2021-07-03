@@ -5,7 +5,7 @@ import { IoIosLogOut } from 'react-icons/io'
 import { IoSchoolOutline } from 'react-icons/io5'
 
 export type ProfileMenuProps = {
-  activeLink?: '/profile/me' | '/profile/courses'
+  activeLink?: '/profile/me' | '/profile/courses' | string
 }
 
 type LinkProps = {
