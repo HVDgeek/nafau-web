@@ -3,6 +3,7 @@ import theme from 'styles/alt-themes'
 
 type MenuLinkProps = {
   colorMode: 'dark' | 'light'
+  isActive: boolean
 }
 
 export const MenuLink = styled.a<MenuLinkProps>`
@@ -31,5 +32,14 @@ export const MenuLink = styled.a<MenuLinkProps>`
         left: 0;
       }
     }
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    display: block;
+    height: 0.3rem;
+    background-color: ${({ isActive }) =>
+      isActive ? theme.colors.primary : 'transparent'};
+    animation: hoverAnimation 0.2s forwards;
   }
 `

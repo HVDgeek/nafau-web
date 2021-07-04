@@ -3,10 +3,15 @@ import * as S from './styles'
 
 export type LinkProps = {
   children: React.ReactNode
+  isActive: boolean
 }
 
-const Link = ({ children }: LinkProps) => {
-  return <S.MenuLink colorMode="dark">{children}</S.MenuLink>
+const Link = ({ children, isActive }: LinkProps) => {
+  return (
+    <S.MenuLink isActive={isActive} colorMode="dark">
+      {children}
+    </S.MenuLink>
+  )
 }
 
 export default Link
