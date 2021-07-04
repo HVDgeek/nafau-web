@@ -1,14 +1,15 @@
+import NextLink from 'next/link'
 import {
   useBreakpointValue,
   Drawer,
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
-  DrawerHeader,
   DrawerBody,
-  Text,
-  UseDisclosureReturn
+  UseDisclosureReturn,
+  VStack
 } from '@chakra-ui/react'
+import Link from 'components/Link'
 
 const SideMenu = ({ onClose, isOpen }: UseDisclosureReturn) => {
   const isDrawerSidebar = useBreakpointValue({
@@ -23,12 +24,16 @@ const SideMenu = ({ onClose, isOpen }: UseDisclosureReturn) => {
           <DrawerOverlay>
             <DrawerContent bg="gray.800" p="4">
               <DrawerCloseButton mt="6" _focus={{ shadow: 'none' }} />
-
-              <DrawerHeader>Navegação</DrawerHeader>
-
               <DrawerBody>
-                {/* <SidebarNav /> */}
-                <Text>SideNAV</Text>
+                <VStack height="100%" justifyContent="center" spacing={4}>
+                  <NextLink href="/" passHref>
+                    <a>
+                      <Link>Início</Link>
+                    </a>
+                  </NextLink>
+                  <Link>Gestão</Link>
+                  <Link>Salas de aula</Link>
+                </VStack>
               </DrawerBody>
             </DrawerContent>
           </DrawerOverlay>
