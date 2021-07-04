@@ -1,4 +1,5 @@
 import NextLink from 'next/link'
+import { useRouter } from 'next/router'
 import {
   Flex,
   Box,
@@ -21,6 +22,7 @@ export type MenuProps = {
 
 const Menu = () => {
   const disclosure = useDisclosure()
+  const { asPath } = useRouter()
 
   const { onOpen } = disclosure
 
@@ -53,11 +55,11 @@ const Menu = () => {
           <HStack spacing={8}>
             <NextLink href="/" passHref>
               <a>
-                <Link>Início</Link>
+                <Link isActive={asPath === '/'}>Início</Link>
               </a>
             </NextLink>
-            <Link>Gestão</Link>
-            <Link>Salas de aula</Link>
+            <Link isActive={asPath.includes('/manager')}>Gestão</Link>
+            <Link isActive={asPath.includes('/classrooms')}>Salas de aula</Link>
           </HStack>
         )}
       </HStack>

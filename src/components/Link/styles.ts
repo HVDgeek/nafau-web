@@ -1,8 +1,9 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import theme from 'styles/alt-themes'
 
 type MenuLinkProps = {
   colorMode: 'dark' | 'light'
+  isActive: boolean
 }
 
 export const MenuLink = styled.a<MenuLinkProps>`
@@ -32,4 +33,17 @@ export const MenuLink = styled.a<MenuLinkProps>`
       }
     }
   }
+
+  ${({ isActive }) =>
+    isActive &&
+    css`
+      &::after {
+        content: '';
+        position: absolute;
+        display: block;
+        height: 0.3rem;
+        background-color: ${theme.colors.primary};
+        animation: hoverAnimation 0.2s forwards;
+      }
+    `};
 `
