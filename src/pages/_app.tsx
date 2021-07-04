@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="manifest" href="/manifest.json" />
         <meta
           name="description"
-          content="Amelhor Plataforma de Ensino e Aprendizagem 🚀"
+          content="A melhor Plataforma de Ensino e Aprendizagem 🚀"
         />
       </Head>
       <Component {...pageProps} />

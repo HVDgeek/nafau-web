@@ -1,6 +1,6 @@
 {
-  "name": "Won Games",
-  "short_name": "Won Games",
+  "name": "NAFAU",
+  "short_name": "NAFAU",
   "icons": [
     {
       "src": "/img/icon-192.png",
@@ -13,9 +13,9 @@
       "sizes": "512x512"
     }
   ],
-  "background_color": "#06092B",
-  "description": "The best Game Store in the world!",
+  "background_color": "#181b23",
+  "description": "Plataforma de ensino e aprendizagem",
   "display": "fullscreen",
   "start_url": "/",
-  "theme_color": "#06092B"
+  "theme_color": "#181b23"
 }
