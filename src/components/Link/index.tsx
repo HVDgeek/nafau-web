@@ -1,4 +1,3 @@
-import { Box } from '@chakra-ui/react'
 import * as S from './styles'
 
 export type LinkProps = {

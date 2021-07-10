@@ -54,9 +54,9 @@ const Menu = () => {
         {isDesktopVersion && (
           <HStack spacing={8}>
             <NextLink href="/" passHref>
-              <a>
+              <Box>
                 <Link isActive={asPath === '/'}>Início</Link>
-              </a>
+              </Box>
             </NextLink>
             <Link isActive={asPath.includes('/manager')}>Gestão</Link>
             <Link isActive={asPath.includes('/classrooms')}>Salas de aula</Link>
@@ -64,9 +64,6 @@ const Menu = () => {
         )}
       </HStack>
       <HStack>
-        {/* <IconButton ariaLabel="Search on platform">
-          <AiOutlineSearch size={iconSize} />
-        </IconButton> */}
         <IconButton ariaLabel="Notifications">
           <Box position="relative" mr={4}>
             <IoMdNotificationsOutline size={iconSize} />
