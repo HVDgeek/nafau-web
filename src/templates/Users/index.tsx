@@ -1,10 +1,12 @@
 import { useRouter } from 'next/router'
-import { Text, Grid } from '@chakra-ui/react'
+import { Grid, Box, SimpleGrid, ScaleFade } from '@chakra-ui/react'
 import { Container } from 'components/Container'
+import Heading from 'components/Heading'
 import Sidebar from 'components/Sidebar'
-import { UserCardProps } from 'components/UserCard'
+import UserCard, { UserCardProps } from 'components/UserCard'
 import Base from 'templates/Base'
 import managerMock from 'components/Sidebar/managerMock'
+import themes from 'styles/alt-themes'
 
 type MainProps = {
   children: React.ReactNode
@@ -12,6 +14,7 @@ type MainProps = {
 
 export type UsersTemplateProps = {
   users: UserCardProps[]
+  title: string
 }
 
 const Main = ({ children }: MainProps) => {
@@ -22,7 +25,7 @@ const Main = ({ children }: MainProps) => {
   )
 }
 
-const UsersTemplate = ({ users = [] }: UsersTemplateProps) => {
+const UsersTemplate = ({ users = [], title }: UsersTemplateProps) => {
   const { asPath } = useRouter()
 
   return (
@@ -30,7 +33,23 @@ const UsersTemplate = ({ users = [] }: UsersTemplateProps) => {
       <Container>
         <Main>
           <Sidebar links={managerMock} activeLink={asPath} />
-          <Text>Users</Text>
+          <ScaleFade initialScale={0.9} in={true}>
+            <Box mb={6}>
+              <Heading lineLeft color={themes.colors.lightGray}>
+                {title}
+              </Heading>
+            </Box>
+            <SimpleGrid
+              columns={3}
+              spacing={8}
+              minChildWidth="250px"
+              align="flex-start"
+            >
+              {users?.map((item) => (
+                <UserCard key={item.email} {...item} />
+              ))}
+            </SimpleGrid>
+          </ScaleFade>
         </Main>
       </Container>
     </Base>

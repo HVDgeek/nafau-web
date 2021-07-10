@@ -6,7 +6,7 @@ import item from './mock'
 export default {
   title: 'UserCard',
   component: UserCard,
-  args: { ...item },
+  args: { ...item[0] },
   argTypes: {
     onRemove: { action: 'Click on remove' }
   }

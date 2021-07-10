@@ -1,4 +1,5 @@
 import UsersTemplate, { UsersTemplateProps } from 'templates/Users'
+import usersMock from 'components/UserCard/mock'
 
 export default function StudentsPage(props: UsersTemplateProps) {
   return <UsersTemplate {...props} />
@@ -7,7 +8,8 @@ export default function StudentsPage(props: UsersTemplateProps) {
 export async function getStaticProps() {
   return {
     props: {
-      users: []
+      users: usersMock,
+      title: 'Estudantes'
     }
   }
 }

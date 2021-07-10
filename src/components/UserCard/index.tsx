@@ -33,7 +33,7 @@ const UserCard = ({
       textAlign={'center'}
       borderRadius={themes.border.radius}
     >
-      <Avatar size="2xl" mb={2} name={name} src={avatar} />
+      <Avatar size="xl" mb={2} name={name} src={avatar} />
       <VStack mb={8} spacing={1}>
         <Box mb={2}>
           <Text isTruncated fontSize="sm">

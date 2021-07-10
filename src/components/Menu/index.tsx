@@ -58,8 +58,18 @@ const Menu = () => {
                 <Link isActive={asPath === '/'}>Início</Link>
               </Box>
             </NextLink>
-            <Link isActive={asPath.includes('/manager')}>Gestão</Link>
-            <Link isActive={asPath.includes('/classrooms')}>Salas de aula</Link>
+            <NextLink href="/manager/students" passHref>
+              <Box>
+                <Link isActive={asPath.includes('/manager')}>Gestão</Link>
+              </Box>
+            </NextLink>
+            <NextLink href="/classrooms" passHref>
+              <Box>
+                <Link isActive={asPath.includes('/classrooms')}>
+                  Salas de aula
+                </Link>
+              </Box>
+            </NextLink>
           </HStack>
         )}
       </HStack>
