@@ -1,3 +1,4 @@
+import React from 'react'
 import { useRouter } from 'next/router'
 import {
   Grid,
@@ -6,14 +7,17 @@ import {
   Flex,
   SimpleGrid,
   ScaleFade,
-  useBreakpointValue
+  useBreakpointValue,
+  Icon
 } from '@chakra-ui/react'
 import { MdKeyboardArrowDown } from 'react-icons/md'
 import { Container } from 'components/Container'
 import Heading from 'components/Heading'
+import Button from 'components/Button'
 import Sidebar from 'components/Sidebar'
 import UserCard, { UserCardProps } from 'components/UserCard'
 import Base from 'templates/Base'
+import { FaPlus } from 'react-icons/fa'
 import managerMock from 'components/Sidebar/managerMock'
 import themes from 'styles/alt-themes'
 
@@ -24,6 +28,7 @@ type MainProps = {
 export type UsersTemplateProps = {
   users: UserCardProps[]
   title: string
+  onSubmit: () => (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const Main = ({ children }: MainProps) => {
@@ -44,7 +49,7 @@ const Main = ({ children }: MainProps) => {
   )
 }
 
-const UsersTemplate = ({ users = [], title }: UsersTemplateProps) => {
+const UsersTemplate = ({ users = [], title, onSubmit }: UsersTemplateProps) => {
   const { asPath } = useRouter()
 
   return (
@@ -54,11 +59,18 @@ const UsersTemplate = ({ users = [], title }: UsersTemplateProps) => {
           <Sidebar links={managerMock} activeLink={asPath} />
           <ScaleFade initialScale={0.9} in={true}>
             <Box>
-              <Box mb={6}>
+              <Flex justifyContent="space-between" mb={6}>
                 <Heading lineLeft color={themes.colors.lightGray}>
                   {title}
                 </Heading>
-              </Box>
+                <Button
+                  onClick={onSubmit}
+                  size="sm"
+                  leftIcon={<Icon as={FaPlus} />}
+                >
+                  Cadastrar
+                </Button>
+              </Flex>
               <SimpleGrid columns={3} spacing={8} minChildWidth="250px">
                 {users?.map((item) => (
                   <UserCard key={item.email} {...item} />
