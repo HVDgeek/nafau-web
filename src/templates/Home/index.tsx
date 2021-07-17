@@ -71,7 +71,7 @@ const Home = () => {
     <Base>
       <Container>
         <Box>
-          <Heading lineLeft>Estatísticas</Heading>
+          <Heading lineLeft>Resumo</Heading>
         </Box>
         <SimpleGrid
           mt={8}

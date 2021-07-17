@@ -8,23 +8,25 @@ import themes from 'styles/alt-themes'
 import { ClassCardProps } from 'components/ClassCard'
 import CoursesList from 'components/CoursesList'
 import { FaPlus } from 'react-icons/fa'
-import managerMock from 'components/Sidebar/managerMock'
 import Sidebar from 'components/Sidebar'
 import { Main } from 'templates/Users'
 import ShowMore from 'components/ShowMore'
+import { LinkProps } from 'components/Sidebar'
 
 export type CourseTemplateProps = {
   courses: ClassCardProps[]
   onSubmit: () => (event: React.MouseEvent<HTMLButtonElement>) => void
   title: string
   withRegister: boolean
+  links: LinkProps[]
 }
 
 const Course = ({
   courses = [],
   onSubmit,
   title = 'Minhas turmas',
-  withRegister = false
+  withRegister = false,
+  links
 }: CourseTemplateProps) => {
   const { asPath } = useRouter()
 
@@ -32,7 +34,7 @@ const Course = ({
     <Base>
       <Container>
         <Main>
-          <Sidebar links={managerMock} activeLink={asPath} />
+          <Sidebar links={links} activeLink={asPath} />
           <ScaleFade initialScale={0.9} in={true}>
             <Flex justifyContent="space-between" ml={4}>
               <Heading lineLeft color={themes.colors.lightGray}>

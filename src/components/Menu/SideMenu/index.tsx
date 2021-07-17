@@ -7,15 +7,19 @@ import {
   DrawerCloseButton,
   DrawerBody,
   UseDisclosureReturn,
-  VStack
+  VStack,
+  Box
 } from '@chakra-ui/react'
 import Link from 'components/Link'
+import { useRouter } from 'next/router'
 
 const SideMenu = ({ onClose, isOpen }: UseDisclosureReturn) => {
   const isDrawerSidebar = useBreakpointValue({
     base: true,
     lg: false
   })
+
+  const { asPath } = useRouter()
 
   return (
     <>
@@ -27,12 +31,22 @@ const SideMenu = ({ onClose, isOpen }: UseDisclosureReturn) => {
               <DrawerBody>
                 <VStack height="100%" justifyContent="center" spacing={4}>
                   <NextLink href="/" passHref>
-                    <a>
-                      <Link>Início</Link>
-                    </a>
+                    <Box>
+                      <Link isActive={asPath === '/'}>Início</Link>
+                    </Box>
                   </NextLink>
-                  <Link>Gestão</Link>
-                  <Link>Salas de aula</Link>
+                  <NextLink href="/manager/students" passHref>
+                    <Box>
+                      <Link isActive={asPath.includes('/manager')}>Gestão</Link>
+                    </Box>
+                  </NextLink>
+                  <NextLink href="/classrooms/my-courses" passHref>
+                    <Box>
+                      <Link isActive={asPath.includes('/classrooms')}>
+                        Salas de aula
+                      </Link>
+                    </Box>
+                  </NextLink>
                 </VStack>
               </DrawerBody>
             </DrawerContent>

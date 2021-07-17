@@ -63,7 +63,7 @@ const Menu = () => {
                 <Link isActive={asPath.includes('/manager')}>Gestão</Link>
               </Box>
             </NextLink>
-            <NextLink href="/classrooms" passHref>
+            <NextLink href="/classrooms/my-courses" passHref>
               <Box>
                 <Link isActive={asPath.includes('/classrooms')}>
                   Salas de aula

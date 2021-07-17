@@ -1,7 +1,6 @@
-import { BsPeopleFill } from 'react-icons/bs'
+import { BsPeopleFill, BsPersonSquare } from 'react-icons/bs'
 import { FaChalkboardTeacher } from 'react-icons/fa'
 import { GiTeacher } from 'react-icons/gi'
-import { BsPersonSquare } from 'react-icons/bs'
 
 export default [
   {
