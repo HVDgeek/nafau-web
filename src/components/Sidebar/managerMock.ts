@@ -5,12 +5,12 @@ import { BsPersonSquare } from 'react-icons/bs'
 
 export default [
   {
-    route: '/atendentes',
+    route: '/manager/attendants',
     icon: BsPeopleFill,
     children: 'Atendentes'
   },
   {
-    route: '/teachers',
+    route: '/manager/teachers',
     icon: GiTeacher,
     children: 'Professores'
   },
@@ -20,7 +20,7 @@ export default [
     children: 'Alunos'
   },
   {
-    route: '/turmas',
+    route: '/manager/courses',
     icon: FaChalkboardTeacher,
     children: 'Turmas'
   }

@@ -3,14 +3,12 @@ import { useRouter } from 'next/router'
 import {
   Grid,
   Box,
-  Text,
   Flex,
   SimpleGrid,
   ScaleFade,
   useBreakpointValue,
   Icon
 } from '@chakra-ui/react'
-import { MdKeyboardArrowDown } from 'react-icons/md'
 import { Container } from 'components/Container'
 import Heading from 'components/Heading'
 import Button from 'components/Button'
@@ -20,6 +18,7 @@ import Base from 'templates/Base'
 import { FaPlus } from 'react-icons/fa'
 import managerMock from 'components/Sidebar/managerMock'
 import themes from 'styles/alt-themes'
+import ShowMore from 'components/ShowMore'
 
 type MainProps = {
   children: React.ReactNode
@@ -31,7 +30,7 @@ export type UsersTemplateProps = {
   onSubmit: () => (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-const Main = ({ children }: MainProps) => {
+export const Main = ({ children }: MainProps) => {
   const isDesktopVesion = useBreakpointValue({
     base: false,
     md: true
@@ -76,24 +75,11 @@ const UsersTemplate = ({ users = [], title, onSubmit }: UsersTemplateProps) => {
                   <UserCard key={item.email} {...item} />
                 ))}
               </SimpleGrid>
-              <Flex mt={8} justify="center">
-                <Flex
-                  onClick={() => {
-                    console.log('MOSTRAR MAIS')
-                  }}
-                  flexDir="column"
-                  align="center"
-                  cursor="pointer"
-                >
-                  <Text color={themes.colors.lightGray} fontSize="sm">
-                    MOSTAR MAIS
-                  </Text>
-                  <MdKeyboardArrowDown
-                    color={themes.colors.primary}
-                    size={20}
-                  />
-                </Flex>
-              </Flex>
+              <ShowMore
+                onClick={() => {
+                  console.log('SHow more')
+                }}
+              />
             </Box>
           </ScaleFade>
         </Main>
