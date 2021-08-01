@@ -12,7 +12,6 @@ import { IoMdNotificationsOutline } from 'react-icons/io'
 import { RiMenu2Fill } from 'react-icons/ri'
 import Logo from 'components/Logo'
 import IconButton from 'components/IconButton'
-import ProfileHeader from './ProfileHeader'
 import SideMenu from './SideMenu'
 import Link from 'components/Link'
 
@@ -91,7 +90,6 @@ const Menu = () => {
             </Box>
           </Box>
         </IconButton>
-        <ProfileHeader />
       </HStack>
       {!isDesktopVersion && <SideMenu {...disclosure} />}
     </Flex>

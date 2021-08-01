@@ -4,6 +4,7 @@ import themes from 'styles/alt-themes'
 export const Title = styled.div`
   cursor: pointer;
   color: ${themes.colors.white};
+  font-size: 14px;
   position: relative;
   display: flex;
   align-items: center;

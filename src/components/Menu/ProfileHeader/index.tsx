@@ -1,8 +1,12 @@
-import { Flex, Avatar } from '@chakra-ui/react'
+import { Flex, Avatar, Text } from '@chakra-ui/react'
 import IconButton from 'components/IconButton'
 import { IoMdArrowDropdown } from 'react-icons/io'
 
-const ProfileHeader = () => {
+export type ProfileHeaderProps = {
+  username: string
+}
+
+const ProfileHeader = ({ username }: ProfileHeaderProps) => {
   return (
     <Flex align="center">
       <IconButton ariaLabel="Avatar">
@@ -13,6 +17,9 @@ const ProfileHeader = () => {
             name="Hiduino Domingos"
             src="https://avatars.githubusercontent.com/u/34204904?v=4"
           />
+          <Text fontSize="small" fontWeight="medium">
+            {username}
+          </Text>
           <IoMdArrowDropdown />
         </Flex>
       </IconButton>
