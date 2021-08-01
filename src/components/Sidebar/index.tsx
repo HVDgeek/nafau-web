@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Link from 'next/link'
+import NextLink from 'next/link'
 import {
   Stack,
   Flex,
@@ -37,12 +37,13 @@ type SidebarDrawerProps = {
 }
 
 const SidebarLink = ({ route, children, icon, isActive }: LinkProps) => (
-  <Link href={route} passHref>
+  <NextLink href={route} passHref>
     <Flex
       _hover={{
         cursor: 'pointer',
         color: themes.colors.primary
       }}
+      as="a"
       color={isActive ? 'purple.500' : 'gray.100'}
       align="center"
       flexDirection="column"
@@ -53,7 +54,7 @@ const SidebarLink = ({ route, children, icon, isActive }: LinkProps) => (
         {children}
       </Text>
     </Flex>
-  </Link>
+  </NextLink>
 )
 
 const SidebarDrawer = ({ drawer, children }: SidebarDrawerProps) => {

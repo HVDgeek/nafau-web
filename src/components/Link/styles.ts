@@ -6,11 +6,11 @@ type MenuLinkProps = {
   isActive: boolean
 }
 
-export const MenuLink = styled.a<MenuLinkProps>`
+export const MenuLink = styled.div<MenuLinkProps>`
   position: relative;
   color: ${theme.colors.white};
   font-size: ${theme.font.sizes.xsmall};
-  text-decoration: none;
+  /* text-decoration: none; */
   text-align: center;
   cursor: pointer;
   &:hover {

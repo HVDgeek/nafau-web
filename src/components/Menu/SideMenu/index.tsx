@@ -1,4 +1,5 @@
 import NextLink from 'next/link'
+import { useRouter } from 'next/router'
 import {
   useBreakpointValue,
   Drawer,
@@ -11,7 +12,6 @@ import {
   Box
 } from '@chakra-ui/react'
 import Link from 'components/Link'
-import { useRouter } from 'next/router'
 
 const SideMenu = ({ onClose, isOpen }: UseDisclosureReturn) => {
   const isDrawerSidebar = useBreakpointValue({

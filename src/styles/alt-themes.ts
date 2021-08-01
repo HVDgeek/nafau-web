@@ -24,9 +24,9 @@ export default {
   colors: {
     primary: '#805AD5', /// purple.500 do Chakra ui
     secondary: '#F231A5',
-    mainBg: '#06092B',
+    mainBg: '#181b23',
     white: '#FAFAFA',
-    black: '#030517',
+    black: '#1F2029',
     lightGray: '#EAEAEA',
     gray: '#8F8F8F',
     darkGray: '#2E2F42'
@@ -46,5 +46,9 @@ export default {
     overlay: 30,
     modal: 40,
     alwaysOnTop: 50
+  },
+  transition: {
+    default: '0.3s ease-in-out',
+    fast: '0.1s ease-in-out'
   }
 } as const

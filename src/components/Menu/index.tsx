@@ -45,7 +45,7 @@ const Menu = () => {
           </IconButton>
         )}
         <IconButton ariaLabel="logo">
-          <NextLink href="/" passHref>
+          <NextLink href="/">
             <a>
               <Logo />
             </a>
@@ -53,22 +53,22 @@ const Menu = () => {
         </IconButton>
         {isDesktopVersion && (
           <HStack spacing={8}>
-            <NextLink href="/" passHref>
-              <Box>
+            <NextLink href="/">
+              <a>
                 <Link isActive={asPath === '/'}>Início</Link>
-              </Box>
+              </a>
             </NextLink>
-            <NextLink href="/manager/students" passHref>
-              <Box>
+            <NextLink href="/manager/students">
+              <a>
                 <Link isActive={asPath.includes('/manager')}>Gestão</Link>
-              </Box>
+              </a>
             </NextLink>
-            <NextLink href="/classrooms/my-courses" passHref>
-              <Box>
+            <NextLink href="/classrooms/my-courses">
+              <a>
                 <Link isActive={asPath.includes('/classrooms')}>
                   Salas de aula
                 </Link>
-              </Box>
+              </a>
             </NextLink>
           </HStack>
         )}
