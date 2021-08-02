@@ -1,4 +1,4 @@
-import { Avatar, Box, Center, Text, Badge, VStack } from '@chakra-ui/react'
+import { Avatar, Box, Tooltip, Text, Badge, VStack } from '@chakra-ui/react'
 import { AiOutlineClose } from 'react-icons/ai'
 
 import Button from 'components/Button'
@@ -52,11 +52,17 @@ const UserCard = ({
           {isActive ? 'ATIVO' : 'BLOQUEADO'}
         </Badge>
       </VStack>
-      <Box p={2} position="absolute" top={0} right={0}>
-        <IconButton onClick={onRemove} ariaLabel="Remover usuário">
-          <AiOutlineClose size={18} />
-        </IconButton>
-      </Box>
+      <Tooltip
+        fontSize="small"
+        label="Remover este usuário!"
+        aria-label="A tooltip"
+      >
+        <Box p={2} position="absolute" top={0} right={0}>
+          <IconButton onClick={onRemove} ariaLabel="Remover usuário">
+            <AiOutlineClose size={18} />
+          </IconButton>
+        </Box>
+      </Tooltip>
       <Button color="purple" size="sm" fullWidth>
         Ver perfil
       </Button>
