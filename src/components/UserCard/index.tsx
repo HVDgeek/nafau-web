@@ -44,7 +44,7 @@ const UserCard = ({
           </Text>
           {!!username && (
             <Text fontSize="small" color="gray.300">
-              {username}
+              @{username}
             </Text>
           )}
         </Box>

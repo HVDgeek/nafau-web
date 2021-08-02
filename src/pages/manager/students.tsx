@@ -1,31 +1,57 @@
-import { gql, useQuery } from '@apollo/client'
 import UsersTemplate, { UsersTemplateProps } from 'templates/Users'
-import usersMock from 'components/UserCard/mock'
+import { initializeApollo } from 'utils/apollo'
+import { gql } from '@apollo/client'
 
 export default function StudentsPage(props: UsersTemplateProps) {
-  const { data, loading, error } = useQuery(gql`
-    query getAllAlunos {
-      alunos {
-        id
-        name
-      }
-    }
-  `)
-
-  if (loading) return <p>Carregando....</p>
-
-  if (error) return <p>{error}</p>
-
-  if (data) return <p>{JSON.stringify(data, null, 2)}</p>
-
   return <UsersTemplate {...props} />
 }
 
 export async function getStaticProps() {
+  const apolloClient = initializeApollo()
+
+  const { data } = await apolloClient.query({
+    query: gql`
+      query QueryAlunos {
+        alunos {
+          id
+          name
+          user {
+            username
+            email
+            blocked
+            avatar {
+              alternativeText
+              url
+            }
+            institution {
+              id
+              name
+            }
+          }
+        }
+      }
+    `
+  })
+
   return {
     props: {
-      users: usersMock,
+      revalidate: 60,
+      users: data.alunos.map((aluno) => ({
+        name: aluno.name,
+        email: aluno.user?.email,
+        username: aluno.user?.username,
+        avatar: `http://localhost:1337${aluno.user?.avatar?.url}` || null,
+        isActive: !aluno.blocked
+      })),
       title: 'Estudantes'
     }
   }
 }
+
+// {
+//   name: 'Hiduíno Domingos',
+//   email: 'hvduino@gmail.com',
+//   username: '@hiduino',
+//   avatar: 'https://avatars.githubusercontent.com/u/34204904?v=4',
+//   isActive: true
+// },
