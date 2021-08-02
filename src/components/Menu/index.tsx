@@ -14,6 +14,7 @@ import Logo from 'components/Logo'
 import IconButton from 'components/IconButton'
 import SideMenu from './SideMenu'
 import Link from 'components/Link'
+import UserDropdown from 'components/UserDropdown'
 
 export type MenuProps = {
   children: React.ReactNode
@@ -90,6 +91,7 @@ const Menu = () => {
             </Box>
           </Box>
         </IconButton>
+        <UserDropdown username="Hiduino" />
       </HStack>
       {!isDesktopVersion && <SideMenu {...disclosure} />}
     </Flex>

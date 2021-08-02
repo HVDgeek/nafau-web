@@ -68,7 +68,7 @@ const ProfileMenu = ({ activeLink }: ProfileMenuProps) => {
         href="/profile/courses"
         icon={<IoSchoolOutline size={18} />}
       />
-      <Link title="Sair" href="/logout" icon={<IoIosLogOut size={18} />} />
+      <Link title="Sair" href="/sign-in" icon={<IoIosLogOut size={18} />} />
     </Flex>
   )
 }

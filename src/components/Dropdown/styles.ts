@@ -8,7 +8,7 @@ export const Title = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  padding-right: 2rem;
+  /* padding-right: 2rem; */
 `
 
 export const Content = styled.div`
@@ -18,6 +18,7 @@ export const Content = styled.div`
   color: ${themes.colors.black};
   margin-top: ${themes.spacings.xxsmall};
   position: absolute;
+  z-index: 999999;
   right: 0;
   &::before {
     content: '';
