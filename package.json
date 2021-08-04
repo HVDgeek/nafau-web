@@ -8,6 +8,10 @@
     "start": "next start",
     "typecheck": "tsc --project tsconfig.json --noEmit",
     "generate": "yarn plop --plopfile ./generators/plopfile.js",
+    "schema:download": "apollo client:download-schema --endpoint=http://localhost:1337/graphql schema-temp.gql",
+    "schema:convert": "node convertToNonNull.js",
+    "codegen": "apollo codegen:generate --target typescript --excludes=node_modules/ --includes=src/graphql/**/*.ts --localSchemaFile schema.gql --tagName=gql --outputFlat src/graphql/generated",
+    "types:generate": "yarn schema:download && yarn schema:convert && yarn codegen",
     "lint": "eslint src --max-warnings=0",
     "storybook": "start-storybook -s public -p 6006",
     "build-storybook": "build-storybook -s public"
@@ -49,6 +53,7 @@
     "@types/styled-components": "^5.1.9",
     "@typescript-eslint/eslint-plugin": "^4.26.0",
     "@typescript-eslint/parser": "^4.26.0",
+    "apollo": "^2.33.4",
     "babel-loader": "^8.2.2",
     "eslint": "^7.27.0",
     "eslint-config-prettier": "^8.3.0",
