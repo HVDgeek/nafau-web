@@ -1,6 +1,10 @@
+import { initializeApollo } from 'utils/apollo'
+import {
+  QueryAlunos,
+  QueryAlunosVariables
+} from 'graphql/generated/QueryAlunos'
 import { QUERY_ALUNOS } from 'graphql/queries/alunos'
 import UsersTemplate, { UsersTemplateProps } from 'templates/Users'
-import { initializeApollo } from 'utils/apollo'
 
 export default function StudentsPage(props: UsersTemplateProps) {
   return <UsersTemplate {...props} />
@@ -9,7 +13,7 @@ export default function StudentsPage(props: UsersTemplateProps) {
 export async function getStaticProps() {
   const apolloClient = initializeApollo()
 
-  const { data } = await apolloClient.query({
+  const { data } = await apolloClient.query<QueryAlunos, QueryAlunosVariables>({
     query: QUERY_ALUNOS,
     variables: { limit: 9 }
   })
@@ -21,7 +25,7 @@ export async function getStaticProps() {
         name: aluno.name,
         email: aluno.user?.email,
         username: aluno.user?.username,
-        avatar: `http://localhost:1337${aluno.user?.avatar?.url}` || null,
+        avatar: `http://localhost:1337${aluno.user?.avatar?.url}`,
         isActive: !aluno.user?.blocked
       })),
       title: 'Estudantes'
