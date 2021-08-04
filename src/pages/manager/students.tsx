@@ -10,7 +10,8 @@ export async function getStaticProps() {
   const apolloClient = initializeApollo()
 
   const { data } = await apolloClient.query({
-    query: QUERY_ALUNOS
+    query: QUERY_ALUNOS,
+    variables: { limit: 9 }
   })
 
   return {

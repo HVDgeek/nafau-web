@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
 export const QUERY_ALUNOS = gql`
-  query QueryAlunos {
-    alunos {
+  query QueryAlunos($limit: Int!) {
+    alunos(limit: $limit) {
       id
       name
       user {
