@@ -14,6 +14,7 @@ import ShowMore from 'components/ShowMore'
 import { LinkProps } from 'components/Sidebar'
 
 export type CourseTemplateProps = {
+  route?: string
   courses: ClassCardProps[]
   onSubmit: () => (event: React.MouseEvent<HTMLButtonElement>) => void
   title: string
@@ -24,6 +25,7 @@ export type CourseTemplateProps = {
 }
 
 const Course = ({
+  route,
   courses = [],
   onSubmit,
   title = 'Minhas turmas',
@@ -55,6 +57,7 @@ const Course = ({
               )}
             </Flex>
             <CoursesList
+              route={route}
               titleSemTurma={titleSemTurma}
               descriptionSemTurma={descriptionSemTurma}
               courses={courses}

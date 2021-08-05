@@ -6,9 +6,11 @@ export type CoursesListProps = {
   courses: ClassCardProps[]
   titleSemTurma?: string
   descriptionSemTurma?: string
+  route?: string
 }
 
 const CoursesList = ({
+  route,
   courses,
   titleSemTurma = 'Você ainda não tem turmas!',
   descriptionSemTurma = 'Você precisa estar inscrito em alguma turma para que apareça aqui. Abraços 😃'
@@ -24,7 +26,7 @@ const CoursesList = ({
                 w="full"
                 key={`${index} - ${course.title}`}
               >
-                <ClassCard {...course} />
+                <ClassCard {...course} route={route} />
               </Box>
             ))}
           </VStack>

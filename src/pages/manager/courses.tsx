@@ -13,6 +13,7 @@ export default function Courses(props: CourseTemplateProps) {
       {...props}
       withRegister
       title="Turmas"
+      route="course"
       links={sidebarManagerMock}
       titleSemTurma="Nenhuma turma cadastrada!"
       descriptionSemTurma="Você precisa cadastrar novas turma para que apareça aqui. Abraços 😃"
@@ -32,6 +33,7 @@ export async function getStaticProps() {
     revalidate: 60,
     props: {
       courses: data.turmas.map((turma) => ({
+        id: turma.id,
         title: turma.title,
         code: turma.code,
         status: turma.status,

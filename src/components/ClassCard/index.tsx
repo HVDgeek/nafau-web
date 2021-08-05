@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import {
   Text,
   Box,
@@ -29,23 +30,27 @@ type LastLesson = {
 }
 
 export type ClassCardProps = {
+  id: string
   title: string
   code?: string
   status: 'EMCURSO' | 'PAUSE' | 'ENCERRADA'
   teacher: TeacherProps
   lastLesson?: LastLesson
   countAlunos: number
+  route?: string
   timing?: number
   onRemove?: () => void
 }
 
 const ClassCard = ({
+  id,
   title,
   code,
   status,
   teacher,
   countAlunos,
   lastLesson,
+  route,
   onRemove
 }: ClassCardProps) => {
   const color = shade(0.7, stringToColour(title))
@@ -168,9 +173,11 @@ const ClassCard = ({
         </Box> */}
 
         <Box position="absolute" right={0} bottom={0} p={4}>
-          <Button size={'xs'} rightIcon={<Icon as={AiOutlineRight} />}>
-            Acessar
-          </Button>
+          <Link href={`/manager/${route}/${id}`} passHref>
+            <Button as="a" size={'xs'} rightIcon={<Icon as={AiOutlineRight} />}>
+              Acessar
+            </Button>
+          </Link>
         </Box>
       </Box>
       <Tooltip
