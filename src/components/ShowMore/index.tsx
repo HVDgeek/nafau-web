@@ -4,15 +4,15 @@ import themes from 'styles/alt-themes'
 
 export type ShowMoreProps = {
   onClick: () => void
+  tooltipText?: string
 }
 
-const ShowMore = ({ onClick }: ShowMoreProps) => {
+const ShowMore = ({
+  onClick,
+  tooltipText = 'Carregar mais usuários!'
+}: ShowMoreProps) => {
   return (
-    <Tooltip
-      fontSize="small"
-      label="Carregar mais usuários!"
-      aria-label="A tooltip"
-    >
+    <Tooltip fontSize="small" label={tooltipText} aria-label="A tooltip">
       <Flex mt={8} justify="center">
         <Flex
           onClick={onClick}

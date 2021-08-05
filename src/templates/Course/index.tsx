@@ -52,6 +52,7 @@ const Course = ({
             </Flex>
             <CoursesList courses={courses} />
             <ShowMore
+              tooltipText="Carregar mais Turmas!"
               onClick={() => {
                 console.log('SHow more')
               }}

@@ -8,14 +8,16 @@ import {
   TagLabel,
   Avatar,
   Badge,
+  Tooltip,
   useBreakpointValue
 } from '@chakra-ui/react'
 import themes from 'styles/alt-themes'
 import { stringToColour } from 'utils/stringToColor'
 import { shade } from 'polished'
 import { IoMdSchool } from 'react-icons/io'
-import { AiOutlineRight } from 'react-icons/ai'
+import { AiOutlineRight, AiOutlineClose } from 'react-icons/ai'
 import Button from 'components/Button'
+import IconButton from 'components/IconButton'
 
 type TeacherProps = {
   name: string
@@ -23,7 +25,6 @@ type TeacherProps = {
 }
 
 type LastLesson = {
-  lessonNumber: number
   title: string
 }
 
@@ -35,6 +36,7 @@ export type ClassCardProps = {
   lastLesson?: LastLesson
   countAlunos: number
   timing?: number
+  onRemove?: () => void
 }
 
 const ClassCard = ({
@@ -43,8 +45,8 @@ const ClassCard = ({
   status,
   teacher,
   countAlunos,
-  timing,
-  lastLesson
+  lastLesson,
+  onRemove
 }: ClassCardProps) => {
   const color = shade(0.7, stringToColour(title))
 
@@ -109,7 +111,7 @@ const ClassCard = ({
           fontSize={['x-small', 'small']}
           color="gray.300"
         >
-          {countAlunos} Inscritos
+          {countAlunos} Alunos
         </Text>
       </Box>
       <Box
@@ -120,7 +122,7 @@ const ClassCard = ({
         {lastLesson?.title ? (
           <Box position="absolute" pl={4} top={[200, 2]}>
             <Text fontSize="x-small" color="gray.300">
-              AULA {lastLesson?.lessonNumber}
+              ÚLTIMA AULA
             </Text>
             <Text fontSize="x-small" noOfLines={[2]} pr={4}>
               {lastLesson?.title}
@@ -158,12 +160,12 @@ const ClassCard = ({
           </Box>
         </Box>
 
-        <Box position="absolute" right={4} top={[200, 2]}>
+        {/* <Box position="absolute" right={4} top={[200, 2]}>
           <Progress w={100} value={timing} size="xs" colorScheme="purple" />
           <Text textAlign="end" fontSize="x-small" color="gray.300">
             {timing}%
           </Text>
-        </Box>
+        </Box> */}
 
         <Box position="absolute" right={0} bottom={0} p={4}>
           <Button size={'xs'} rightIcon={<Icon as={AiOutlineRight} />}>
@@ -171,6 +173,17 @@ const ClassCard = ({
           </Button>
         </Box>
       </Box>
+      <Tooltip
+        fontSize="small"
+        label="Remover esta turma!"
+        aria-label="A tooltip"
+      >
+        <Box p={2} position="absolute" top={0} right={0}>
+          <IconButton onClick={onRemove} ariaLabel="Remover turma">
+            <AiOutlineClose size={18} />
+          </IconButton>
+        </Box>
+      </Tooltip>
     </Flex>
   )
 }
