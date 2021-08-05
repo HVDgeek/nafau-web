@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Avatar, Box, Tooltip, Text, Badge, VStack } from '@chakra-ui/react'
 import { AiOutlineClose } from 'react-icons/ai'
 
@@ -6,21 +7,25 @@ import IconButton from 'components/IconButton'
 import themes from 'styles/alt-themes'
 
 export type UserCardProps = {
+  id: string
   name: string
   email: string
   username?: string
   avatar?: string
   isActive: boolean
   onRemove?: () => void
+  route?: string
 }
 
 const UserCard = ({
+  id,
   name,
   email,
   username,
   avatar,
   isActive,
-  onRemove
+  onRemove,
+  route
 }: UserCardProps) => {
   return (
     <Box
@@ -63,9 +68,11 @@ const UserCard = ({
           </IconButton>
         </Box>
       </Tooltip>
-      <Button color="purple" size="sm" fullWidth>
-        Ver perfil
-      </Button>
+      <Link href={`/manager/${route}/${id}`} passHref>
+        <Button as="a" color="purple" size="sm" fullWidth>
+          Ver perfil
+        </Button>
+      </Link>
     </Box>
   )
 }

@@ -25,6 +25,7 @@ type MainProps = {
 }
 
 export type UsersTemplateProps = {
+  route: string
   users: UserCardProps[]
   title: string
   onSubmit: () => (event: React.MouseEvent<HTMLButtonElement>) => void
@@ -48,7 +49,12 @@ export const Main = ({ children }: MainProps) => {
   )
 }
 
-const UsersTemplate = ({ users = [], title, onSubmit }: UsersTemplateProps) => {
+const UsersTemplate = ({
+  route,
+  users = [],
+  title,
+  onSubmit
+}: UsersTemplateProps) => {
   const { asPath } = useRouter()
 
   return (
@@ -72,7 +78,7 @@ const UsersTemplate = ({ users = [], title, onSubmit }: UsersTemplateProps) => {
               </Flex>
               <SimpleGrid columns={3} spacing={8} minChildWidth="250px">
                 {users?.map((item) => (
-                  <UserCard key={item.email} {...item} />
+                  <UserCard key={item.email} {...item} route={route} />
                 ))}
               </SimpleGrid>
               <ShowMore

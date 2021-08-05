@@ -21,3 +21,25 @@ export const QUERY_ALUNOS = gql`
     }
   }
 `
+
+export const QUERY_ALUNO_BY_ID = gql`
+  query QueryAlunoById($id: ID!) {
+    aluno(id: $id) {
+      id
+      name
+      sexo
+      numero_do_BI
+      numeroDeMatricula
+      birthday
+      telefone
+      user {
+        email
+        username
+        blocked
+        avatar {
+          src: url
+        }
+      }
+    }
+  }
+`

@@ -7,7 +7,7 @@ import { QUERY_ALUNOS } from 'graphql/queries/alunos'
 import UsersTemplate, { UsersTemplateProps } from 'templates/Users'
 
 export default function StudentsPage(props: UsersTemplateProps) {
-  return <UsersTemplate {...props} />
+  return <UsersTemplate {...props} route="student" />
 }
 
 export async function getStaticProps() {
@@ -22,6 +22,7 @@ export async function getStaticProps() {
     props: {
       revalidate: 60,
       users: data.alunos.map((aluno) => ({
+        id: aluno.id,
         name: aluno.name,
         email: aluno.user?.email,
         username: aluno.user?.username,
