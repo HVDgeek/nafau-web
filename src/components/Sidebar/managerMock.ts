@@ -4,9 +4,9 @@ import { GiTeacher } from 'react-icons/gi'
 
 export default [
   {
-    route: '/manager/attendants',
-    icon: BsPeopleFill,
-    children: 'Atendentes'
+    route: '/manager/students',
+    icon: BsPersonSquare,
+    children: 'Alunos'
   },
   {
     route: '/manager/teachers',
@@ -14,13 +14,13 @@ export default [
     children: 'Professores'
   },
   {
-    route: '/manager/students',
-    icon: BsPersonSquare,
-    children: 'Alunos'
-  },
-  {
     route: '/manager/courses',
     icon: FaChalkboardTeacher,
     children: 'Turmas'
+  },
+  {
+    route: '/manager/attendants',
+    icon: BsPeopleFill,
+    children: 'Atendentes'
   }
 ]
