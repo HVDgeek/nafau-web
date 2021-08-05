@@ -19,13 +19,20 @@ import { FaPlus } from 'react-icons/fa'
 import managerMock from 'components/Sidebar/managerMock'
 import themes from 'styles/alt-themes'
 import ShowMore from 'components/ShowMore'
+import Empty from 'components/Empty'
+
+const titles = {
+  student: 'Estudante',
+  teacher: 'Professor',
+  attendant: 'Atendente'
+}
 
 type MainProps = {
   children: React.ReactNode
 }
 
 export type UsersTemplateProps = {
-  route: string
+  route: 'student' | 'teacher' | 'attendant'
   users: UserCardProps[]
   title: string
   onSubmit: () => (event: React.MouseEvent<HTMLButtonElement>) => void
@@ -50,7 +57,7 @@ export const Main = ({ children }: MainProps) => {
 }
 
 const UsersTemplate = ({
-  route,
+  route = 'student',
   users = [],
   title,
   onSubmit
@@ -80,6 +87,13 @@ const UsersTemplate = ({
                 {users?.map((item) => (
                   <UserCard key={item.email} {...item} route={route} />
                 ))}
+                {!users.length && (
+                  <Empty
+                    title={`Nenhum ${titles[route]} foi cadastrado!`}
+                    description={`Cadastre um novo ${titles[route]} para que apareça aqui. Abraços 😃`}
+                    hasLink
+                  />
+                )}
               </SimpleGrid>
               <ShowMore
                 onClick={() => {

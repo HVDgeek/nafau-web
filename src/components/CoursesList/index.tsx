@@ -4,9 +4,15 @@ import Empty from 'components/Empty'
 
 export type CoursesListProps = {
   courses: ClassCardProps[]
+  titleSemTurma?: string
+  descriptionSemTurma?: string
 }
 
-const CoursesList = ({ courses }: CoursesListProps) => {
+const CoursesList = ({
+  courses,
+  titleSemTurma = 'Você ainda não tem turmas!',
+  descriptionSemTurma = 'Você precisa estar inscrito em alguma turma para que apareça aqui. Abraços 😃'
+}: CoursesListProps) => {
   return (
     <ScaleFade initialScale={0.9} in={true}>
       <Box>
@@ -24,8 +30,8 @@ const CoursesList = ({ courses }: CoursesListProps) => {
           </VStack>
         ) : (
           <Empty
-            title="Você ainda não tem turmas!"
-            description="Você precisa estar inscrito em alguma turma para que apareça aqui. Abraços 😃"
+            title={titleSemTurma}
+            description={descriptionSemTurma}
             hasLink
           />
         )}

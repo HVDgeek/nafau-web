@@ -19,6 +19,8 @@ export type CourseTemplateProps = {
   title: string
   withRegister: boolean
   links: LinkProps[]
+  titleSemTurma?: string
+  descriptionSemTurma?: string
 }
 
 const Course = ({
@@ -26,7 +28,9 @@ const Course = ({
   onSubmit,
   title = 'Minhas turmas',
   withRegister = false,
-  links
+  links,
+  titleSemTurma = 'Você ainda não tem turmas!',
+  descriptionSemTurma = 'Você precisa estar inscrito em alguma turma para que apareça aqui. Abraços 😃'
 }: CourseTemplateProps) => {
   const { asPath } = useRouter()
 
@@ -50,7 +54,11 @@ const Course = ({
                 </Button>
               )}
             </Flex>
-            <CoursesList courses={courses} />
+            <CoursesList
+              titleSemTurma={titleSemTurma}
+              descriptionSemTurma={descriptionSemTurma}
+              courses={courses}
+            />
             <ShowMore
               tooltipText="Carregar mais Turmas!"
               onClick={() => {

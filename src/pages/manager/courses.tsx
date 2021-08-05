@@ -9,7 +9,14 @@ import { QUERY_TURMAS } from 'graphql/queries/turmas'
 
 export default function Courses(props: CourseTemplateProps) {
   return (
-    <Course {...props} withRegister title="Turmas" links={sidebarManagerMock} />
+    <Course
+      {...props}
+      withRegister
+      title="Turmas"
+      links={sidebarManagerMock}
+      titleSemTurma="Nenhuma turma cadastrada!"
+      descriptionSemTurma="Você precisa cadastrar novas turma para que apareça aqui. Abraços 😃"
+    />
   )
 }
 
@@ -22,6 +29,7 @@ export async function getStaticProps() {
   })
 
   return {
+    revalidate: 60,
     props: {
       courses: data.turmas.map((turma) => ({
         title: turma.title,
