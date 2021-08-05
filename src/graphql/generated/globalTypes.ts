@@ -12,6 +12,11 @@ export enum ENUM_ALUNOS_SEXO {
   M = "M",
 }
 
+export enum ENUM_PROFESSORES_SEXO {
+  F = "F",
+  M = "M",
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

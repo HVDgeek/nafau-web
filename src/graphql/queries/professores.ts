@@ -20,3 +20,24 @@ export const QUERY_PROFESSORES = gql`
     }
   }
 `
+
+export const QUERY_PROFESSOR_BY_ID = gql`
+  query QueryProfessorById($id: ID!) {
+    professore(id: $id) {
+      id
+      name
+      sexo
+      numero_do_BI
+      birthday
+      telefone
+      user {
+        email
+        username
+        blocked
+        avatar {
+          src: url
+        }
+      }
+    }
+  }
+`
