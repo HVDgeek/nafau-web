@@ -19,8 +19,8 @@ export async function getStaticProps() {
   })
 
   return {
+    revalidate: 60,
     props: {
-      revalidate: 60,
       users: data.alunos.map((aluno) => ({
         id: aluno.id,
         name: aluno.name,
