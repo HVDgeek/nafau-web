@@ -105,7 +105,7 @@ const Sidebar = ({ links, activeLink }: SidebarProps) => {
         </IconButton>
       )}
       {isDesktopVersion && (
-        <Stack spacing={3} as="aside" w="30" mr="8">
+        <Stack spacing={3} as="aside" w="25" mr="8">
           {links?.map((link) => {
             return (
               <SidebarLink

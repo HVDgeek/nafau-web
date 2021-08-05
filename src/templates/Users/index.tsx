@@ -48,7 +48,7 @@ export const Main = ({ children }: MainProps) => {
     <Grid
       mt={4}
       display="grid"
-      gridTemplateColumns={isDesktopVesion ? `200px 1fr` : '1fr'}
+      gridTemplateColumns={isDesktopVesion ? `150px 1fr` : '1fr'}
       gap={10}
     >
       {children}
