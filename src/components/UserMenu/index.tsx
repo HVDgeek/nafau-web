@@ -61,13 +61,13 @@ const UserMenu = ({ activeLink }: UserMenuProps) => {
           !activeLink?.includes('your-courses')
         }
         title="Dados do usuário"
-        href="/profile/me"
+        href="/manager/student/5"
         icon={<VscAccount size={18} />}
       />
       <Link
         isActive={activeLink?.includes('your-courses')}
         title="Turmas"
-        href="/profile/courses"
+        href="/manager/student/5/your-courses"
         icon={<IoSchoolOutline size={18} />}
       />
     </Flex>

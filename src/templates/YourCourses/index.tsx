@@ -5,22 +5,19 @@ import { Container } from 'components/Container'
 import Sidebar from 'components/Sidebar'
 import Base from 'templates/Base'
 import managerMock from 'components/Sidebar/managerMock'
-import { UserCardProps } from 'components/UserCard'
-import FormUser from 'components/FormUser'
 import UserMenu from 'components/UserMenu'
+import CoursesList from 'components/CoursesList'
+import { ClassCardProps } from 'components/ClassCard'
 
 type MainProps = {
   children: React.ReactNode
 }
 
-export type UsersRegisterTemplateProps = {
-  name: string
-  sexo: string
-  birthday: string
-  telefone: string
-  numero_do_BI: string
-  numeroDeMatricula?: string
-  user: UserCardProps
+export type YourCoursesTemplateProps = {
+  route?: string
+  courses: ClassCardProps[]
+  titleSemTurma?: string
+  descriptionSemTurma?: string
 }
 
 export const MainContainer = ({ children }: MainProps) => {
@@ -59,7 +56,12 @@ export const Main = ({ children }: MainProps) => {
   )
 }
 
-const UsersRegisterTemplate = (props: UsersRegisterTemplateProps) => {
+const YourCoursesTemplate = ({
+  route,
+  courses = [],
+  titleSemTurma = 'Você ainda não tem turmas!',
+  descriptionSemTurma = 'Você precisa estar inscrito em alguma turma para que apareça aqui. Abraços 😃'
+}: YourCoursesTemplateProps) => {
   const isDesktopVersion = useBreakpointValue({
     base: false,
     md: true
@@ -72,13 +74,17 @@ const UsersRegisterTemplate = (props: UsersRegisterTemplateProps) => {
       <Container>
         <MainContainer>
           <Sidebar links={managerMock} />
-          {/* <Box>{JSON.stringify(props, null, 2)}</Box> */}
           {isDesktopVersion ? (
             <Main>
               <UserMenu activeLink={asPath} />
               <Box w="100%" bgColor="gray.800" p={4}>
                 <ScaleFade initialScale={0.9} in={true}>
-                  <FormUser />
+                  <CoursesList
+                    route={route}
+                    titleSemTurma={titleSemTurma}
+                    descriptionSemTurma={descriptionSemTurma}
+                    courses={courses}
+                  />
                 </ScaleFade>
               </Box>
             </Main>
@@ -87,7 +93,12 @@ const UsersRegisterTemplate = (props: UsersRegisterTemplateProps) => {
               <UserMenu activeLink={asPath} />
               <Box w="100%" bgColor="gray.800" p={4}>
                 <ScaleFade initialScale={0.9} in={true}>
-                  <FormUser />
+                  <CoursesList
+                    route={route}
+                    titleSemTurma={titleSemTurma}
+                    descriptionSemTurma={descriptionSemTurma}
+                    courses={courses}
+                  />
                 </ScaleFade>
               </Box>
             </Box>
@@ -98,4 +109,4 @@ const UsersRegisterTemplate = (props: UsersRegisterTemplateProps) => {
   )
 }
 
-export default UsersRegisterTemplate
+export default YourCoursesTemplate
