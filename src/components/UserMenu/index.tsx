@@ -56,13 +56,16 @@ const UserMenu = ({ activeLink }: UserMenuProps) => {
   return (
     <Flex border={border} flexDir={['row', 'row', 'column']} as="nav">
       <Link
-        isActive={activeLink === '/profile/me'}
+        isActive={
+          activeLink?.includes('student') &&
+          !activeLink?.includes('your-courses')
+        }
         title="Dados do usuário"
         href="/profile/me"
         icon={<VscAccount size={18} />}
       />
       <Link
-        isActive={activeLink === '/profile/courses'}
+        isActive={activeLink?.includes('your-courses')}
         title="Turmas"
         href="/profile/courses"
         icon={<IoSchoolOutline size={18} />}
