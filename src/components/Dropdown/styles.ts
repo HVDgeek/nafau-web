@@ -1,36 +1,6 @@
 import styled, { css } from 'styled-components'
 import themes from 'styles/alt-themes'
 
-export const Title = styled.div`
-  cursor: pointer;
-  color: ${themes.colors.white};
-  font-size: 14px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  /* padding-right: 2rem; */
-`
-
-export const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  background: ${themes.colors.black};
-  color: ${themes.colors.black};
-  margin-top: ${themes.spacings.xxsmall};
-  position: absolute;
-  z-index: 999999;
-  right: 0;
-  &::before {
-    content: '';
-    position: absolute;
-    border-right: 0.5rem solid transparent;
-    border-left: 0.5rem solid transparent;
-    border-bottom: 0.5rem solid ${themes.colors.black};
-    top: -0.5rem;
-    right: 2rem;
-  }
-`
-
 type WrapperProps = {
   isOpen?: boolean
 }
@@ -58,4 +28,36 @@ export const Wrapper = styled.div<WrapperProps>`
       ${!isOpen && wrapperModifiers.close()}
     }
   `}
+`
+
+export const Title = styled.div`
+  cursor: pointer;
+  color: ${themes.colors.white};
+  font-size: 14px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  /* padding-right: 2rem; */
+`
+
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  background: ${themes.colors.black};
+  color: ${themes.colors.black};
+  margin-top: ${themes.spacings.xxsmall};
+  /* offset-x | offset-y | blur-radius | color */
+  box-shadow: 10px 5px 5px #181b23;
+  position: absolute;
+  z-index: 999999;
+  right: 0;
+  &::before {
+    content: '';
+    position: absolute;
+    border-right: 0.5rem solid transparent;
+    border-left: 0.5rem solid transparent;
+    border-bottom: 0.5rem solid ${themes.colors.black};
+    top: -0.5rem;
+    right: 2rem;
+  }
 `
