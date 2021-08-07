@@ -30,7 +30,9 @@ export const MainContainer = ({ children }: MainProps) => {
     <Grid
       mt={4}
       display="grid"
-      gridTemplateColumns={isDesktopVesion ? `150px 1fr` : '1fr'}
+      gridTemplateColumns={
+        isDesktopVesion || isDesktopVesion === undefined ? `150px 1fr` : '1fr'
+      }
       gap={10}
     >
       {children}
@@ -48,7 +50,9 @@ export const Main = ({ children }: MainProps) => {
     <Grid
       mt={4}
       display="grid"
-      gridTemplateColumns={isDesktopVesion ? `200px 1fr` : '1fr'}
+      gridTemplateColumns={
+        isDesktopVesion || isDesktopVesion === undefined ? `200px 1fr` : '1fr'
+      }
       gap={10}
     >
       {children}
@@ -74,7 +78,7 @@ const YourCoursesTemplate = ({
       <Container>
         <MainContainer>
           <Sidebar links={managerMock} />
-          {isDesktopVersion ? (
+          {isDesktopVersion || isDesktopVersion === undefined ? (
             <Main>
               <UserMenu activeLink={asPath} />
               <Box w="100%" bgColor="gray.800" p={4}>

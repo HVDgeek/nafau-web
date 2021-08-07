@@ -29,7 +29,7 @@ const Profile = ({ children }: ProfileTemplateProps) => {
     <Base>
       <Container>
         <Heading lineLeft>Meu perfil</Heading>
-        {isDesktopVersion ? (
+        {isDesktopVersion || isDesktopVersion === undefined ? (
           <Main>
             <ProfileMenu activeLink={asPath} />
             <Box w="100%" bgColor="gray.800" p={4}>

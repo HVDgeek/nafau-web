@@ -99,7 +99,7 @@ const Sidebar = ({ links, activeLink }: SidebarProps) => {
 
   return (
     <>
-      {!isDesktopVersion && (
+      {!isDesktopVersion && isDesktopVersion !== undefined && (
         <IconButton onClick={onOpen} ariaLabel="Menu navigation">
           <BsFilterLeft size={20} />
         </IconButton>
@@ -120,7 +120,7 @@ const Sidebar = ({ links, activeLink }: SidebarProps) => {
           })}
         </Stack>
       )}
-      {!isDesktopVersion && (
+      {!isDesktopVersion && isDesktopVersion !== undefined && (
         <SidebarDrawer drawer={disclosure}>
           <Stack spacing={3} as="aside" w="30" mr="8">
             {links?.map((link) => {
@@ -137,6 +137,22 @@ const Sidebar = ({ links, activeLink }: SidebarProps) => {
             })}
           </Stack>
         </SidebarDrawer>
+      )}
+      {isDesktopVersion === undefined && (
+        <Stack spacing={3} as="aside" w="25" mr="8">
+          {links?.map((link) => {
+            return (
+              <SidebarLink
+                key={link.children}
+                route={link.route}
+                icon={link.icon}
+                isActive={activeLink === link.route}
+              >
+                {link.children}
+              </SidebarLink>
+            )
+          })}
+        </Stack>
       )}
     </>
   )

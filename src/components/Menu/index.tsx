@@ -39,7 +39,7 @@ const Menu = () => {
   return (
     <Flex as="nav" align="center" py={2} px={0} justify="space-between">
       <HStack spacing={[4, 8]} alignItems="center">
-        {!isDesktopVersion && (
+        {!isDesktopVersion && isDesktopVersion !== undefined && (
           <IconButton onClick={onOpen} ariaLabel="Menu navigation">
             <RiMenu2Fill size={iconSize} />
           </IconButton>
@@ -52,6 +52,28 @@ const Menu = () => {
           </NextLink>
         </IconButton>
         {isDesktopVersion && (
+          <HStack spacing={8}>
+            <NextLink href="/">
+              <a>
+                <Link isActive={asPath === '/'}>Início</Link>
+              </a>
+            </NextLink>
+            <NextLink href="/manager/students">
+              <a>
+                <Link isActive={asPath.includes('/manager')}>Gestão</Link>
+              </a>
+            </NextLink>
+            <NextLink href="/classrooms/my-courses">
+              <a>
+                <Link isActive={asPath.includes('/classrooms')}>
+                  Salas de aula
+                </Link>
+              </a>
+            </NextLink>
+          </HStack>
+        )}
+
+        {isDesktopVersion === undefined && (
           <HStack spacing={8}>
             <NextLink href="/">
               <a>
@@ -93,7 +115,9 @@ const Menu = () => {
         </IconButton>
         <UserDropdown username="Hiduino" />
       </HStack>
-      {!isDesktopVersion && <SideMenu {...disclosure} />}
+      {!isDesktopVersion && isDesktopVersion !== undefined && (
+        <SideMenu {...disclosure} />
+      )}
     </Flex>
   )
 }
