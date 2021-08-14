@@ -8,6 +8,7 @@ import managerMock from 'components/Sidebar/managerMock'
 import { UserCardProps } from 'components/UserCard'
 import FormUser from 'components/FormUser'
 import UserMenu from 'components/UserMenu'
+import { FormikHelpers } from 'formik'
 
 type MainProps = {
   children: React.ReactNode
@@ -21,6 +22,11 @@ export type UsersRegisterTemplateProps = {
   numero_do_BI: string
   numeroDeMatricula?: string
   user: UserCardProps
+  initialValues: any
+  onSubmit: (
+    values: any,
+    formikHelpers: FormikHelpers<any>
+  ) => void | Promise<any>
 }
 
 export const MainContainer = ({ children }: MainProps) => {
@@ -66,6 +72,7 @@ const UsersRegisterTemplate = (props: UsersRegisterTemplateProps) => {
   })
 
   const { asPath } = useRouter()
+  const { onSubmit, initialValues } = props
 
   return (
     <Base>
@@ -78,7 +85,7 @@ const UsersRegisterTemplate = (props: UsersRegisterTemplateProps) => {
               <UserMenu activeLink={asPath} />
               <Box w="100%" bgColor="gray.800" p={4}>
                 <ScaleFade initialScale={0.9} in={true}>
-                  <FormUser />
+                  <FormUser onSubmit={onSubmit} initialValues={initialValues} />
                 </ScaleFade>
               </Box>
             </Main>
@@ -87,7 +94,7 @@ const UsersRegisterTemplate = (props: UsersRegisterTemplateProps) => {
               <UserMenu activeLink={asPath} />
               <Box w="100%" bgColor="gray.800" p={4}>
                 <ScaleFade initialScale={0.9} in={true}>
-                  <FormUser />
+                  <FormUser onSubmit={onSubmit} initialValues={initialValues} />
                 </ScaleFade>
               </Box>
             </Box>

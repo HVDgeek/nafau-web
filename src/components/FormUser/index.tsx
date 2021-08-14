@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react'
 import TextField from 'components/TextField'
 import Button from 'components/Button'
-import { Form, Formik, Field } from 'formik'
+import { Form, Formik, Field, FormikHelpers } from 'formik'
 import {
   HiOutlineMail,
   HiOutlineLockClosed,
@@ -25,10 +25,14 @@ type FieldType = {
 }
 
 export type FormUserProps = {
-  children: React.ReactNode
+  initialValues: any
+  onSubmit: (
+    values: any,
+    formikHelpers: FormikHelpers<any>
+  ) => void | Promise<any>
 }
 
-const FormUser = () => {
+const FormUser = ({ onSubmit, initialValues }: FormUserProps) => {
   const isDesktopVersion = useBreakpointValue({
     base: false,
     md: true,
@@ -43,20 +47,8 @@ const FormUser = () => {
       <ScaleFade initialScale={0.9} in={true}>
         <Formik
           // validationSchema={SignInSchema}
-          initialValues={{
-            name: 'John Cage',
-            email: 'john.cage@gmail.com',
-            sexo: 'M',
-            numero_do_BI: '1213232324',
-            birthday: '1994-06-12',
-            telefone: '51982435110',
-            username: 'hvdgeek',
-            password: '12345678',
-            confirm_password: '12345678'
-          }}
-          onSubmit={async (values, { setErrors, resetForm }) => {
-            // resetForm();
-          }}
+          initialValues={initialValues}
+          onSubmit={onSubmit}
         >
           {({ isSubmitting }) => (
             <Form>
@@ -164,7 +156,9 @@ const FormUser = () => {
                       </FormLabel>
                       <Switch
                         {...field}
-                        // defaultChecked={initialData && initialData.isActive}
+                        defaultChecked={
+                          initialValues && initialValues?.isActive
+                        }
                         // isChecked={check}
                         name="isActive"
                         colorScheme="pink"
