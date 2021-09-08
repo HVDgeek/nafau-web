@@ -5,7 +5,7 @@ import { UserFragment } from 'graphql/fragments/user'
 
 export const QUERY_ATENDENTES = gql`
   query QueryAtendentes($limit: Int!) {
-    atendentes(limit: $limit) {
+    atendentes(limit: $limit, sort: "created_at:desc") {
       ...AtendenteFragment
       user {
         ...UserFragment

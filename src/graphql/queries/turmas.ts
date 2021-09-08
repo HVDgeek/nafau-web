@@ -6,7 +6,7 @@ import { UserFragment } from 'graphql/fragments/user'
 
 export const QUERY_TURMAS = gql`
   query QueryTurmas($limit: Int!) {
-    turmas(limit: $limit) {
+    turmas(limit: $limit, sort: "created_at:desc") {
       ...TurmaFragment
       institution {
         ...InstitutionFragment

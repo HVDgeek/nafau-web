@@ -5,7 +5,7 @@ import { UserFragment } from 'graphql/fragments/user'
 
 export const QUERY_PROFESSORES = gql`
   query QueryProfessores($limit: Int!) {
-    professores(limit: $limit) {
+    professores(limit: $limit, sort: "created_at:desc") {
       ...ProfessorFragment
       user {
         ...UserFragment
