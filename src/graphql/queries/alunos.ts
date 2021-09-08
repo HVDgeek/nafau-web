@@ -1,7 +1,11 @@
-import { gql } from '@apollo/client'
+import { gql, QueryHookOptions, useQuery } from '@apollo/client'
 import { InstitutionFragment } from 'graphql/fragments/institution'
 import { AlunoFragment } from 'graphql/fragments/person'
 import { UserFragment } from 'graphql/fragments/user'
+import {
+  QueryAlunos,
+  QueryAlunosVariables
+} from 'graphql/generated/QueryAlunos'
 
 export const QUERY_ALUNOS = gql`
   query QueryAlunos($limit: Int!, $start: Int) {
@@ -36,3 +40,9 @@ export const QUERY_ALUNO_BY_ID = gql`
   ${UserFragment}
   ${InstitutionFragment}
 `
+
+export function useQueryAlunos(
+  options?: QueryHookOptions<QueryAlunos, QueryAlunosVariables>
+) {
+  return useQuery<QueryAlunos, QueryAlunosVariables>(QUERY_ALUNOS, options)
+}

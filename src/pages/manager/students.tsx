@@ -4,15 +4,12 @@ import {
   QueryAlunos,
   QueryAlunosVariables
 } from 'graphql/generated/QueryAlunos'
-import { QUERY_ALUNOS } from 'graphql/queries/alunos'
+import { QUERY_ALUNOS, useQueryAlunos } from 'graphql/queries/alunos'
 import UsersTemplate, { UsersTemplateProps } from 'templates/Users'
 import { UserCardProps } from 'components/UserCard'
 
 export default function StudentsPage(props: UsersTemplateProps) {
-  const { data, loading, fetchMore } = useQuery<
-    QueryAlunos,
-    QueryAlunosVariables
-  >(QUERY_ALUNOS, {
+  const { data, loading, fetchMore } = useQueryAlunos({
     variables: { limit: 9 }
   })
 
