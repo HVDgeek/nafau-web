@@ -3,6 +3,8 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { ENUM_ALUNOS_SEXO } from "./globalTypes";
+
 // ====================================================
 // GraphQL query operation: QueryAlunos
 // ====================================================
@@ -10,7 +12,7 @@
 export interface QueryAlunos_alunos_user_avatar {
   __typename: "UploadFile";
   alternativeText: string | null;
-  url: string;
+  src: string;
 }
 
 export interface QueryAlunos_alunos_user_institution {
@@ -21,8 +23,8 @@ export interface QueryAlunos_alunos_user_institution {
 
 export interface QueryAlunos_alunos_user {
   __typename: "UsersPermissionsUser";
-  username: string;
   email: string;
+  username: string;
   blocked: boolean | null;
   avatar: QueryAlunos_alunos_user_avatar | null;
   institution: QueryAlunos_alunos_user_institution | null;
@@ -32,6 +34,11 @@ export interface QueryAlunos_alunos {
   __typename: "Alunos";
   id: string;
   name: string;
+  sexo: ENUM_ALUNOS_SEXO;
+  numero_do_BI: string | null;
+  numeroDeMatricula: string | null;
+  birthday: any | null;
+  telefone: string | null;
   user: QueryAlunos_alunos_user | null;
 }
 

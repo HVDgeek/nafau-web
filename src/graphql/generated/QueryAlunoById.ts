@@ -11,7 +11,14 @@ import { ENUM_ALUNOS_SEXO } from "./globalTypes";
 
 export interface QueryAlunoById_aluno_user_avatar {
   __typename: "UploadFile";
+  alternativeText: string | null;
   src: string;
+}
+
+export interface QueryAlunoById_aluno_user_institution {
+  __typename: "Instituicoes";
+  id: string;
+  name: string;
 }
 
 export interface QueryAlunoById_aluno_user {
@@ -20,6 +27,7 @@ export interface QueryAlunoById_aluno_user {
   username: string;
   blocked: boolean | null;
   avatar: QueryAlunoById_aluno_user_avatar | null;
+  institution: QueryAlunoById_aluno_user_institution | null;
 }
 
 export interface QueryAlunoById_aluno {

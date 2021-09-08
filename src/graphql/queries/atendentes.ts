@@ -1,43 +1,38 @@
 import { gql } from '@apollo/client'
+import { InstitutionFragment } from 'graphql/fragments/institution'
+import { AtendenteFragment } from 'graphql/fragments/person'
+import { UserFragment } from 'graphql/fragments/user'
 
 export const QUERY_ATENDENTES = gql`
   query QueryAtendentes($limit: Int!) {
     atendentes(limit: $limit) {
-      id
-      name
+      ...AtendenteFragment
       user {
-        username
-        email
-        blocked
-        avatar {
-          url
-        }
+        ...UserFragment
         institution {
-          id
-          name
+          ...InstitutionFragment
         }
       }
     }
   }
+  ${AtendenteFragment}
+  ${UserFragment}
+  ${InstitutionFragment}
 `
 
 export const QUERY_ATENDENTE_BY_ID = gql`
   query QueryAtendenteById($id: ID!) {
     atendente(id: $id) {
-      id
-      name
-      sexo
-      numero_do_BI
-      birthday
-      telefone
+      ...AtendenteFragment
       user {
-        email
-        username
-        blocked
-        avatar {
-          src: url
+        ...UserFragment
+        institution {
+          ...InstitutionFragment
         }
       }
     }
   }
+  ${AtendenteFragment}
+  ${UserFragment}
+  ${InstitutionFragment}
 `

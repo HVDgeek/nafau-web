@@ -11,7 +11,14 @@ import { ENUM_ATENDENTES_SEXO } from "./globalTypes";
 
 export interface QueryAtendenteById_atendente_user_avatar {
   __typename: "UploadFile";
+  alternativeText: string | null;
   src: string;
+}
+
+export interface QueryAtendenteById_atendente_user_institution {
+  __typename: "Instituicoes";
+  id: string;
+  name: string;
 }
 
 export interface QueryAtendenteById_atendente_user {
@@ -20,6 +27,7 @@ export interface QueryAtendenteById_atendente_user {
   username: string;
   blocked: boolean | null;
   avatar: QueryAtendenteById_atendente_user_avatar | null;
+  institution: QueryAtendenteById_atendente_user_institution | null;
 }
 
 export interface QueryAtendenteById_atendente {

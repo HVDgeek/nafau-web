@@ -11,7 +11,14 @@ import { ENUM_PROFESSORES_SEXO } from "./globalTypes";
 
 export interface QueryProfessorById_professore_user_avatar {
   __typename: "UploadFile";
+  alternativeText: string | null;
   src: string;
+}
+
+export interface QueryProfessorById_professore_user_institution {
+  __typename: "Instituicoes";
+  id: string;
+  name: string;
 }
 
 export interface QueryProfessorById_professore_user {
@@ -20,6 +27,7 @@ export interface QueryProfessorById_professore_user {
   username: string;
   blocked: boolean | null;
   avatar: QueryProfessorById_professore_user_avatar | null;
+  institution: QueryProfessorById_professore_user_institution | null;
 }
 
 export interface QueryProfessorById_professore {
