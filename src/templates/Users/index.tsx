@@ -74,10 +74,10 @@ const UsersTemplate = ({
       <Container>
         <Main>
           <Sidebar links={managerMock} activeLink={asPath} />
-          <ScaleFade initialScale={0.9} in={true}>
-            {loading ? (
-              <LoadingClient title={title} />
-            ) : (
+          {loading ? (
+            <LoadingClient title={title} />
+          ) : (
+            <ScaleFade initialScale={0.9} in={true}>
               <Box>
                 <Flex justifyContent="space-between" mb={6}>
                   <Heading lineLeft color={themes.colors.lightGray}>
@@ -109,8 +109,8 @@ const UsersTemplate = ({
                   }}
                 />
               </Box>
-            )}
-          </ScaleFade>
+            </ScaleFade>
+          )}
         </Main>
       </Container>
     </Base>

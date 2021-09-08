@@ -27,7 +27,7 @@ export default function StudentsPage(props: UsersTemplateProps) {
 
   return (
     <UsersTemplate
-      // {...props}
+      {...props}
       loading={loading}
       users={users}
       route="student"
@@ -42,7 +42,7 @@ export default function StudentsPage(props: UsersTemplateProps) {
 export async function getStaticProps() {
   const apolloClient = initializeApollo()
 
-  const { data } = await apolloClient.query<QueryAlunos, QueryAlunosVariables>({
+  await apolloClient.query<QueryAlunos, QueryAlunosVariables>({
     query: QUERY_ALUNOS,
     variables: { limit: 9 }
   })
@@ -50,14 +50,7 @@ export async function getStaticProps() {
   return {
     revalidate: 60,
     props: {
-      users: data.alunos.map((aluno) => ({
-        id: aluno.id,
-        name: aluno.name,
-        email: aluno.user?.email,
-        username: aluno.user?.username,
-        avatar: `http://localhost:1337${aluno.user?.avatar?.src}`,
-        isActive: !aluno.user?.blocked
-      })),
+      initializeApolloState: apolloClient.cache.extract(),
       title: 'Estudantes'
     }
   }
