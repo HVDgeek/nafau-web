@@ -13,7 +13,7 @@ export type ButtonProps = {
   fullWidth?: boolean
   leftIcon?: React.ReactNode | any
   rightIcon?: React.ReactNode | any
-  onClick?: () => (event: React.MouseEvent<HTMLButtonElement>) => void
+  onClick?: () => void
   isLoading?: boolean
   as?: 'button' | 'a'
   href?: string

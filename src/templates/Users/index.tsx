@@ -20,6 +20,7 @@ import managerMock from 'components/Sidebar/managerMock'
 import themes from 'styles/alt-themes'
 import ShowMore from 'components/ShowMore'
 import Empty from 'components/Empty'
+import LoadingClient from 'components/LoadingClient'
 
 const titles = {
   student: 'Estudante',
@@ -35,7 +36,8 @@ export type UsersTemplateProps = {
   route: 'student' | 'teacher' | 'attendant'
   users: UserCardProps[]
   title: string
-  onSubmit: () => (event: React.MouseEvent<HTMLButtonElement>) => void
+  loading: boolean
+  onSubmit: () => void
 }
 
 export const Main = ({ children }: MainProps) => {
@@ -62,6 +64,7 @@ const UsersTemplate = ({
   route = 'student',
   users = [],
   title,
+  loading,
   onSubmit
 }: UsersTemplateProps) => {
   const { asPath } = useRouter()
@@ -72,37 +75,41 @@ const UsersTemplate = ({
         <Main>
           <Sidebar links={managerMock} activeLink={asPath} />
           <ScaleFade initialScale={0.9} in={true}>
-            <Box>
-              <Flex justifyContent="space-between" mb={6}>
-                <Heading lineLeft color={themes.colors.lightGray}>
-                  {title}
-                </Heading>
-                <Button
-                  onClick={onSubmit}
-                  size="sm"
-                  leftIcon={<Icon as={FaPlus} />}
-                >
-                  Cadastrar
-                </Button>
-              </Flex>
-              <SimpleGrid columns={3} spacing={8} minChildWidth="250px">
-                {users?.map((item) => (
-                  <UserCard key={item.email} {...item} route={route} />
-                ))}
-                {!users.length && (
-                  <Empty
-                    title={`Nenhum ${titles[route]} foi cadastrado!`}
-                    description={`Cadastre um novo ${titles[route]} para que apareça aqui. Abraços 😃`}
-                    hasLink
-                  />
-                )}
-              </SimpleGrid>
-              <ShowMore
-                onClick={() => {
-                  console.log('SHow more')
-                }}
-              />
-            </Box>
+            {loading ? (
+              <LoadingClient title={title} />
+            ) : (
+              <Box>
+                <Flex justifyContent="space-between" mb={6}>
+                  <Heading lineLeft color={themes.colors.lightGray}>
+                    {title}
+                  </Heading>
+                  <Button
+                    onClick={onSubmit}
+                    size="sm"
+                    leftIcon={<Icon as={FaPlus} />}
+                  >
+                    Cadastrar
+                  </Button>
+                </Flex>
+                <SimpleGrid columns={3} spacing={8} minChildWidth="250px">
+                  {users?.map((item) => (
+                    <UserCard key={item.email} {...item} route={route} />
+                  ))}
+                  {!users.length && (
+                    <Empty
+                      title={`Nenhum ${titles[route]} foi cadastrado!`}
+                      description={`Cadastre um novo ${titles[route]} para que apareça aqui. Abraços 😃`}
+                      hasLink
+                    />
+                  )}
+                </SimpleGrid>
+                <ShowMore
+                  onClick={() => {
+                    console.log('SHow more')
+                  }}
+                />
+              </Box>
+            )}
           </ScaleFade>
         </Main>
       </Container>

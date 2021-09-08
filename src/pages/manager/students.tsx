@@ -1,3 +1,4 @@
+import { useQuery } from '@apollo/client'
 import { initializeApollo } from 'utils/apollo'
 import {
   QueryAlunos,
@@ -5,9 +6,37 @@ import {
 } from 'graphql/generated/QueryAlunos'
 import { QUERY_ALUNOS } from 'graphql/queries/alunos'
 import UsersTemplate, { UsersTemplateProps } from 'templates/Users'
+import { UserCardProps } from 'components/UserCard'
 
 export default function StudentsPage(props: UsersTemplateProps) {
-  return <UsersTemplate {...props} route="student" />
+  const { data, loading } = useQuery<QueryAlunos, QueryAlunosVariables>(
+    QUERY_ALUNOS,
+    {
+      variables: { limit: 9 }
+    }
+  )
+
+  const users = data?.alunos.map((aluno) => ({
+    id: aluno.id,
+    name: aluno.name,
+    email: aluno.user?.email,
+    username: aluno.user?.username,
+    avatar: `http://localhost:1337${aluno.user?.avatar?.src}`,
+    isActive: !aluno.user?.blocked
+  })) as UserCardProps[]
+
+  return (
+    <UsersTemplate
+      // {...props}
+      loading={loading}
+      users={users}
+      route="student"
+      title="Estudantes"
+      onSubmit={() => {
+        console.log('ADD ALUNO')
+      }}
+    />
+  )
 }
 
 export async function getStaticProps() {
@@ -33,11 +62,3 @@ export async function getStaticProps() {
     }
   }
 }
-
-// {
-//   name: 'Hiduíno Domingos',
-//   email: 'hvduino@gmail.com',
-//   username: '@hiduino',
-//   avatar: 'https://avatars.githubusercontent.com/u/34204904?v=4',
-//   isActive: true
-// },
