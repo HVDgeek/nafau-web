@@ -9,12 +9,12 @@ import UsersTemplate, { UsersTemplateProps } from 'templates/Users'
 import { UserCardProps } from 'components/UserCard'
 
 export default function StudentsPage(props: UsersTemplateProps) {
-  const { data, loading } = useQuery<QueryAlunos, QueryAlunosVariables>(
-    QUERY_ALUNOS,
-    {
-      variables: { limit: 9 }
-    }
-  )
+  const { data, loading, fetchMore } = useQuery<
+    QueryAlunos,
+    QueryAlunosVariables
+  >(QUERY_ALUNOS, {
+    variables: { limit: 9 }
+  })
 
   const users = data?.alunos.map((aluno) => ({
     id: aluno.id,
@@ -24,6 +24,12 @@ export default function StudentsPage(props: UsersTemplateProps) {
     avatar: `http://localhost:1337${aluno.user?.avatar?.src}`,
     isActive: !aluno.user?.blocked
   })) as UserCardProps[]
+
+  const handleShowMore = () => {
+    fetchMore({
+      variables: { limit: 9, start: data?.alunos.length }
+    })
+  }
 
   return (
     <UsersTemplate
@@ -35,6 +41,7 @@ export default function StudentsPage(props: UsersTemplateProps) {
       onSubmit={() => {
         console.log('ADD ALUNO')
       }}
+      handleShowMore={handleShowMore}
     />
   )
 }

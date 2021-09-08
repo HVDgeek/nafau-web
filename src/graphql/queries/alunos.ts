@@ -4,8 +4,8 @@ import { AlunoFragment } from 'graphql/fragments/person'
 import { UserFragment } from 'graphql/fragments/user'
 
 export const QUERY_ALUNOS = gql`
-  query QueryAlunos($limit: Int!) {
-    alunos(limit: $limit, sort: "created_at:desc") {
+  query QueryAlunos($limit: Int!, $start: Int) {
+    alunos(limit: $limit, sort: "created_at:desc", start: $start) {
       ...AlunoFragment
       user {
         ...UserFragment

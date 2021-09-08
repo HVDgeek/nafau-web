@@ -38,6 +38,7 @@ export type UsersTemplateProps = {
   title: string
   loading: boolean
   onSubmit: () => void
+  handleShowMore: () => void
 }
 
 export const Main = ({ children }: MainProps) => {
@@ -65,7 +66,8 @@ const UsersTemplate = ({
   users = [],
   title,
   loading,
-  onSubmit
+  onSubmit,
+  handleShowMore
 }: UsersTemplateProps) => {
   const { asPath } = useRouter()
 
@@ -103,11 +105,7 @@ const UsersTemplate = ({
                     />
                   )}
                 </SimpleGrid>
-                <ShowMore
-                  onClick={() => {
-                    console.log('SHow more')
-                  }}
-                />
+                <ShowMore onClick={handleShowMore} />
               </Box>
             </ScaleFade>
           )}

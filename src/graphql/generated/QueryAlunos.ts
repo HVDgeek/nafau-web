@@ -48,4 +48,5 @@ export interface QueryAlunos {
 
 export interface QueryAlunosVariables {
   limit: number;
+  start?: number | null;
 }

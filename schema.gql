@@ -79,7 +79,6 @@ type Alunos {
   id: ID!
   created_at: DateTime!
   updated_at: DateTime!
-  numeroDeMatricula: String
   Endereco: ComponentRegisterEndereco
   name: String!
   sexo: ENUM_ALUNOS_SEXO!
@@ -89,6 +88,7 @@ type Alunos {
   institution: Instituicoes
   user: UsersPermissionsUser
   entregas: Entregas
+  numeroDeMatricula: String
   published_at: DateTime
   turmas(sort: String, limit: Int, start: Int, where: JSON): [Turmas!]!
 }
@@ -108,7 +108,6 @@ type AlunosGroupBy {
   id: [AlunosConnectionId]
   created_at: [AlunosConnectionCreated_at]
   updated_at: [AlunosConnectionUpdated_at]
-  numeroDeMatricula: [AlunosConnectionNumeroDeMatricula]
   Endereco: [AlunosConnectionEndereco]
   name: [AlunosConnectionName]
   sexo: [AlunosConnectionSexo]
@@ -118,6 +117,7 @@ type AlunosGroupBy {
   institution: [AlunosConnectionInstitution]
   user: [AlunosConnectionUser]
   entregas: [AlunosConnectionEntregas]
+  numeroDeMatricula: [AlunosConnectionNumeroDeMatricula]
   published_at: [AlunosConnectionPublished_at]
 }
 
@@ -133,11 +133,6 @@ type AlunosConnectionCreated_at {
 
 type AlunosConnectionUpdated_at {
   key: DateTime
-  connection: AlunosConnection
-}
-
-type AlunosConnectionNumeroDeMatricula {
-  key: String
   connection: AlunosConnection
 }
 
@@ -186,13 +181,17 @@ type AlunosConnectionEntregas {
   connection: AlunosConnection
 }
 
+type AlunosConnectionNumeroDeMatricula {
+  key: String
+  connection: AlunosConnection
+}
+
 type AlunosConnectionPublished_at {
   key: DateTime
   connection: AlunosConnection
 }
 
 input AlunoInput {
-  numeroDeMatricula: String
   Endereco: ComponentRegisterEnderecoInput
   name: String!
   sexo: ENUM_ALUNOS_SEXO
@@ -203,13 +202,13 @@ input AlunoInput {
   user: ID
   turmas: [ID]
   entregas: ID
+  numeroDeMatricula: String
   published_at: DateTime
   created_by: ID
   updated_by: ID
 }
 
 input editAlunoInput {
-  numeroDeMatricula: String
   Endereco: editComponentRegisterEnderecoInput
   name: String
   sexo: ENUM_ALUNOS_SEXO
@@ -220,6 +219,7 @@ input editAlunoInput {
   user: ID
   turmas: [ID]
   entregas: ID
+  numeroDeMatricula: String
   published_at: DateTime
   created_by: ID
   updated_by: ID
@@ -2745,7 +2745,7 @@ input editComponentTurmaHorarioInput {
   local: String
 }
 
-union Morph = UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | UserPermissionsPasswordPayload | Alunos | AlunosConnection | AlunosAggregator | AlunosGroupBy | AlunosConnectionId | AlunosConnectionCreated_at | AlunosConnectionUpdated_at | AlunosConnectionNumeroDeMatricula | AlunosConnectionEndereco | AlunosConnectionName | AlunosConnectionSexo | AlunosConnectionNumero_do_BI | AlunosConnectionBirthday | AlunosConnectionTelefone | AlunosConnectionInstitution | AlunosConnectionUser | AlunosConnectionEntregas | AlunosConnectionPublished_at | createAlunoPayload | updateAlunoPayload | deleteAlunoPayload | Atendentes | AtendentesConnection | AtendentesAggregator | AtendentesGroupBy | AtendentesConnectionId | AtendentesConnectionCreated_at | AtendentesConnectionUpdated_at | AtendentesConnectionEndereco | AtendentesConnectionName | AtendentesConnectionSexo | AtendentesConnectionNumero_do_BI | AtendentesConnectionTelefone | AtendentesConnectionBirthday | AtendentesConnectionInstitution | AtendentesConnectionUser | AtendentesConnectionPublished_at | createAtendentePayload | updateAtendentePayload | deleteAtendentePayload | Aulas | AulasConnection | AulasAggregator | AulasAggregatorSum | AulasAggregatorAvg | AulasAggregatorMin | AulasAggregatorMax | AulasGroupBy | AulasConnectionId | AulasConnectionCreated_at | AulasConnectionUpdated_at | AulasConnectionTitle | AulasConnectionDescription | AulasConnectionViews | AulasConnectionTurma | AulasConnectionPublished_at | createAulaPayload | updateAulaPayload | deleteAulaPayload | Comentarios | ComentariosConnection | ComentariosAggregator | ComentariosAggregatorSum | ComentariosAggregatorAvg | ComentariosAggregatorMin | ComentariosAggregatorMax | ComentariosGroupBy | ComentariosConnectionId | ComentariosConnectionCreated_at | ComentariosConnectionUpdated_at | ComentariosConnectionMessage | ComentariosConnectionLikes | ComentariosConnectionAluno | ComentariosConnectionProfessor | ComentariosConnectionTarefa | ComentariosConnectionPublished_at | createComentarioPayload | updateComentarioPayload | deleteComentarioPayload | Entregas | EntregasConnection | EntregasAggregator | EntregasAggregatorSum | EntregasAggregatorAvg | EntregasAggregatorMin | EntregasAggregatorMax | EntregasGroupBy | EntregasConnectionId | EntregasConnectionCreated_at | EntregasConnectionUpdated_at | EntregasConnectionTarefa | EntregasConnectionNota | EntregasConnectionMax_nota | EntregasConnectionAluno | EntregasConnectionPublished_at | createEntregasPayload | updateEntregasPayload | deleteEntregasPayload | Gerentes | GerentesConnection | GerentesAggregator | GerentesGroupBy | GerentesConnectionId | GerentesConnectionCreated_at | GerentesConnectionUpdated_at | GerentesConnectionName | GerentesConnectionSexo | GerentesConnectionNumero_do_BI | GerentesConnectionBirthday | GerentesConnectionTelefone | GerentesConnectionEndereco | GerentesConnectionInstitution | GerentesConnectionUser | GerentesConnectionPublished_at | createGerentePayload | updateGerentePayload | deleteGerentePayload | Instituicoes | InstituicoesConnection | InstituicoesAggregator | InstituicoesGroupBy | InstituicoesConnectionId | InstituicoesConnectionCreated_at | InstituicoesConnectionUpdated_at | InstituicoesConnectionName | InstituicoesConnectionSigla | InstituicoesConnectionEmail | InstituicoesConnectionLegalNumber | InstituicoesConnectionTelefone | InstituicoesConnectionCelular | InstituicoesConnectionEndereco | InstituicoesConnectionLogo | InstituicoesConnectionPublished_at | createInstituicoePayload | updateInstituicoePayload | deleteInstituicoePayload | Perfis | PerfisConnection | PerfisAggregator | PerfisGroupBy | PerfisConnectionId | PerfisConnectionCreated_at | PerfisConnectionUpdated_at | PerfisConnectionName | PerfisConnectionCanManageAluno | PerfisConnectionCanSeeOtherUsers | PerfisConnectionCanManageUsers | PerfisConnectionCanManageRoles | PerfisConnectionCanManageAtendente | PerfisConnectionCanManageGerente | PerfisConnectionCanManageTeacher | PerfisConnectionCanManageTurma | PerfisConnectionCanSeeTurmas | PerfisConnectionCanSeeAulas | PerfisConnectionCanManageAula | PerfisConnectionPublished_at | createPerfiPayload | updatePerfiPayload | deletePerfiPayload | Professores | ProfessoresConnection | ProfessoresAggregator | ProfessoresGroupBy | ProfessoresConnectionId | ProfessoresConnectionCreated_at | ProfessoresConnectionUpdated_at | ProfessoresConnectionName | ProfessoresConnectionNumero_do_BI | ProfessoresConnectionSexo | ProfessoresConnectionBirthday | ProfessoresConnectionTelefone | ProfessoresConnectionEndereco | ProfessoresConnectionInstitution | ProfessoresConnectionUser | ProfessoresConnectionPublished_at | createProfessorePayload | updateProfessorePayload | deleteProfessorePayload | Tarefas | TarefasConnection | TarefasAggregator | TarefasGroupBy | TarefasConnectionId | TarefasConnectionCreated_at | TarefasConnectionUpdated_at | TarefasConnectionTitle | TarefasConnectionDescription | TarefasConnectionData_entrega | TarefasConnectionAula | TarefasConnectionPublished_at | createTarefaPayload | updateTarefaPayload | deleteTarefaPayload | Turmas | TurmasConnection | TurmasAggregator | TurmasGroupBy | TurmasConnectionId | TurmasConnectionCreated_at | TurmasConnectionUpdated_at | TurmasConnectionTitle | TurmasConnectionDescription | TurmasConnectionCode | TurmasConnectionStatus | TurmasConnectionHorario | TurmasConnectionInstitution | TurmasConnectionPublished_at | createTurmaPayload | updateTurmaPayload | deleteTurmaPayload | I18NLocale | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileAggregatorSum | UploadFileAggregatorAvg | UploadFileAggregatorMin | UploadFileAggregatorMax | UploadFileGroupBy | UploadFileConnectionId | UploadFileConnectionCreated_at | UploadFileConnectionUpdated_at | UploadFileConnectionName | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionWidth | UploadFileConnectionHeight | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_metadata | deleteFilePayload | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserGroupBy | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionCreated_at | UsersPermissionsUserConnectionUpdated_at | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole | UsersPermissionsUserConnectionInstitution | UsersPermissionsUserConnectionGerente | UsersPermissionsUserConnectionAtendente | UsersPermissionsUserConnectionAluno | UsersPermissionsUserConnectionTeacher | UsersPermissionsUserConnectionProfile | UsersPermissionsUserConnectionAvatar | createUserPayload | updateUserPayload | deleteUserPayload | ComponentAulasArquivo | ComponentAulasAudio | ComponentAulasLinks | ComponentAulasTarefa | ComponentAulasVideo | ComponentProfileCanManageAluno | ComponentProfileCanManageAtendente | ComponentProfileCanManageAula | ComponentProfileCanManageGerente | ComponentProfileCanManageRoles | ComponentProfileCanManageTeacher | ComponentProfileCanManageTurma | ComponentProfileCanManageUsers | ComponentProfileCanSeeAulas | ComponentProfileCanSeeOtherUsers | ComponentProfileCanSeeTurmas | ComponentRegisterEndereco | ComponentTurmaHorario
+union Morph = UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | UserPermissionsPasswordPayload | Alunos | AlunosConnection | AlunosAggregator | AlunosGroupBy | AlunosConnectionId | AlunosConnectionCreated_at | AlunosConnectionUpdated_at | AlunosConnectionEndereco | AlunosConnectionName | AlunosConnectionSexo | AlunosConnectionNumero_do_BI | AlunosConnectionBirthday | AlunosConnectionTelefone | AlunosConnectionInstitution | AlunosConnectionUser | AlunosConnectionEntregas | AlunosConnectionNumeroDeMatricula | AlunosConnectionPublished_at | createAlunoPayload | updateAlunoPayload | deleteAlunoPayload | Atendentes | AtendentesConnection | AtendentesAggregator | AtendentesGroupBy | AtendentesConnectionId | AtendentesConnectionCreated_at | AtendentesConnectionUpdated_at | AtendentesConnectionEndereco | AtendentesConnectionName | AtendentesConnectionSexo | AtendentesConnectionNumero_do_BI | AtendentesConnectionTelefone | AtendentesConnectionBirthday | AtendentesConnectionInstitution | AtendentesConnectionUser | AtendentesConnectionPublished_at | createAtendentePayload | updateAtendentePayload | deleteAtendentePayload | Aulas | AulasConnection | AulasAggregator | AulasAggregatorSum | AulasAggregatorAvg | AulasAggregatorMin | AulasAggregatorMax | AulasGroupBy | AulasConnectionId | AulasConnectionCreated_at | AulasConnectionUpdated_at | AulasConnectionTitle | AulasConnectionDescription | AulasConnectionViews | AulasConnectionTurma | AulasConnectionPublished_at | createAulaPayload | updateAulaPayload | deleteAulaPayload | Comentarios | ComentariosConnection | ComentariosAggregator | ComentariosAggregatorSum | ComentariosAggregatorAvg | ComentariosAggregatorMin | ComentariosAggregatorMax | ComentariosGroupBy | ComentariosConnectionId | ComentariosConnectionCreated_at | ComentariosConnectionUpdated_at | ComentariosConnectionMessage | ComentariosConnectionLikes | ComentariosConnectionAluno | ComentariosConnectionProfessor | ComentariosConnectionTarefa | ComentariosConnectionPublished_at | createComentarioPayload | updateComentarioPayload | deleteComentarioPayload | Entregas | EntregasConnection | EntregasAggregator | EntregasAggregatorSum | EntregasAggregatorAvg | EntregasAggregatorMin | EntregasAggregatorMax | EntregasGroupBy | EntregasConnectionId | EntregasConnectionCreated_at | EntregasConnectionUpdated_at | EntregasConnectionTarefa | EntregasConnectionNota | EntregasConnectionMax_nota | EntregasConnectionAluno | EntregasConnectionPublished_at | createEntregasPayload | updateEntregasPayload | deleteEntregasPayload | Gerentes | GerentesConnection | GerentesAggregator | GerentesGroupBy | GerentesConnectionId | GerentesConnectionCreated_at | GerentesConnectionUpdated_at | GerentesConnectionName | GerentesConnectionSexo | GerentesConnectionNumero_do_BI | GerentesConnectionBirthday | GerentesConnectionTelefone | GerentesConnectionEndereco | GerentesConnectionInstitution | GerentesConnectionUser | GerentesConnectionPublished_at | createGerentePayload | updateGerentePayload | deleteGerentePayload | Instituicoes | InstituicoesConnection | InstituicoesAggregator | InstituicoesGroupBy | InstituicoesConnectionId | InstituicoesConnectionCreated_at | InstituicoesConnectionUpdated_at | InstituicoesConnectionName | InstituicoesConnectionSigla | InstituicoesConnectionEmail | InstituicoesConnectionLegalNumber | InstituicoesConnectionTelefone | InstituicoesConnectionCelular | InstituicoesConnectionEndereco | InstituicoesConnectionLogo | InstituicoesConnectionPublished_at | createInstituicoePayload | updateInstituicoePayload | deleteInstituicoePayload | Perfis | PerfisConnection | PerfisAggregator | PerfisGroupBy | PerfisConnectionId | PerfisConnectionCreated_at | PerfisConnectionUpdated_at | PerfisConnectionName | PerfisConnectionCanManageAluno | PerfisConnectionCanSeeOtherUsers | PerfisConnectionCanManageUsers | PerfisConnectionCanManageRoles | PerfisConnectionCanManageAtendente | PerfisConnectionCanManageGerente | PerfisConnectionCanManageTeacher | PerfisConnectionCanManageTurma | PerfisConnectionCanSeeTurmas | PerfisConnectionCanSeeAulas | PerfisConnectionCanManageAula | PerfisConnectionPublished_at | createPerfiPayload | updatePerfiPayload | deletePerfiPayload | Professores | ProfessoresConnection | ProfessoresAggregator | ProfessoresGroupBy | ProfessoresConnectionId | ProfessoresConnectionCreated_at | ProfessoresConnectionUpdated_at | ProfessoresConnectionName | ProfessoresConnectionNumero_do_BI | ProfessoresConnectionSexo | ProfessoresConnectionBirthday | ProfessoresConnectionTelefone | ProfessoresConnectionEndereco | ProfessoresConnectionInstitution | ProfessoresConnectionUser | ProfessoresConnectionPublished_at | createProfessorePayload | updateProfessorePayload | deleteProfessorePayload | Tarefas | TarefasConnection | TarefasAggregator | TarefasGroupBy | TarefasConnectionId | TarefasConnectionCreated_at | TarefasConnectionUpdated_at | TarefasConnectionTitle | TarefasConnectionDescription | TarefasConnectionData_entrega | TarefasConnectionAula | TarefasConnectionPublished_at | createTarefaPayload | updateTarefaPayload | deleteTarefaPayload | Turmas | TurmasConnection | TurmasAggregator | TurmasGroupBy | TurmasConnectionId | TurmasConnectionCreated_at | TurmasConnectionUpdated_at | TurmasConnectionTitle | TurmasConnectionDescription | TurmasConnectionCode | TurmasConnectionStatus | TurmasConnectionHorario | TurmasConnectionInstitution | TurmasConnectionPublished_at | createTurmaPayload | updateTurmaPayload | deleteTurmaPayload | I18NLocale | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileAggregatorSum | UploadFileAggregatorAvg | UploadFileAggregatorMin | UploadFileAggregatorMax | UploadFileGroupBy | UploadFileConnectionId | UploadFileConnectionCreated_at | UploadFileConnectionUpdated_at | UploadFileConnectionName | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionWidth | UploadFileConnectionHeight | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_metadata | deleteFilePayload | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserGroupBy | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionCreated_at | UsersPermissionsUserConnectionUpdated_at | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole | UsersPermissionsUserConnectionInstitution | UsersPermissionsUserConnectionGerente | UsersPermissionsUserConnectionAtendente | UsersPermissionsUserConnectionAluno | UsersPermissionsUserConnectionTeacher | UsersPermissionsUserConnectionProfile | UsersPermissionsUserConnectionAvatar | createUserPayload | updateUserPayload | deleteUserPayload | ComponentAulasArquivo | ComponentAulasAudio | ComponentAulasLinks | ComponentAulasTarefa | ComponentAulasVideo | ComponentProfileCanManageAluno | ComponentProfileCanManageAtendente | ComponentProfileCanManageAula | ComponentProfileCanManageGerente | ComponentProfileCanManageRoles | ComponentProfileCanManageTeacher | ComponentProfileCanManageTurma | ComponentProfileCanManageUsers | ComponentProfileCanSeeAulas | ComponentProfileCanSeeOtherUsers | ComponentProfileCanSeeTurmas | ComponentRegisterEndereco | ComponentTurmaHorario
 
 input InputID {
   id: ID!
