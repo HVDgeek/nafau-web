@@ -29,7 +29,7 @@ export async function getStaticProps() {
         name: prof.name,
         email: prof.user?.email,
         username: prof.user?.username,
-        avatar: `http://localhost:1337${prof.user?.avatar?.url}`,
+        avatar: `http://localhost:1337${prof.user?.avatar?.src}`,
         isActive: !prof.user?.blocked
       })),
       title: 'Professores'

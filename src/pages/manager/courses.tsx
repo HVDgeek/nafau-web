@@ -43,7 +43,7 @@ export async function getStaticProps() {
         },
         teacher: {
           name: turma.teachers[0].name,
-          avatar: `http://localhost:1337${turma.teachers[0].user?.avatar?.url}`
+          avatar: `http://localhost:1337${turma.teachers[0].user?.avatar?.src}`
         },
         countAlunos: turma.alunos.length
       }))

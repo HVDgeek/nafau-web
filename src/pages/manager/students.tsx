@@ -26,7 +26,7 @@ export async function getStaticProps() {
         name: aluno.name,
         email: aluno.user?.email,
         username: aluno.user?.username,
-        avatar: `http://localhost:1337${aluno.user?.avatar?.url}`,
+        avatar: `http://localhost:1337${aluno.user?.avatar?.src}`,
         isActive: !aluno.user?.blocked
       })),
       title: 'Estudantes'
