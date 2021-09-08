@@ -1,28 +1,23 @@
 import { gql } from '@apollo/client'
+import { InstitutionFragment } from 'graphql/fragments/institution'
+import { AlunoFragment, ProfessorFragment } from 'graphql/fragments/person'
+import { TurmaFragment } from 'graphql/fragments/turma'
+import { UserFragment } from 'graphql/fragments/user'
 
 export const QUERY_TURMAS = gql`
   query QueryTurmas($limit: Int!) {
     turmas(limit: $limit) {
-      id
-      title
-      description
-      code
-      status
+      ...TurmaFragment
       institution {
-        id
-        name
+        ...InstitutionFragment
       }
       alunos {
-        id
-        name
+        ...AlunoFragment
       }
       teachers {
-        id
-        name
+        ...ProfessorFragment
         user {
-          avatar {
-            url
-          }
+          ...UserFragment
         }
       }
       aulas {
@@ -31,31 +26,27 @@ export const QUERY_TURMAS = gql`
       }
     }
   }
+  ${TurmaFragment}
+  ${AlunoFragment}
+  ${ProfessorFragment}
+  ${UserFragment}
+  ${InstitutionFragment}
 `
 
 export const QUERY_TURMA_BY_ID = gql`
   query QueryTurmaById($id: ID!) {
     turma(id: $id) {
-      id
-      title
-      description
-      code
-      status
+      ...TurmaFragment
       institution {
-        id
-        name
+        ...InstitutionFragment
       }
       alunos {
-        id
-        name
+        ...AlunoFragment
       }
       teachers {
-        id
-        name
+        ...ProfessorFragment
         user {
-          avatar {
-            url
-          }
+          ...UserFragment
         }
       }
       aulas {
@@ -64,4 +55,9 @@ export const QUERY_TURMA_BY_ID = gql`
       }
     }
   }
+  ${TurmaFragment}
+  ${AlunoFragment}
+  ${ProfessorFragment}
+  ${UserFragment}
+  ${InstitutionFragment}
 `
