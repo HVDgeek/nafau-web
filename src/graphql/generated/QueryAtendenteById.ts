@@ -23,6 +23,7 @@ export interface QueryAtendenteById_atendente_user_institution {
 
 export interface QueryAtendenteById_atendente_user {
   __typename: "UsersPermissionsUser";
+  id: string;
   email: string;
   username: string;
   blocked: boolean | null;

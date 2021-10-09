@@ -15,6 +15,7 @@ export interface UserFragment_avatar {
 
 export interface UserFragment {
   __typename: "UsersPermissionsUser";
+  id: string;
   email: string;
   username: string;
   blocked: boolean | null;

@@ -23,6 +23,7 @@ export interface QueryProfessores_professores_user_institution {
 
 export interface QueryProfessores_professores_user {
   __typename: "UsersPermissionsUser";
+  id: string;
   email: string;
   username: string;
   blocked: boolean | null;

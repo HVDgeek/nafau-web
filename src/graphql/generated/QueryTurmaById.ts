@@ -34,6 +34,7 @@ export interface QueryTurmaById_turma_teachers_user_avatar {
 
 export interface QueryTurmaById_turma_teachers_user {
   __typename: "UsersPermissionsUser";
+  id: string;
   email: string;
   username: string;
   blocked: boolean | null;

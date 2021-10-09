@@ -23,6 +23,7 @@ export interface QueryAlunoById_aluno_user_institution {
 
 export interface QueryAlunoById_aluno_user {
   __typename: "UsersPermissionsUser";
+  id: string;
   email: string;
   username: string;
   blocked: boolean | null;
