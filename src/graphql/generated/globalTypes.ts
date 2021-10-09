@@ -28,6 +28,12 @@ export enum ENUM_TURMAS_STATUS {
   PAUSE = "PAUSE",
 }
 
+export interface UsersPermissionsRegisterInput {
+  username: string;
+  email: string;
+  password: string;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================
