@@ -55,7 +55,8 @@ export async function getStaticProps() {
 
   await apolloClient.query<QueryAlunos, QueryAlunosVariables>({
     query: QUERY_ALUNOS,
-    variables: { limit: 9 }
+    variables: { limit: 9 },
+    fetchPolicy: 'no-cache'
   })
 
   return {

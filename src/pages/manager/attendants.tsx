@@ -18,7 +18,8 @@ export async function getStaticProps() {
     QueryAtendentesVariables
   >({
     query: QUERY_ATENDENTES,
-    variables: { limit: 9 }
+    variables: { limit: 9 },
+    fetchPolicy: 'no-cache'
   })
   return {
     revalidate: 60,

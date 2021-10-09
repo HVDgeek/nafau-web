@@ -32,13 +32,13 @@ export default function Index(props: UsersRegisterTemplateProps) {
 
   const initialValues = {
     name: props.name,
-    email: props.user.email,
+    email: props.user?.email,
     sexo: props.sexo,
     numero_do_BI: props.numero_do_BI,
     birthday: props.birthday,
     telefone: props.telefone,
-    username: props.user.username,
-    isActive: props.user.isActive,
+    username: props.user?.username,
+    isActive: props.user?.isActive,
     password: '',
     confirm_password: ''
   }
@@ -84,7 +84,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     QueryAlunoByIdVariables
   >({
     query: QUERY_ALUNO_BY_ID,
-    variables: { id: `${params?.id}` }
+    variables: { id: `${params?.id}` },
+    fetchPolicy: 'no-cache'
   })
 
   if (!data.aluno) {

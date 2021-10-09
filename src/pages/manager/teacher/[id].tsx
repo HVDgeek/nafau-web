@@ -53,7 +53,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     QueryProfessorByIdVariables
   >({
     query: QUERY_PROFESSOR_BY_ID,
-    variables: { id: `${params?.id}` }
+    variables: { id: `${params?.id}` },
+    fetchPolicy: 'no-cache'
   })
 
   if (!data.professore) {

@@ -47,7 +47,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     QueryTurmaByIdVariables
   >({
     query: QUERY_TURMA_BY_ID,
-    variables: { id: `${params?.id}` }
+    variables: { id: `${params?.id}` },
+    fetchPolicy: 'no-cache'
   })
 
   if (!data.turma) {

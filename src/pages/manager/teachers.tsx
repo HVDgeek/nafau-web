@@ -18,7 +18,8 @@ export async function getStaticProps() {
     QueryProfessoresVariables
   >({
     query: QUERY_PROFESSORES,
-    variables: { limit: 9 }
+    variables: { limit: 9 },
+    fetchPolicy: 'no-cache'
   })
 
   return {

@@ -26,7 +26,8 @@ export async function getStaticProps() {
 
   const { data } = await apolloClient.query<QueryTurmas, QueryTurmasVariables>({
     query: QUERY_TURMAS,
-    variables: { limit: 10 }
+    variables: { limit: 10 },
+    fetchPolicy: 'no-cache'
   })
 
   return {
