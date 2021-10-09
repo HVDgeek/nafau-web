@@ -1,4 +1,3 @@
-import { useQuery } from '@apollo/client'
 import { initializeApollo } from 'utils/apollo'
 import {
   QueryAlunos,
@@ -9,9 +8,16 @@ import UsersTemplate, { UsersTemplateProps } from 'templates/Users'
 import { UserCardProps } from 'components/UserCard'
 
 export default function StudentsPage(props: UsersTemplateProps) {
+  let hasMoreAlunos = false
   const { data, loading, fetchMore } = useQueryAlunos({
+    // notifyOnNetworkStatusChange: true,
     variables: { limit: 9 }
   })
+
+  if (data) {
+    hasMoreAlunos =
+      data?.alunos.length < (data?.alunosConnection?.values?.length || 0)
+  }
 
   const users = data?.alunos.map((aluno) => ({
     id: aluno.id,
@@ -35,6 +41,7 @@ export default function StudentsPage(props: UsersTemplateProps) {
       users={users}
       route="student"
       title="Estudantes"
+      hasMore={hasMoreAlunos}
       onSubmit={() => {
         console.log('ADD ALUNO')
       }}

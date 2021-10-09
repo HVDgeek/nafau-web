@@ -37,6 +37,7 @@ export type UsersTemplateProps = {
   users: UserCardProps[]
   title: string
   loading: boolean
+  hasMore: boolean
   onSubmit: () => void
   handleShowMore: () => void
 }
@@ -66,6 +67,7 @@ const UsersTemplate = ({
   users = [],
   title,
   loading,
+  hasMore,
   onSubmit,
   handleShowMore
 }: UsersTemplateProps) => {
@@ -105,7 +107,7 @@ const UsersTemplate = ({
                     />
                   )}
                 </SimpleGrid>
-                <ShowMore onClick={handleShowMore} />
+                {hasMore && <ShowMore onClick={handleShowMore} />}
               </Box>
             </ScaleFade>
           )}

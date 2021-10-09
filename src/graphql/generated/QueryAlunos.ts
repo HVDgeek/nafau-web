@@ -42,8 +42,19 @@ export interface QueryAlunos_alunos {
   user: QueryAlunos_alunos_user | null;
 }
 
+export interface QueryAlunos_alunosConnection_values {
+  __typename: "Alunos";
+  id: string;
+}
+
+export interface QueryAlunos_alunosConnection {
+  __typename: "AlunosConnection";
+  values: (QueryAlunos_alunosConnection_values | null)[] | null;
+}
+
 export interface QueryAlunos {
   alunos: QueryAlunos_alunos[];
+  alunosConnection: QueryAlunos_alunosConnection | null;
 }
 
 export interface QueryAlunosVariables {

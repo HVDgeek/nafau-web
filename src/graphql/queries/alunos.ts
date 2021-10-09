@@ -18,6 +18,11 @@ export const QUERY_ALUNOS = gql`
         }
       }
     }
+    alunosConnection {
+      values {
+        id
+      }
+    }
   }
   ${AlunoFragment}
   ${UserFragment}
