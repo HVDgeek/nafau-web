@@ -1,3 +1,4 @@
+import NextNprogress from 'nextjs-progressbar'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
 import { ChakraProvider } from '@chakra-ui/react'
@@ -21,6 +22,13 @@ function MyApp({ Component, pageProps }: AppProps) {
             content="A melhor Plataforma de Ensino e Aprendizagem 🚀"
           />
         </Head>
+        <NextNprogress
+          color="#F231A5"
+          startPosition={0.3}
+          stopDelayMs={200}
+          height={5}
+          showOnShallow={true}
+        />
         <Component {...pageProps} />
       </ChakraProvider>
     </ApolloProvider>
