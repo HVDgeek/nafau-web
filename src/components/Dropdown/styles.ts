@@ -18,18 +18,6 @@ const wrapperModifiers = {
   `
 }
 
-export const Wrapper = styled.div<WrapperProps>`
-  ${({ isOpen }) => css`
-    position: relative;
-    width: max-content;
-    ${Content} {
-      transition: transform 0.2s ease-in, opacity ${themes.transition.default};
-      ${isOpen && wrapperModifiers.open()}
-      ${!isOpen && wrapperModifiers.close()}
-    }
-  `}
-`
-
 export const Title = styled.div`
   cursor: pointer;
   color: ${themes.colors.white};
@@ -37,6 +25,7 @@ export const Title = styled.div`
   position: relative;
   display: flex;
   align-items: center;
+  z-index: ${themes.layers.alwaysOnTop};
   /* padding-right: 2rem; */
 `
 
@@ -49,7 +38,7 @@ export const Content = styled.div`
   /* offset-x | offset-y | blur-radius | color */
   box-shadow: 10px 5px 5px #181b23;
   position: absolute;
-  z-index: 999999;
+  z-index: ${themes.layers.alwaysOnTop};
   right: 0;
   &::before {
     content: '';
@@ -60,4 +49,27 @@ export const Content = styled.div`
     top: -0.5rem;
     right: 2rem;
   }
+`
+
+export const Overlay = styled.div`
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: ${themes.layers.overlay};
+`
+
+export const Wrapper = styled.div<WrapperProps>`
+  ${({ isOpen }) => css`
+    position: relative;
+    width: max-content;
+    ${Content},
+    ${Overlay} {
+      transition: transform 0.2s ease-in, opacity ${themes.transition.default};
+      ${isOpen && wrapperModifiers.open()}
+      ${!isOpen && wrapperModifiers.close()}
+    }
+  `}
 `
