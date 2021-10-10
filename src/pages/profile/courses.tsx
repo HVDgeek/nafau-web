@@ -1,22 +1,24 @@
+import { useSession } from 'next-auth/client'
 import Profile from 'templates/Profile'
 import classroomsMock from 'components/ClassCard/mock'
 import CoursesList, { CoursesListProps } from 'components/CoursesList'
-import { useSession } from 'next-auth/client'
 import { useRouter } from 'next/router'
 
 export default function Courses(props: CoursesListProps) {
-  const [session] = useSession()
-  const { push, asPath } = useRouter()
+  const [session, loading] = useSession()
+  const { asPath } = useRouter()
 
-  if (session) {
-    return (
-      <Profile>
-        <CoursesList {...props} />
-      </Profile>
-    )
+  if (typeof window !== undefined && loading) return null
+
+  if (!session) {
+    window.location.href = `/sign-in?callbackUrl=${asPath}`
   }
 
-  // push(`/sign-in?callbackUrl=${asPath}`)
+  return (
+    <Profile>
+      <CoursesList {...props} />
+    </Profile>
+  )
 }
 
 export async function getStaticProps() {

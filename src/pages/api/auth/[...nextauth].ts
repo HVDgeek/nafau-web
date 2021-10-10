@@ -40,7 +40,7 @@ const options = {
     session: async (session: Session, user: any) => {
       session.jwt = user.jwt
       session.id = user.id
-      session.institutionId = user.user.institution.id
+      session.user = { ...user, institution: user.institution.id }
 
       return Promise.resolve(session)
     },
@@ -50,6 +50,7 @@ const options = {
         token.email = user.email
         token.name = user.username as string
         token.jwt = user.jwt
+        token = { ...token, institution: user.institution }
       }
 
       return Promise.resolve(token)

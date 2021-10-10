@@ -8,6 +8,7 @@ import {
 } from 'graphql/generated/QueryTurmas'
 import { QUERY_TURMAS, QUERY_TURMA_BY_ID } from 'graphql/queries/turmas'
 import { GetStaticProps } from 'next'
+import { useSession } from 'next-auth/client'
 import { useRouter } from 'next/router'
 import CourseRegisterTemplate, {
   CourseRegisterTemplateProps
@@ -18,6 +19,14 @@ const apolloClient = initializeApollo()
 
 export default function Index(props: CourseRegisterTemplateProps) {
   const router = useRouter()
+
+  const [session, loadingSession] = useSession()
+
+  if (typeof window !== undefined && loadingSession) return null
+
+  if (!session) {
+    window.location.href = `/sign-in?callbackUrl=${router.asPath}`
+  }
 
   // se a rota não tiver sido gerada ainda
   // você pode mostrar um loading

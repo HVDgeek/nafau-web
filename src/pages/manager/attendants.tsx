@@ -5,8 +5,18 @@ import {
   QueryAtendentesVariables
 } from 'graphql/generated/QueryAtendentes'
 import { QUERY_ATENDENTES } from 'graphql/queries/atendentes'
+import { useSession } from 'next-auth/client'
+import { useRouter } from 'next/router'
 
 export default function StudentsPage(props: UsersTemplateProps) {
+  const [session, loadingSession] = useSession()
+  const { asPath } = useRouter()
+
+  if (typeof window !== undefined && loadingSession) return null
+
+  if (!session) {
+    window.location.href = `/sign-in?callbackUrl=${asPath}`
+  }
   return <UsersTemplate {...props} route="attendant" />
 }
 

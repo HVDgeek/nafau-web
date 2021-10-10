@@ -6,8 +6,19 @@ import {
   QueryTurmasVariables
 } from 'graphql/generated/QueryTurmas'
 import { QUERY_TURMAS } from 'graphql/queries/turmas'
+import { useSession } from 'next-auth/client'
+import { useRouter } from 'next/router'
 
 export default function Courses(props: CourseTemplateProps) {
+  const [session, loadingSession] = useSession()
+  const { asPath } = useRouter()
+
+  if (typeof window !== undefined && loadingSession) return null
+
+  if (!session) {
+    window.location.href = `/sign-in?callbackUrl=${asPath}`
+  }
+
   return (
     <Course
       {...props}

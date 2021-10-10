@@ -14,6 +14,7 @@ import {
   QueryAlunoByIdVariables
 } from 'graphql/generated/QueryAlunoById'
 import { FormikHelpers } from 'formik'
+import { useSession } from 'next-auth/client'
 
 const apolloClient = initializeApollo()
 
@@ -29,6 +30,7 @@ export type Values = Omit<
 
 export default function Index(props: UsersRegisterTemplateProps) {
   const router = useRouter()
+  const [session, loadingSession] = useSession()
 
   const initialValues = {
     name: props.name,
@@ -41,6 +43,12 @@ export default function Index(props: UsersRegisterTemplateProps) {
     isActive: props.user?.isActive,
     password: '',
     confirm_password: ''
+  }
+
+  if (typeof window !== undefined && loadingSession) return null
+
+  if (!session) {
+    window.location.href = `/sign-in?callbackUrl=${router.asPath}`
   }
 
   const onSubmit = async (

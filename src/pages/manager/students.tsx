@@ -6,6 +6,8 @@ import {
 import { QUERY_ALUNOS, useQueryAlunos } from 'graphql/queries/alunos'
 import UsersTemplate, { UsersTemplateProps } from 'templates/Users'
 import { UserCardProps } from 'components/UserCard'
+import { useSession } from 'next-auth/client'
+import { useRouter } from 'next/router'
 
 export default function StudentsPage(props: UsersTemplateProps) {
   let hasMoreAlunos = false
@@ -27,6 +29,15 @@ export default function StudentsPage(props: UsersTemplateProps) {
     avatar: `http://localhost:1337${aluno.user?.avatar?.src}`,
     isActive: !aluno.user?.blocked
   })) as UserCardProps[]
+
+  const [session, loadingSession] = useSession()
+  const { asPath } = useRouter()
+
+  if (typeof window !== undefined && loadingSession) return null
+
+  if (!session) {
+    window.location.href = `/sign-in?callbackUrl=${asPath}`
+  }
 
   const handleShowMore = () => {
     fetchMore({

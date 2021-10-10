@@ -16,12 +16,19 @@ import {
   QueryProfessorById,
   QueryProfessorByIdVariables
 } from 'graphql/generated/QueryProfessorById'
+import { useSession } from 'next-auth/client'
 
 const apolloClient = initializeApollo()
 
 export default function Index(props: UsersRegisterTemplateProps) {
   const router = useRouter()
+  const [session, loadingSession] = useSession()
 
+  if (typeof window !== undefined && loadingSession) return null
+
+  if (!session) {
+    window.location.href = `/sign-in?callbackUrl=${router.asPath}`
+  }
   // se a rota não tiver sido gerada ainda
   // você pode mostrar um loading
   // uma tela de esqueleto
