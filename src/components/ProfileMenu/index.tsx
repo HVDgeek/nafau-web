@@ -1,5 +1,5 @@
 import NextLink from 'next/link'
-import { Text, Flex, useBreakpointValue, Box } from '@chakra-ui/react'
+import { Text, Flex, useBreakpointValue } from '@chakra-ui/react'
 import { VscAccount } from 'react-icons/vsc'
 import { IoIosLogOut } from 'react-icons/io'
 import { IoSchoolOutline } from 'react-icons/io5'

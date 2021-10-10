@@ -37,9 +37,10 @@ const options = {
     })
   ],
   callbacks: {
-    session: async (session: Session, user: User) => {
+    session: async (session: Session, user: any) => {
       session.jwt = user.jwt
       session.id = user.id
+      session.institutionId = user.user.institution.id
 
       return Promise.resolve(session)
     },
