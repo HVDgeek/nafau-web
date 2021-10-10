@@ -1,15 +1,17 @@
-import { useSession } from 'next-auth/client'
-import { useRouter } from 'next/router'
+import { GetServerSidePropsContext } from 'next'
 import Home from 'templates/Home'
+import protectedRoutes from 'utils/protected-routes'
 
 export default function Index() {
-  const { asPath } = useRouter()
-  const [session, loadingSession] = useSession()
-
-  if (typeof window !== undefined && loadingSession) return null
-
-  if (!session) {
-    window.location.href = `/sign-in?callbackUrl=${asPath}`
-  }
   return <Home />
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await protectedRoutes(context)
+
+  return {
+    props: {
+      session
+    }
+  }
 }
