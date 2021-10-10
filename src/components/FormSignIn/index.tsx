@@ -1,5 +1,6 @@
-import { Text, ScaleFade, VStack } from '@chakra-ui/react'
-import Link from 'next/link'
+import { Text, ScaleFade, VStack, useToast } from '@chakra-ui/react'
+import { signIn } from 'next-auth/client'
+import { useRouter } from 'next/router'
 import Button from 'components/Button'
 import TextField from 'components/TextField'
 import { Form, Formik } from 'formik'
@@ -21,13 +22,36 @@ const SignInSchema = Yup.object().shape({
 })
 
 const FormSignIn = () => {
+  const { push } = useRouter()
+  const toast = useToast()
+
   return (
     <ScaleFade initialScale={0.9} in={true}>
       <Formik
         validationSchema={SignInSchema}
         initialValues={{ email: '', password: '' }}
         onSubmit={async (values, { setErrors, resetForm }) => {
-          // resetForm();
+          const result = await signIn('credentials', {
+            ...values,
+            redirect: false,
+            callbackUrl: '/'
+          })
+
+          if (result?.url) {
+            return push(result.url)
+          }
+
+          toast({
+            title: `E-mail ou senha inválida 😢`,
+            // variant: 'left-accent',
+            position: 'top-right',
+            // description: 'Verifique as suas credenciais e tente novamente',
+            status: 'error',
+            isClosable: true
+          })
+          console.error('E-mail ou senha inválida!')
+
+          resetForm()
         }}
       >
         {({ isSubmitting }) => (
@@ -63,7 +87,7 @@ const FormSignIn = () => {
                 Esqueceu sua senha ?
               </Text>
             </VStack>
-            <Button type="submit" fullWidth>
+            <Button isLoading={isSubmitting} type="submit" fullWidth>
               Entrar
             </Button>
           </Form>
