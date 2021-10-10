@@ -17,10 +17,10 @@ import Link from 'components/Link'
 import UserDropdown from 'components/UserDropdown'
 
 export type MenuProps = {
-  children: React.ReactNode
+  username?: string | null
 }
 
-const Menu = () => {
+const Menu = ({ username }: MenuProps) => {
   const disclosure = useDisclosure()
   const { asPath } = useRouter()
 
@@ -113,7 +113,7 @@ const Menu = () => {
             </Box>
           </Box>
         </IconButton>
-        <UserDropdown username="Hiduino" />
+        <UserDropdown username={username} />
       </HStack>
       {!isDesktopVersion && isDesktopVersion !== undefined && (
         <SideMenu {...disclosure} />

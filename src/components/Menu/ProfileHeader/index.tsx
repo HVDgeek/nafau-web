@@ -3,7 +3,7 @@ import IconButton from 'components/IconButton'
 import { IoMdArrowDropdown } from 'react-icons/io'
 
 export type ProfileHeaderProps = {
-  username: string
+  username?: string | null
 }
 
 const ProfileHeader = ({ username }: ProfileHeaderProps) => {

@@ -5,7 +5,7 @@ import Dropdown from 'components/Dropdown'
 import ProfileHeader from 'components/Menu/ProfileHeader'
 
 export type UserDropdownProps = {
-  username: string
+  username?: string | null
 }
 
 const UserDropdown = ({ username }: UserDropdownProps) => {

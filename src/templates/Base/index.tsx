@@ -2,12 +2,15 @@ import { Box, Flex } from '@chakra-ui/react'
 import { Container } from 'components/Container'
 import Footer from 'components/Footer'
 import Menu from 'components/Menu'
+import { useSession } from 'next-auth/client'
 
 export type BaseTemplateProps = {
   children: React.ReactNode
 }
 
 const Base = ({ children }: BaseTemplateProps) => {
+  const [session] = useSession()
+
   return (
     <Flex
       as="section"
@@ -16,7 +19,7 @@ const Base = ({ children }: BaseTemplateProps) => {
       height="100vh"
     >
       <Container>
-        <Menu />
+        <Menu username={session?.user?.name} />
       </Container>
       <Box mt={4} flex="1 0 auto">
         {children}
