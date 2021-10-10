@@ -12,10 +12,11 @@ import { HiOutlineMail, HiOutlineLockClosed } from 'react-icons/hi'
 import themes from 'styles/alt-themes'
 
 export type FormProfileProps = {
-  children: React.ReactNode
+  username?: string
+  email?: string
 }
 
-const FormProfile = () => {
+const FormProfile = ({ email, username }: FormProfileProps) => {
   const isDesktopVersion = useBreakpointValue({
     base: false,
     md: true,
@@ -31,8 +32,8 @@ const FormProfile = () => {
         <Formik
           // validationSchema={SignInSchema}
           initialValues={{
-            name: 'John Cage',
-            email: 'john.cage@gmail.com',
+            name: username,
+            email: email,
             password: ''
           }}
           onSubmit={async (values, { setErrors, resetForm }) => {
@@ -48,9 +49,9 @@ const FormProfile = () => {
                 mb={8}
               >
                 <TextField
-                  label="Nome"
+                  label="Nome do usuário"
                   name="name"
-                  placeholder="Nome completo"
+                  placeholder="Nome do usuário"
                 />
                 <TextField
                   label="E-mail"
