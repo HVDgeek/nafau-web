@@ -1,8 +1,9 @@
 import NextLink from 'next/link'
-import { Text, Flex, useBreakpointValue } from '@chakra-ui/react'
+import { Text, Flex, useBreakpointValue, Box } from '@chakra-ui/react'
 import { VscAccount } from 'react-icons/vsc'
 import { IoIosLogOut } from 'react-icons/io'
 import { IoSchoolOutline } from 'react-icons/io5'
+import { signOut } from 'next-auth/client'
 
 export type ProfileMenuProps = {
   activeLink?: '/profile/me' | '/profile/courses' | string
@@ -54,6 +55,11 @@ const ProfileMenu = ({ activeLink }: ProfileMenuProps) => {
     md: 0
   })
 
+  const isMobile = useBreakpointValue({
+    base: true,
+    md: false
+  })
+
   return (
     <Flex border={border} flexDir={['row', 'row', 'column']} as="nav">
       <Link
@@ -68,7 +74,30 @@ const ProfileMenu = ({ activeLink }: ProfileMenuProps) => {
         href="/profile/courses"
         icon={<IoSchoolOutline size={18} />}
       />
-      <Link title="Sair" href="/sign-in" icon={<IoIosLogOut size={18} />} />
+      <Flex
+        flex={isMobile ? 1 : 0}
+        backgroundColor={'gray.800'}
+        padding={2}
+        alignItems="center"
+        justifyContent={['center', 'center', 'flex-start']}
+        as="a"
+        role="button"
+        transition="ease-in 0.2s"
+        _hover={{
+          background: 'purple.500'
+        }}
+        onClick={() => signOut()}
+      >
+        <IoIosLogOut size={18} />
+        <Text
+          display={['none', 'none', 'inline']}
+          fontSize="small"
+          marginLeft={2}
+          as="span"
+        >
+          Sair
+        </Text>
+      </Flex>
     </Flex>
   )
 }

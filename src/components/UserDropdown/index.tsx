@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { signOut } from 'next-auth/client'
 import { Text, Box, Flex } from '@chakra-ui/react'
 import { RiAccountCircleLine, RiLogoutBoxLine } from 'react-icons/ri'
 import Dropdown from 'components/Dropdown'
@@ -30,25 +31,26 @@ const UserDropdown = ({ username }: UserDropdownProps) => {
             </Text>
           </Flex>
         </Link>
-        <Link href="/sign-in" passHref>
-          <Flex
-            mt={2}
-            cursor="pointer"
-            padding={2}
-            alignItems="center"
-            justifyContent="flex-start"
-            as="a"
-            transition="ease-in 0.2s"
-            _hover={{
-              background: 'purple.500'
-            }}
-          >
-            <RiLogoutBoxLine color="#ffffff" />
-            <Text fontSize="small" color="white" marginLeft={2} as="span">
-              Sair
-            </Text>
-          </Flex>
-        </Link>
+
+        <Flex
+          mt={2}
+          cursor="pointer"
+          padding={2}
+          alignItems="center"
+          justifyContent="flex-start"
+          as="a"
+          role="button"
+          transition="ease-in 0.2s"
+          _hover={{
+            background: 'purple.500'
+          }}
+          onClick={() => signOut()}
+        >
+          <RiLogoutBoxLine color="#ffffff" />
+          <Text fontSize="small" color="white" marginLeft={2} as="span">
+            Sair
+          </Text>
+        </Flex>
       </Box>
     </Dropdown>
   )
