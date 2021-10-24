@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { Form, Formik } from 'formik'
 import {
@@ -29,6 +30,7 @@ const SignInSchema = Yup.object().shape({
 })
 
 const FormForgotPassword = () => {
+  const { query } = useRouter()
   const toast = useToast()
   const [success, setSuccess] = useState(false)
 
@@ -54,7 +56,7 @@ const FormForgotPassword = () => {
       ) : (
         <Formik
           validationSchema={SignInSchema}
-          initialValues={{ email: '' }}
+          initialValues={{ email: (query.email as string) || '' }}
           onSubmit={async (values, { setErrors, resetForm }) => {
             const response = await fetch(
               `${process.env.NEXT_PUBLIC_API_URL}/auth/forgot-password`,

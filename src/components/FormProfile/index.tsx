@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import {
   Text,
   Box,
@@ -62,24 +63,21 @@ const FormProfile = ({ email, username }: FormProfileProps) => {
                   withIcon={true}
                   disabled
                 />
-                <TextField
-                  label="Senha"
-                  placeholder="Senha"
-                  name="password"
-                  IconField={HiOutlineLockClosed}
-                  isPasswordField
-                  withIcon={true}
-                />
-                <TextField
-                  label="Nova senha"
-                  placeholder="Nova senha"
-                  name="new_password"
-                  IconField={HiOutlineLockClosed}
-                  isPasswordField
-                  withIcon={true}
-                />
               </Grid>
               <Box display="flex" justifyContent="flex-end">
+                <Box marginRight={2}>
+                  <Link href={`/forgot-password?email=${email}`} passHref>
+                    <Button
+                      type="button"
+                      fullWidth={isDesktopVersion ? false : true}
+                      size="sm"
+                      variant="outline"
+                      as="a"
+                    >
+                      Alterar minha senha
+                    </Button>
+                  </Link>
+                </Box>
                 <Button
                   type="submit"
                   fullWidth={isDesktopVersion ? false : true}
