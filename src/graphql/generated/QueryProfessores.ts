@@ -42,8 +42,19 @@ export interface QueryProfessores_professores {
   user: QueryProfessores_professores_user | null;
 }
 
+export interface QueryProfessores_professoresConnection_values {
+  __typename: "Professores";
+  id: string;
+}
+
+export interface QueryProfessores_professoresConnection {
+  __typename: "ProfessoresConnection";
+  values: (QueryProfessores_professoresConnection_values | null)[] | null;
+}
+
 export interface QueryProfessores {
   professores: QueryProfessores_professores[];
+  professoresConnection: QueryProfessores_professoresConnection | null;
 }
 
 export interface QueryProfessoresVariables {

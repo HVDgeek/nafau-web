@@ -1,7 +1,11 @@
-import { gql } from '@apollo/client'
+import { gql, QueryHookOptions, useQuery } from '@apollo/client'
 import { InstitutionFragment } from 'graphql/fragments/institution'
 import { ProfessorFragment } from 'graphql/fragments/person'
 import { UserFragment } from 'graphql/fragments/user'
+import {
+  QueryProfessores,
+  QueryProfessoresVariables
+} from 'graphql/generated/QueryProfessores'
 
 export const QUERY_PROFESSORES = gql`
   query QueryProfessores($limit: Int!) {
@@ -12,6 +16,11 @@ export const QUERY_PROFESSORES = gql`
         institution {
           ...InstitutionFragment
         }
+      }
+    }
+    professoresConnection {
+      values {
+        id
       }
     }
   }
@@ -36,3 +45,12 @@ export const QUERY_PROFESSOR_BY_ID = gql`
   ${UserFragment}
   ${InstitutionFragment}
 `
+
+export function useQueryProfessores(
+  options?: QueryHookOptions<QueryProfessores, QueryProfessoresVariables>
+) {
+  return useQuery<QueryProfessores, QueryProfessoresVariables>(
+    QUERY_PROFESSORES,
+    options
+  )
+}

@@ -7,6 +7,9 @@ import { GetServerSidePropsContext } from 'next'
 import protectedRoutes from 'utils/protected-routes'
 
 export default function StudentsPage(props: UsersTemplateProps) {
+  const [session, loadingSession] = useSession()
+  const { asPath } = useRouter()
+
   let hasMoreAlunos = false
   const { data, loading, fetchMore } = useQueryAlunos({
     // notifyOnNetworkStatusChange: true,
@@ -26,9 +29,6 @@ export default function StudentsPage(props: UsersTemplateProps) {
     avatar: `http://localhost:1337${aluno.user?.avatar?.src}`,
     isActive: !aluno.user?.blocked
   })) as UserCardProps[]
-
-  const [session, loadingSession] = useSession()
-  const { asPath } = useRouter()
 
   if (typeof window !== undefined && loadingSession) return null
 

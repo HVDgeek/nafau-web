@@ -1,16 +1,34 @@
 import UsersTemplate, { UsersTemplateProps } from 'templates/Users'
-import { initializeApollo } from 'utils/apollo'
-import {
-  QueryProfessores,
-  QueryProfessoresVariables
-} from 'graphql/generated/QueryProfessores'
-import { QUERY_PROFESSORES } from 'graphql/queries/professores'
+import { useQueryProfessores } from 'graphql/queries/professores'
 import { useSession } from 'next-auth/client'
 import { useRouter } from 'next/router'
+import protectedRoutes from 'utils/protected-routes'
+import { GetServerSidePropsContext } from 'next'
+import { UserCardProps } from 'components/UserCard'
 
 export default function StudentsPage(props: UsersTemplateProps) {
   const [session, loadingSession] = useSession()
   const { asPath } = useRouter()
+
+  let hasMoreProfessores = false
+  const { data, loading, fetchMore } = useQueryProfessores({
+    variables: { limit: 9 }
+  })
+
+  if (data) {
+    hasMoreProfessores =
+      data?.professores.length <
+      (data?.professoresConnection?.values?.length || 0)
+  }
+
+  const users = data?.professores.map((prof) => ({
+    id: prof.id,
+    name: prof.name,
+    email: prof.user?.email,
+    username: prof.user?.username,
+    avatar: `http://localhost:1337${prof.user?.avatar?.src}`,
+    isActive: !prof.user?.blocked
+  })) as UserCardProps[]
 
   if (typeof window !== undefined && loadingSession) return null
 
@@ -18,32 +36,32 @@ export default function StudentsPage(props: UsersTemplateProps) {
     window.location.href = `/sign-in?callbackUrl=${asPath}`
   }
 
-  return <UsersTemplate {...props} route="teacher" />
+  const handleShowMore = () => {
+    fetchMore({
+      variables: { limit: 9, start: data?.professores.length }
+    })
+  }
+
+  return (
+    <UsersTemplate
+      {...props}
+      route="teacher"
+      loading={loading}
+      users={users}
+      hasMore={hasMoreProfessores}
+      onSubmit={() => {
+        console.log('ADD PROFESSORES')
+      }}
+      handleShowMore={handleShowMore}
+    />
+  )
 }
 
-export async function getStaticProps() {
-  const apolloClient = initializeApollo()
-
-  const { data } = await apolloClient.query<
-    QueryProfessores,
-    QueryProfessoresVariables
-  >({
-    query: QUERY_PROFESSORES,
-    variables: { limit: 9 },
-    fetchPolicy: 'no-cache'
-  })
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await protectedRoutes(context)
 
   return {
-    revalidate: 60,
     props: {
-      users: data.professores.map((prof) => ({
-        id: prof.id,
-        name: prof.name,
-        email: prof.user?.email,
-        username: prof.user?.username,
-        avatar: `http://localhost:1337${prof.user?.avatar?.src}`,
-        isActive: !prof.user?.blocked
-      })),
       title: 'Professores'
     }
   }
