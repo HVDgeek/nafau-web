@@ -1,8 +1,12 @@
-import { gql } from '@apollo/client'
+import { gql, QueryHookOptions, useQuery } from '@apollo/client'
 import { InstitutionFragment } from 'graphql/fragments/institution'
 import { AlunoFragment, ProfessorFragment } from 'graphql/fragments/person'
 import { TurmaFragment } from 'graphql/fragments/turma'
 import { UserFragment } from 'graphql/fragments/user'
+import {
+  QueryTurmas,
+  QueryTurmasVariables
+} from 'graphql/generated/QueryTurmas'
 
 export const QUERY_TURMAS = gql`
   query QueryTurmas($limit: Int!) {
@@ -23,6 +27,11 @@ export const QUERY_TURMAS = gql`
       aulas {
         id
         title
+      }
+    }
+    turmasConnection {
+      values {
+        id
       }
     }
   }
@@ -61,3 +70,9 @@ export const QUERY_TURMA_BY_ID = gql`
   ${UserFragment}
   ${InstitutionFragment}
 `
+
+export function useQueryTurmas(
+  options?: QueryHookOptions<QueryTurmas, QueryTurmasVariables>
+) {
+  return useQuery<QueryTurmas, QueryTurmasVariables>(QUERY_TURMAS, options)
+}

@@ -12,11 +12,15 @@ import Sidebar from 'components/Sidebar'
 import { Main } from 'templates/Users'
 import ShowMore from 'components/ShowMore'
 import { LinkProps } from 'components/Sidebar'
+import LoadingClient from 'components/LoadingClient'
 
 export type CourseTemplateProps = {
   route?: string
   courses: ClassCardProps[]
-  onSubmit: () => (event: React.MouseEvent<HTMLButtonElement>) => void
+  loading: boolean
+  hasMore: boolean
+  onSubmit: () => void
+  handleShowMore: () => void
   title: string
   withRegister: boolean
   links: LinkProps[]
@@ -27,7 +31,10 @@ export type CourseTemplateProps = {
 const Course = ({
   route,
   courses = [],
+  loading,
+  hasMore,
   onSubmit,
+  handleShowMore,
   title = 'Minhas turmas',
   withRegister = false,
   links,
@@ -41,34 +48,38 @@ const Course = ({
       <Container>
         <Main>
           <Sidebar links={links} activeLink={asPath} />
-          <ScaleFade initialScale={0.9} in={true}>
-            <Flex justifyContent="space-between" ml={4}>
-              <Heading lineLeft color={themes.colors.lightGray}>
-                {title}
-              </Heading>
-              {withRegister && (
-                <Button
-                  onClick={onSubmit}
-                  size="sm"
-                  leftIcon={<Icon as={FaPlus} />}
-                >
-                  Cadastrar
-                </Button>
+          {loading ? (
+            <LoadingClient title={title} />
+          ) : (
+            <ScaleFade initialScale={0.9} in={true}>
+              <Flex justifyContent="space-between" ml={4}>
+                <Heading lineLeft color={themes.colors.lightGray}>
+                  {title}
+                </Heading>
+                {withRegister && (
+                  <Button
+                    onClick={onSubmit}
+                    size="sm"
+                    leftIcon={<Icon as={FaPlus} />}
+                  >
+                    Cadastrar
+                  </Button>
+                )}
+              </Flex>
+              <CoursesList
+                route={route}
+                titleSemTurma={titleSemTurma}
+                descriptionSemTurma={descriptionSemTurma}
+                courses={courses}
+              />
+              {hasMore && (
+                <ShowMore
+                  tooltipText="Carregar mais Turmas!"
+                  onClick={handleShowMore}
+                />
               )}
-            </Flex>
-            <CoursesList
-              route={route}
-              titleSemTurma={titleSemTurma}
-              descriptionSemTurma={descriptionSemTurma}
-              courses={courses}
-            />
-            <ShowMore
-              tooltipText="Carregar mais Turmas!"
-              onClick={() => {
-                console.log('SHow more')
-              }}
-            />
-          </ScaleFade>
+            </ScaleFade>
+          )}
         </Main>
       </Container>
     </Base>

@@ -1,17 +1,43 @@
+import { useRouter } from 'next/router'
+import { GetServerSidePropsContext } from 'next'
+
 import Course, { CourseTemplateProps } from 'templates/Course'
 import sidebarManagerMock from 'components/Sidebar/managerMock'
-import { initializeApollo } from 'utils/apollo'
-import {
-  QueryTurmas,
-  QueryTurmasVariables
-} from 'graphql/generated/QueryTurmas'
-import { QUERY_TURMAS } from 'graphql/queries/turmas'
+import { useQueryTurmas } from 'graphql/queries/turmas'
 import { useSession } from 'next-auth/client'
-import { useRouter } from 'next/router'
+import protectedRoutes from 'utils/protected-routes'
+import { ClassCardProps } from 'components/ClassCard'
 
 export default function Courses(props: CourseTemplateProps) {
   const [session, loadingSession] = useSession()
   const { asPath } = useRouter()
+
+  let hasMoreTurmas = false
+  const { data, loading, fetchMore } = useQueryTurmas({
+    // notifyOnNetworkStatusChange: true,
+    variables: { limit: 10 }
+  })
+
+  if (data) {
+    hasMoreTurmas =
+      data?.turmas.length < (data?.turmasConnection?.values?.length || 0)
+  }
+
+  const courses = data?.turmas.map((turma) => ({
+    id: turma.id,
+    title: turma.title,
+    code: turma.code,
+    status: turma.status,
+    // timing: 50,
+    lastLesson: turma.aulas.length && {
+      title: turma.aulas[turma.aulas.length].title
+    },
+    teacher: {
+      name: turma.teachers[0].name,
+      avatar: `http://localhost:1337${turma.teachers[0].user?.avatar?.src}`
+    },
+    countAlunos: turma.alunos.length
+  })) as ClassCardProps[]
 
   if (typeof window !== undefined && loadingSession) return null
 
@@ -19,46 +45,37 @@ export default function Courses(props: CourseTemplateProps) {
     window.location.href = `/sign-in?callbackUrl=${asPath}`
   }
 
+  const handleShowMore = () => {
+    fetchMore({
+      variables: { limit: 9, start: data?.turmas.length }
+    })
+  }
+
   return (
     <Course
       {...props}
+      loading={loading}
+      courses={courses}
       withRegister
-      title="Turmas"
       route="course"
       links={sidebarManagerMock}
       titleSemTurma="Nenhuma turma cadastrada!"
       descriptionSemTurma="Você precisa cadastrar novas turma para que apareça aqui. Abraços 😃"
+      hasMore={hasMoreTurmas}
+      onSubmit={() => {
+        console.log('ADD TURMA')
+      }}
+      handleShowMore={handleShowMore}
     />
   )
 }
 
-export async function getStaticProps() {
-  const apolloClient = initializeApollo()
-
-  const { data } = await apolloClient.query<QueryTurmas, QueryTurmasVariables>({
-    query: QUERY_TURMAS,
-    variables: { limit: 10 },
-    fetchPolicy: 'no-cache'
-  })
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await protectedRoutes(context)
 
   return {
-    revalidate: 60,
     props: {
-      courses: data.turmas.map((turma) => ({
-        id: turma.id,
-        title: turma.title,
-        code: turma.code,
-        status: turma.status,
-        // timing: 50,
-        lastLesson: turma.aulas.length && {
-          title: turma.aulas[turma.aulas.length].title
-        },
-        teacher: {
-          name: turma.teachers[0].name,
-          avatar: `http://localhost:1337${turma.teachers[0].user?.avatar?.src}`
-        },
-        countAlunos: turma.alunos.length
-      }))
+      title: 'Turmas'
     }
   }
 }
