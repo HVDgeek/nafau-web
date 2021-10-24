@@ -40,6 +40,14 @@ const FormSignIn = () => {
           })
 
           if (result?.url) {
+            toast({
+              title: `Bem vindo ao NAFAU 😃`,
+              // variant: 'left-accent',
+              position: 'top-right',
+              // description: 'Verifique as suas credenciais e tente novamente',
+              status: 'success',
+              isClosable: true
+            })
             return push(result.url)
           }
 
