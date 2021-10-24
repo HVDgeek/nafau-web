@@ -1,9 +1,4 @@
-import { initializeApollo } from 'utils/apollo'
-import {
-  QueryAlunos,
-  QueryAlunosVariables
-} from 'graphql/generated/QueryAlunos'
-import { QUERY_ALUNOS, useQueryAlunos } from 'graphql/queries/alunos'
+import { useQueryAlunos } from 'graphql/queries/alunos'
 import UsersTemplate, { UsersTemplateProps } from 'templates/Users'
 import { UserCardProps } from 'components/UserCard'
 import { useSession } from 'next-auth/client'
@@ -65,17 +60,9 @@ export default function StudentsPage(props: UsersTemplateProps) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await protectedRoutes(context)
-  const apolloClient = initializeApollo(null, session)
-
-  await apolloClient.query<QueryAlunos, QueryAlunosVariables>({
-    query: QUERY_ALUNOS,
-    variables: { limit: 9 },
-    fetchPolicy: 'no-cache'
-  })
 
   return {
     props: {
-      initializeApolloState: apolloClient.cache.extract(),
       title: 'Estudantes'
     }
   }

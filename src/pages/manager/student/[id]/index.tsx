@@ -1,22 +1,15 @@
-import { GetStaticProps } from 'next'
-import { useRouter } from 'next/router'
+import { GetServerSidePropsContext } from 'next'
 import UsersRegisterTemplate, {
   UsersRegisterTemplateProps
 } from 'templates/UsersRegister'
 import { initializeApollo } from 'utils/apollo'
-import { QUERY_ALUNOS, QUERY_ALUNO_BY_ID } from 'graphql/queries/alunos'
-import {
-  QueryAlunos,
-  QueryAlunosVariables
-} from 'graphql/generated/QueryAlunos'
+import { QUERY_ALUNO_BY_ID } from 'graphql/queries/alunos'
 import {
   QueryAlunoById,
   QueryAlunoByIdVariables
 } from 'graphql/generated/QueryAlunoById'
 import { FormikHelpers } from 'formik'
-import { useSession } from 'next-auth/client'
-
-const apolloClient = initializeApollo()
+import protectedRoutes from 'utils/protected-routes'
 
 export type Values = Omit<
   UsersRegisterTemplateProps,
@@ -29,9 +22,6 @@ export type Values = Omit<
 }
 
 export default function Index(props: UsersRegisterTemplateProps) {
-  const router = useRouter()
-  const [session, loadingSession] = useSession()
-
   const initialValues = {
     name: props.name,
     email: props.user?.email,
@@ -45,23 +35,12 @@ export default function Index(props: UsersRegisterTemplateProps) {
     confirm_password: ''
   }
 
-  if (typeof window !== undefined && loadingSession) return null
-
-  if (!session) {
-    window.location.href = `/sign-in?callbackUrl=${router.asPath}`
-  }
-
   const onSubmit = async (
     values: Values,
     { setErrors, resetForm }: FormikHelpers<Values>
   ) => {
     console.log('ON SUBMIT', JSON.stringify(values, null, 2))
   }
-
-  // se a rota não tiver sido gerada ainda
-  // você pode mostrar um loading
-  // uma tela de esqueleto
-  if (router.isFallback) return null
 
   return (
     <UsersRegisterTemplate
@@ -72,21 +51,12 @@ export default function Index(props: UsersRegisterTemplateProps) {
   )
 }
 
-// gerar em build time (/aluno/bla, /aluno/foo ...)
-export async function getStaticPaths() {
-  const { data } = await apolloClient.query<QueryAlunos, QueryAlunosVariables>({
-    query: QUERY_ALUNOS,
-    variables: { limit: 9 }
-  })
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await protectedRoutes(context)
+  const apolloClient = initializeApollo(null, session)
 
-  const paths = data.alunos.map(({ id }) => ({
-    params: { id }
-  }))
+  const { params } = context
 
-  return { paths, fallback: true }
-}
-
-export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { data } = await apolloClient.query<
     QueryAlunoById,
     QueryAlunoByIdVariables
@@ -97,13 +67,14 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   })
 
   if (!data.aluno) {
-    return { notFound: true }
+    return {
+      notFound: true
+    }
   }
 
   const { aluno } = data
 
   return {
-    revalidate: 60,
     props: {
       name: aluno.name,
       sexo: aluno.sexo,
