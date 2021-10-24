@@ -3,6 +3,7 @@ import { Container } from 'components/Container'
 import Footer from 'components/Footer'
 import Menu from 'components/Menu'
 import { useSession } from 'next-auth/client'
+import { useEffect } from 'react'
 
 export type BaseTemplateProps = {
   children: React.ReactNode
@@ -10,6 +11,10 @@ export type BaseTemplateProps = {
 
 const Base = ({ children }: BaseTemplateProps) => {
   const [session] = useSession()
+
+  useEffect(() => {
+    localStorage.setItem('@nafau-session', JSON.stringify(session))
+  }, [session])
 
   return (
     <Flex

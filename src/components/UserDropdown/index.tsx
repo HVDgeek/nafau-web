@@ -44,7 +44,10 @@ const UserDropdown = ({ username }: UserDropdownProps) => {
           _hover={{
             background: 'purple.500'
           }}
-          onClick={() => signOut()}
+          onClick={() => {
+            localStorage.removeItem('@nafau-session')
+            signOut()
+          }}
         >
           <RiLogoutBoxLine color="#ffffff" />
           <Text fontSize="small" color="white" marginLeft={2} as="span">

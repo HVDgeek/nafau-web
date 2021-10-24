@@ -8,6 +8,8 @@ import UsersTemplate, { UsersTemplateProps } from 'templates/Users'
 import { UserCardProps } from 'components/UserCard'
 import { useSession } from 'next-auth/client'
 import { useRouter } from 'next/router'
+import { GetServerSidePropsContext } from 'next'
+import protectedRoutes from 'utils/protected-routes'
 
 export default function StudentsPage(props: UsersTemplateProps) {
   let hasMoreAlunos = false
@@ -61,8 +63,9 @@ export default function StudentsPage(props: UsersTemplateProps) {
   )
 }
 
-export async function getStaticProps() {
-  const apolloClient = initializeApollo()
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await protectedRoutes(context)
+  const apolloClient = initializeApollo(null, session)
 
   await apolloClient.query<QueryAlunos, QueryAlunosVariables>({
     query: QUERY_ALUNOS,
@@ -71,7 +74,6 @@ export async function getStaticProps() {
   })
 
   return {
-    revalidate: 60,
     props: {
       initializeApolloState: apolloClient.cache.extract(),
       title: 'Estudantes'

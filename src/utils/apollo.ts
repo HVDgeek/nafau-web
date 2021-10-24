@@ -11,11 +11,22 @@ function createApolloClient(session?: Session | null) {
     uri: `${process.env.NEXT_PUBLIC_API_URL}/graphql`
   })
 
-  const authLink = setContext((_, { headers, session: clientSession }) => {
-    const jwt = session?.jwt || clientSession?.jwt || ''
-    const authorization = jwt ? `Bearer ${jwt}` : ''
-    return { headers: { ...headers, authorization } }
-  })
+  const authLink = setContext(
+    async (_, { headers, session: clientSession }) => {
+      if (typeof window !== 'undefined') {
+        const sess = JSON.parse(localStorage.getItem('@nafau-session') as any)
+
+        if (sess) {
+          const authorization = sess ? `Bearer ${sess?.jwt}` : ''
+          return { headers: { ...headers, authorization } }
+        }
+      }
+
+      const jwt = session?.jwt || clientSession?.jwt || ''
+      const authorization = jwt ? `Bearer ${jwt}` : ''
+      return { headers: { ...headers, authorization } }
+    }
+  )
 
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
@@ -42,7 +53,7 @@ export function initializeApollo(
   // cria o apolloClient se estiver no client side
   apolloClient = apolloClient ?? apolloClientGlobal
 
-  return apolloClient
+  return apolloClientGlobal
 }
 
 export function useApollo(initialState = null, session?: Session) {
