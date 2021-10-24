@@ -42,8 +42,19 @@ export interface QueryAtendentes_atendentes {
   user: QueryAtendentes_atendentes_user | null;
 }
 
+export interface QueryAtendentes_atendentesConnection_values {
+  __typename: "Atendentes";
+  id: string;
+}
+
+export interface QueryAtendentes_atendentesConnection {
+  __typename: "AtendentesConnection";
+  values: (QueryAtendentes_atendentesConnection_values | null)[] | null;
+}
+
 export interface QueryAtendentes {
   atendentes: QueryAtendentes_atendentes[];
+  atendentesConnection: QueryAtendentes_atendentesConnection | null;
 }
 
 export interface QueryAtendentesVariables {

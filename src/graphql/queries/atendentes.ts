@@ -1,7 +1,11 @@
-import { gql } from '@apollo/client'
+import { gql, QueryHookOptions, useQuery } from '@apollo/client'
 import { InstitutionFragment } from 'graphql/fragments/institution'
 import { AtendenteFragment } from 'graphql/fragments/person'
 import { UserFragment } from 'graphql/fragments/user'
+import {
+  QueryAtendentes,
+  QueryAtendentesVariables
+} from 'graphql/generated/QueryAtendentes'
 
 export const QUERY_ATENDENTES = gql`
   query QueryAtendentes($limit: Int!) {
@@ -12,6 +16,11 @@ export const QUERY_ATENDENTES = gql`
         institution {
           ...InstitutionFragment
         }
+      }
+    }
+    atendentesConnection {
+      values {
+        id
       }
     }
   }
@@ -36,3 +45,12 @@ export const QUERY_ATENDENTE_BY_ID = gql`
   ${UserFragment}
   ${InstitutionFragment}
 `
+
+export function useQueryAtendentes(
+  options?: QueryHookOptions<QueryAtendentes, QueryAtendentesVariables>
+) {
+  return useQuery<QueryAtendentes, QueryAtendentesVariables>(
+    QUERY_ATENDENTES,
+    options
+  )
+}

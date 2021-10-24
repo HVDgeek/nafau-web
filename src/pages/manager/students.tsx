@@ -1,9 +1,10 @@
+import { GetServerSidePropsContext } from 'next'
+import { useSession } from 'next-auth/client'
+import { useRouter } from 'next/router'
+
 import { useQueryAlunos } from 'graphql/queries/alunos'
 import UsersTemplate, { UsersTemplateProps } from 'templates/Users'
 import { UserCardProps } from 'components/UserCard'
-import { useSession } from 'next-auth/client'
-import { useRouter } from 'next/router'
-import { GetServerSidePropsContext } from 'next'
 import protectedRoutes from 'utils/protected-routes'
 
 export default function StudentsPage(props: UsersTemplateProps) {
