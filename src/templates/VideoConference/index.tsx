@@ -81,13 +81,17 @@ const VideoConferenceTemplate = ({
               )} */}
               <div>
                 {call ? (
-                  <Jutsu
-                    roomName={room}
-                    password={password}
-                    displayName={name}
-                    onMeetingEnd={() => window.location.reload()}
-                    loadingComponent={<p>ʕ •ᴥ•ʔ jitsi is loading ...</p>}
-                  />
+                  <div style={{ marginTop: '20px', height: '75vh' }}>
+                    <Jutsu
+                      roomName={room}
+                      password={password}
+                      displayName={name}
+                      onMeetingEnd={() => {
+                        setCall(false)
+                      }}
+                      loadingComponent={<p>ʕ •ᴥ•ʔ jitsi is loading ...</p>}
+                    />
+                  </div>
                 ) : (
                   <form>
                     <Input

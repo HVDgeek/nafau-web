@@ -30,36 +30,38 @@ const useJitsi = ({
       return
     }
 
-    // const myOverwrite = {
-    //   TOOLBAR_BUTTONS: [
-    //     'microphone',
-    //     'camera',
-    //     'closedcaptions',
-    //     'desktop',
-    //     'fullscreen',
-    //     'fodeviceselection',
-    //     'hangup',
-    //     'profile',
-    //     'recording',
-    //     'livestreaming',
-    //     'etherpad',
-    //     'sharedvideo',
-    //     'settings',
-    //     'raisehand',
-    //     'videoquality',
-    //     'filmstrip',
-    //     'invite',
-    //     'feedback',
-    //     'stats',
-    //     'shortcuts',
-    //     'tileview',
-    //     'videobackgroundblur',
-    //     'download',
-    //     'help',
-    //     'mute-everyone',
-    //     'security'
-    //   ]
-    // }
+    const myOverwrite = {
+      TOOLBAR_BUTTONS: [
+        'microphone',
+        'camera',
+        // 'closedcaptions',
+        'desktop',
+        'fullscreen',
+        'chat',
+        'participants-pane',
+        // 'fodeviceselection',
+        'hangup',
+        // 'profile',
+        // 'recording',
+        // 'livestreaming',
+        // 'etherpad',
+        // 'sharedvideo',
+        // 'settings',
+        'raisehand',
+        // 'videoquality',
+        // 'filmstrip',
+        // 'invite',
+        // 'feedback',
+        // 'stats',
+        // 'shortcuts',
+        'tileview'
+        // 'videobackgroundblur',
+        // 'download',
+        // 'help',
+        // 'mute-everyone',
+        // 'security'
+      ]
+    }
 
     const client = new window.JitsiMeetExternalAPI(domain, {
       ...options,
@@ -67,9 +69,7 @@ const useJitsi = ({
         enableClosePage: true,
         prejoinPageEnabled: true
       },
-      interfaceConfigOverwrite: {
-        SHOW_PROMOTIONAL_CLOSE_PAGE: true
-      }
+      interfaceConfigOverwrite: myOverwrite
     })
     setJitsi(client)
     setLoading(false)
