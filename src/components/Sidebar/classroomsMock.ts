@@ -19,7 +19,7 @@ export default [
     children: 'Discussões'
   },
   {
-    route: '/classrooms/video',
+    route: '/classrooms/video-conference',
     icon: BsCameraVideoFill,
     children: 'Vídeo conferência'
   }

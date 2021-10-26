@@ -18,6 +18,7 @@ export default class MyDocument extends Document {
         </Head>
         <body>
           <Main />
+          <script src="https://meet.jit.si/external_api.js"></script>
           <NextScript />
         </body>
       </Html>
