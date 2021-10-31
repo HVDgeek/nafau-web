@@ -13,15 +13,6 @@ function createApolloClient(session?: Session | null) {
 
   const authLink = setContext(
     async (_, { headers, session: clientSession }) => {
-      if (typeof window !== 'undefined') {
-        const sess = JSON.parse(localStorage.getItem('@nafau-session') as any)
-
-        if (sess) {
-          const authorization = sess ? `Bearer ${sess?.jwt}` : ''
-          return { headers: { ...headers, authorization } }
-        }
-      }
-
       const jwt = session?.jwt || clientSession?.jwt || ''
       const authorization = jwt ? `Bearer ${jwt}` : ''
       return { headers: { ...headers, authorization } }

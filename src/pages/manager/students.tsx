@@ -15,6 +15,8 @@ export default function StudentsPage(props: UsersTemplateProps) {
   let hasMoreAlunos = false
   const { data, loading, fetchMore } = useQueryAlunos({
     // notifyOnNetworkStatusChange: true,
+    skip: !session?.user?.email, // Não roda se não tiver session
+    context: { session }, // passando a session de autentication
     variables: {
       limit: 9,
       institutionId: (props.session as SessionProps)?.user?.institution

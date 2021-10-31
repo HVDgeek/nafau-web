@@ -45,7 +45,6 @@ const UserDropdown = ({ username }: UserDropdownProps) => {
             background: 'purple.500'
           }}
           onClick={() => {
-            localStorage.removeItem('@nafau-session')
             signOut()
           }}
         >

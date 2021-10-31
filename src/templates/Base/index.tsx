@@ -12,10 +12,6 @@ export type BaseTemplateProps = {
 const Base = ({ children }: BaseTemplateProps) => {
   const [session] = useSession()
 
-  useEffect(() => {
-    localStorage.setItem('@nafau-session', JSON.stringify(session))
-  }, [session])
-
   return (
     <Flex
       as="section"

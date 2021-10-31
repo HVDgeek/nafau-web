@@ -16,6 +16,8 @@ export default function Courses(props: CourseTemplateProps) {
   let hasMoreTurmas = false
   const { data, loading, fetchMore } = useQueryTurmas({
     // notifyOnNetworkStatusChange: true,
+    skip: !session?.user?.email, // Não roda se não tiver session
+    context: { session }, // passando a session de autentication
     variables: {
       limit: 10,
       institutionId: (props.session as SessionProps)?.user?.institution

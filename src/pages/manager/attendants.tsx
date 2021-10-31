@@ -14,6 +14,8 @@ export default function AttendantsPage(props: UsersTemplateProps) {
 
   let hasMoreAtendentes = false
   const { data, loading, fetchMore } = useQueryAtendentes({
+    skip: !session?.user?.email, // Não roda se não tiver session
+    context: { session }, // passando a session de autentication
     variables: {
       limit: 9,
       institutionId: (props.session as SessionProps)?.user?.institution
