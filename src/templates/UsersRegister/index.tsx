@@ -25,7 +25,7 @@ export type UsersRegisterTemplateProps = {
   birthday: string
   telefone: string
   numero_do_BI: string
-  numeroDeMatricula?: string
+  numeroDeMatricula: string
   user: UserCardProps
   initialValues: any
   onSubmit: (

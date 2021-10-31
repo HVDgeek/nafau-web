@@ -1,5 +1,4 @@
 import { GetServerSidePropsContext } from 'next'
-import { initializeApollo } from 'utils/apollo'
 import { FormikHelpers } from 'formik'
 
 import UsersRegisterTemplate, {
@@ -7,18 +6,26 @@ import UsersRegisterTemplate, {
 } from 'templates/UsersRegister'
 
 import protectedRoutes from 'utils/protected-routes'
+import { useStudent } from 'hooks/use-student'
+import { SessionProps } from 'pages/api/auth/[...nextauth]'
+
+import { v4 as uuidV4 } from 'uuid'
+import { ENUM_ALUNOS_SEXO } from 'graphql/generated/globalTypes'
 
 export type Values = Omit<
   UsersRegisterTemplateProps,
   'onSubmit' | 'user' | 'initialValues'
 > & {
   username: string
+  email: string
   isActive: boolean
   password?: string
   confirm_password?: string
 }
 
-export default function Index(props: UsersRegisterTemplateProps) {
+export default function CreateStudentPage(props: UsersRegisterTemplateProps) {
+  const { addStudent } = useStudent()
+
   const initialValues = {
     name: props.name,
     email: props.user?.email,
@@ -36,7 +43,19 @@ export default function Index(props: UsersRegisterTemplateProps) {
     values: Values,
     { setErrors, resetForm }: FormikHelpers<Values>
   ) => {
-    console.log('ON SUBMIT', JSON.stringify(values, null, 2))
+    addStudent({
+      blocked: !values.isActive,
+      email: values.email,
+      institution: (props.session as SessionProps).user.institution,
+      password: values.password!,
+      username: `${values.username}*#nafau#*${uuidV4()}`,
+      birthday: values.birthday,
+      name: values.name,
+      numero_do_BI: values.numero_do_BI,
+      numeroDeMatricula: values.numeroDeMatricula,
+      sexo: values.sexo as ENUM_ALUNOS_SEXO,
+      telefone: values.telefone
+    })
   }
 
   return (

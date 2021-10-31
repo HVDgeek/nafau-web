@@ -50,7 +50,7 @@ const UserCard = ({
           </Text>
           {!!username && (
             <Text fontSize="small" color="gray.300">
-              @{username}
+              @{username?.split('*#nafau#*')[0] || username}
             </Text>
           )}
         </Box>

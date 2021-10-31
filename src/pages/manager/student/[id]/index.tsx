@@ -18,6 +18,7 @@ export type Values = Omit<
   'onSubmit' | 'user' | 'initialValues'
 > & {
   username: string
+  email: string
   isActive: boolean
   password?: string
   confirm_password?: string

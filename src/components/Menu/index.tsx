@@ -113,7 +113,7 @@ const Menu = ({ username }: MenuProps) => {
             </Box>
           </Box>
         </IconButton>
-        <UserDropdown username={username} />
+        <UserDropdown username={username?.split('*#nafau#*')[0] || username} />
       </HStack>
       {!isDesktopVersion && isDesktopVersion !== undefined && (
         <SideMenu {...disclosure} />

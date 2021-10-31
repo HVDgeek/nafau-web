@@ -33,7 +33,7 @@ const FormProfile = ({ email, username }: FormProfileProps) => {
         <Formik
           // validationSchema={SignInSchema}
           initialValues={{
-            name: username,
+            name: username?.split('*#nafau#*')[0] || username,
             email: email,
             password: ''
           }}

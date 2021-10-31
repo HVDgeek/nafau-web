@@ -10,7 +10,7 @@ import { SessionProps } from 'pages/api/auth/[...nextauth]'
 
 export default function StudentsPage(props: UsersTemplateProps) {
   const [session, loadingSession] = useSession()
-  const { asPath } = useRouter()
+  const { asPath, push } = useRouter()
 
   let hasMoreAlunos = false
   const { data, loading, fetchMore } = useQueryAlunos({
@@ -62,7 +62,7 @@ export default function StudentsPage(props: UsersTemplateProps) {
       title="Estudantes"
       hasMore={hasMoreAlunos}
       onSubmit={() => {
-        console.log('ADD ALUNO')
+        push('student/create')
       }}
       handleShowMore={handleShowMore}
     />
