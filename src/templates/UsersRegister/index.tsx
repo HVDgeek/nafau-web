@@ -18,6 +18,7 @@ type MainProps = {
 }
 
 export type UsersRegisterTemplateProps = {
+  id: string
   session: Session
   name: string
   title: string
@@ -28,6 +29,7 @@ export type UsersRegisterTemplateProps = {
   numeroDeMatricula: string
   user: UserCardProps
   initialValues: any
+  createForm: boolean
   onSubmit: (
     values: any,
     formikHelpers: FormikHelpers<any>
@@ -70,14 +72,18 @@ export const Main = ({ children }: MainProps) => {
   )
 }
 
-const UsersRegisterTemplate = (props: UsersRegisterTemplateProps) => {
+const UsersRegisterTemplate = ({
+  onSubmit,
+  initialValues,
+  title,
+  createForm = true
+}: UsersRegisterTemplateProps) => {
   const isDesktopVersion = useBreakpointValue({
     base: false,
     md: true
   })
 
   const { asPath } = useRouter()
-  const { onSubmit, initialValues, title } = props
 
   return (
     <Base>
@@ -93,7 +99,11 @@ const UsersRegisterTemplate = (props: UsersRegisterTemplateProps) => {
                   {title}
                 </Heading>
                 <ScaleFade initialScale={0.9} in={true}>
-                  <FormUser onSubmit={onSubmit} initialValues={initialValues} />
+                  <FormUser
+                    onSubmit={onSubmit}
+                    initialValues={initialValues}
+                    createForm={createForm}
+                  />
                 </ScaleFade>
               </Box>
             </Main>
@@ -102,7 +112,11 @@ const UsersRegisterTemplate = (props: UsersRegisterTemplateProps) => {
               <UserMenu activeLink={asPath} />
               <Box w="100%" bgColor="gray.800" p={4}>
                 <ScaleFade initialScale={0.9} in={true}>
-                  <FormUser onSubmit={onSubmit} initialValues={initialValues} />
+                  <FormUser
+                    onSubmit={onSubmit}
+                    initialValues={initialValues}
+                    createForm={createForm}
+                  />
                 </ScaleFade>
               </Box>
             </Box>

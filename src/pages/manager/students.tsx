@@ -43,6 +43,10 @@ export default function StudentsPage(props: UsersTemplateProps) {
     window.location.href = `/sign-in?callbackUrl=${asPath}`
   }
 
+  const onRemove = (id: string) => {
+    console.log('REMOVER', id)
+  }
+
   const handleShowMore = () => {
     fetchMore({
       variables: {
@@ -61,6 +65,7 @@ export default function StudentsPage(props: UsersTemplateProps) {
       route="student"
       title="Estudantes"
       hasMore={hasMoreAlunos}
+      onRemove={onRemove}
       onSubmit={() => {
         push('student/create')
       }}

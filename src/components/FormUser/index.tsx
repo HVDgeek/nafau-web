@@ -26,13 +26,14 @@ type FieldType = {
 
 export type FormUserProps = {
   initialValues: any
+  createForm: boolean
   onSubmit: (
     values: any,
     formikHelpers: FormikHelpers<any>
   ) => void | Promise<any>
 }
 
-const FormUser = ({ onSubmit, initialValues }: FormUserProps) => {
+const FormUser = ({ onSubmit, initialValues, createForm }: FormUserProps) => {
   const isDesktopVersion = useBreakpointValue({
     base: false,
     md: true,
@@ -131,22 +132,26 @@ const FormUser = ({ onSubmit, initialValues }: FormUserProps) => {
                   name="username"
                   placeholder="Nome do Usuário"
                 />
-                <TextField
-                  label="Senha"
-                  placeholder="Senha"
-                  name="password"
-                  IconField={HiOutlineLockClosed}
-                  isPasswordField
-                  withIcon={true}
-                />
-                <TextField
-                  label="Confirmar senha"
-                  placeholder="Confirmar senha"
-                  name="confirm_password"
-                  IconField={HiOutlineLockClosed}
-                  isPasswordField
-                  withIcon={true}
-                />
+                {createForm && (
+                  <TextField
+                    label="Senha"
+                    placeholder="Senha"
+                    name="password"
+                    IconField={HiOutlineLockClosed}
+                    isPasswordField
+                    withIcon={true}
+                  />
+                )}
+                {createForm && (
+                  <TextField
+                    label="Confirmar senha"
+                    placeholder="Confirmar senha"
+                    name="confirm_password"
+                    IconField={HiOutlineLockClosed}
+                    isPasswordField
+                    withIcon={true}
+                  />
+                )}
                 <Field name="isActive">
                   {({ field }: FieldType) => (
                     <FormControl

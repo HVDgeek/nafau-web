@@ -3,7 +3,8 @@ import { useSession } from 'next-auth/client'
 import { useMutation } from '@apollo/client'
 import {
   MUTATION_CREATE_USER,
-  MUTATION_DELETE_USER
+  MUTATION_DELETE_USER,
+  MUTATION_UPDATE_USER
 } from 'graphql/mutations/user'
 import {
   MutationCreateUser,
@@ -13,13 +14,29 @@ import {
   MutationCreateAluno,
   MutationCreateAlunoVariables
 } from 'graphql/generated/MutationCreateAluno'
-import { MUTATION_CREATE_ALUNO } from 'graphql/mutations/aluno'
+import {
+  MUTATION_CREATE_ALUNO,
+  MUTATION_DELETE_ALUNO,
+  MUTATION_UPDATE_ALUNO
+} from 'graphql/mutations/aluno'
 import { ENUM_ALUNOS_SEXO } from 'graphql/generated/globalTypes'
 import { useToast } from '@chakra-ui/toast'
 import {
   MutationDeleteUser,
   MutationDeleteUserVariables
 } from 'graphql/generated/MutationDeleteUser'
+import {
+  MutationUpdateAluno,
+  MutationUpdateAlunoVariables
+} from 'graphql/generated/MutationUpdateAluno'
+import {
+  MutationUpdateUser,
+  MutationUpdateUserVariables
+} from 'graphql/generated/MutationUpdateUser'
+import {
+  MutationDeleteAluno,
+  MutationDeleteAlunoVariables
+} from 'graphql/generated/MutationDeleteAluno'
 
 export type StudentPayload = {
   // User
@@ -39,7 +56,7 @@ export type StudentPayload = {
 
 export type StudentContextData = {
   addStudent: (data: StudentPayload) => void
-  updateStudent: () => void
+  updateStudent: (id: string, data: StudentPayload) => void
   removeStudent: (id: string) => void
   loading: boolean
 }
@@ -81,6 +98,27 @@ const StudentProvider = ({ children }: StudentProviderProps) => {
     MutationDeleteUser,
     MutationDeleteUserVariables
   >(MUTATION_DELETE_USER, {
+    context: { session }
+  })
+
+  const [deleteAluno, { loading: loadingDeleteAluno }] = useMutation<
+    MutationDeleteAluno,
+    MutationDeleteAlunoVariables
+  >(MUTATION_DELETE_ALUNO, {
+    context: { session }
+  })
+
+  const [updateAluno, { loading: loadingUpdateAluno }] = useMutation<
+    MutationUpdateAluno,
+    MutationUpdateAlunoVariables
+  >(MUTATION_UPDATE_ALUNO, {
+    context: { session }
+  })
+
+  const [updateUser, { loading: loadingUpdateUser }] = useMutation<
+    MutationUpdateUser,
+    MutationUpdateUserVariables
+  >(MUTATION_UPDATE_USER, {
     context: { session }
   })
 
@@ -154,8 +192,109 @@ const StudentProvider = ({ children }: StudentProviderProps) => {
         })
       })
   }
-  const updateStudent = () => {}
-  const removeStudent = () => {}
+  const updateStudent = (idStudent: string, payload: StudentPayload) => {
+    updateAluno({
+      variables: {
+        input: {
+          where: { id: idStudent },
+          data: {
+            birthday: payload.birthday,
+            name: payload.name,
+            numero_do_BI: payload.numero_do_BI,
+            numeroDeMatricula: payload.numeroDeMatricula,
+            sexo: payload.sexo,
+            telefone: payload.telefone
+          }
+        }
+      }
+    })
+      .then(({ data }) => {
+        updateUser({
+          variables: {
+            input: {
+              where: { id: data!.updateAluno!.aluno!.user!.id },
+              data: {
+                email: payload.email,
+                username: payload.username,
+                blocked: payload.blocked
+              }
+            }
+          }
+        })
+          .then((res) => {
+            toast({
+              title: `${data?.updateAluno?.aluno?.name} foi atualizado 😃`,
+              // variant: 'left-accent',
+              position: 'top-right',
+              // description: 'Verifique as suas credenciais e tente novamente',
+              status: 'success',
+              isClosable: true
+            })
+          })
+          .catch((error) => {
+            toast({
+              title: `Não foi possível Atualizar os dados deste aluno 😢`,
+              // variant: 'left-accent',
+              position: 'top-right',
+              description: 'Verifique os dados e tente novamente',
+              status: 'error',
+              isClosable: true
+            })
+          })
+      })
+      .catch((error) => {
+        toast({
+          title: `Não foi possível Atualizar os dados deste aluno 😢`,
+          // variant: 'left-accent',
+          position: 'top-right',
+          description: 'Verifique os dados e tente novamente',
+          status: 'error',
+          isClosable: true
+        })
+      })
+  }
+  const removeStudent = (idStudent: string) => {
+    deleteAluno({
+      variables: { input: { where: { id: idStudent } } }
+    })
+      .then(({ data }) => {
+        deleteUser({
+          variables: {
+            input: { where: { id: data!.deleteAluno!.aluno!.user!.id } }
+          }
+        })
+          .then((res) => {
+            toast({
+              title: `${data?.deleteAluno?.aluno?.name} foi removido 😃`,
+              // variant: 'left-accent',
+              position: 'top-right',
+              // description: 'Verifique as suas credenciais e tente novamente',
+              status: 'success',
+              isClosable: true
+            })
+          })
+          .catch((error) => {
+            toast({
+              title: `Não foi possível remover este aluno 😢`,
+              // variant: 'left-accent',
+              position: 'top-right',
+              description: 'Verifique os dados e tente novamente',
+              status: 'error',
+              isClosable: true
+            })
+          })
+      })
+      .catch((error) => {
+        toast({
+          title: `Não foi possível remover este aluno 😢`,
+          // variant: 'left-accent',
+          position: 'top-right',
+          description: 'Verifique os dados e tente novamente',
+          status: 'error',
+          isClosable: true
+        })
+      })
+  }
 
   return (
     <StudentContext.Provider

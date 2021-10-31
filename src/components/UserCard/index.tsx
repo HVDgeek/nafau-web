@@ -14,7 +14,7 @@ export type UserCardProps = {
   username?: string
   avatar?: string
   isActive: boolean
-  onRemove?: () => void
+  onRemove: (id: string) => void
   route?: string
 }
 
@@ -64,7 +64,7 @@ const UserCard = ({
         aria-label="A tooltip"
       >
         <Box p={2} position="absolute" top={0} right={0}>
-          <IconButton onClick={onRemove} ariaLabel="Remover usuário">
+          <IconButton onClick={() => onRemove(id)} ariaLabel="Remover usuário">
             <AiOutlineClose size={18} />
           </IconButton>
         </Box>

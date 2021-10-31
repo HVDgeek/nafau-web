@@ -12,6 +12,10 @@ import {
 } from 'graphql/generated/QueryAlunoById'
 import protectedRoutes from 'utils/protected-routes'
 import { Base64 } from 'js-base64'
+import { useStudent } from 'hooks/use-student'
+import { ENUM_ALUNOS_SEXO } from 'graphql/generated/globalTypes'
+import { SessionProps } from 'pages/api/auth/[...nextauth]'
+import { v4 as uuidV4 } from 'uuid'
 
 export type Values = Omit<
   UsersRegisterTemplateProps,
@@ -24,7 +28,9 @@ export type Values = Omit<
   confirm_password?: string
 }
 
-export default function Index(props: UsersRegisterTemplateProps) {
+export default function UpdateStudentPage(props: UsersRegisterTemplateProps) {
+  const { updateStudent } = useStudent()
+
   const initialValues = {
     name: props.name,
     email: props.user?.email,
@@ -32,7 +38,7 @@ export default function Index(props: UsersRegisterTemplateProps) {
     numero_do_BI: props.numero_do_BI,
     birthday: props.birthday,
     telefone: props.telefone,
-    username: props.user?.username,
+    username: props.user.username?.split('*#nafau#*')[0] || props.user.username,
     isActive: props.user?.isActive,
     password: '',
     confirm_password: ''
@@ -42,7 +48,19 @@ export default function Index(props: UsersRegisterTemplateProps) {
     values: Values,
     { setErrors, resetForm }: FormikHelpers<Values>
   ) => {
-    console.log('ON SUBMIT', JSON.stringify(values, null, 2))
+    updateStudent(props.id, {
+      blocked: !values.isActive,
+      email: values.email,
+      institution: (props.session as SessionProps).user.institution, // Não atualiza
+      password: values.password!,
+      username: `${values.username}*#nafau#*${uuidV4()}`,
+      birthday: values.birthday,
+      name: values.name,
+      numero_do_BI: values.numero_do_BI,
+      numeroDeMatricula: values.numeroDeMatricula,
+      sexo: values.sexo as ENUM_ALUNOS_SEXO,
+      telefone: values.telefone
+    })
   }
 
   return (
@@ -51,6 +69,7 @@ export default function Index(props: UsersRegisterTemplateProps) {
       title={props.name}
       onSubmit={onSubmit}
       initialValues={initialValues}
+      createForm={false}
     />
   )
 }
@@ -80,6 +99,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
+      id: data.aluno.id,
       session: session,
       name: aluno.name,
       sexo: aluno.sexo,

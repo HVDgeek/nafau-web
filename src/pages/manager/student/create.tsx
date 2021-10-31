@@ -11,6 +11,7 @@ import { SessionProps } from 'pages/api/auth/[...nextauth]'
 
 import { v4 as uuidV4 } from 'uuid'
 import { ENUM_ALUNOS_SEXO } from 'graphql/generated/globalTypes'
+import { useToast } from '@chakra-ui/toast'
 
 export type Values = Omit<
   UsersRegisterTemplateProps,
@@ -25,6 +26,7 @@ export type Values = Omit<
 
 export default function CreateStudentPage(props: UsersRegisterTemplateProps) {
   const { addStudent } = useStudent()
+  const toast = useToast()
 
   const initialValues = {
     name: props.name,
@@ -43,6 +45,28 @@ export default function CreateStudentPage(props: UsersRegisterTemplateProps) {
     values: Values,
     { setErrors, resetForm }: FormikHelpers<Values>
   ) => {
+    if (!values.password) {
+      return toast({
+        title: `Preencha o campo de senha 😢`,
+        // variant: 'left-accent',
+        position: 'top-right',
+        description: 'Verifique os dados e tente novamente',
+        status: 'error',
+        isClosable: true
+      })
+    }
+
+    if (values.password !== values.confirm_password) {
+      return toast({
+        title: `As senhas são diferentes 😢`,
+        // variant: 'left-accent',
+        position: 'top-right',
+        description: 'Verifique os dados e tente novamente',
+        status: 'error',
+        isClosable: true
+      })
+    }
+
     addStudent({
       blocked: !values.isActive,
       email: values.email,
