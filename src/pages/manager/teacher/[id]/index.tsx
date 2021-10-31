@@ -11,6 +11,7 @@ import {
   QueryProfessorByIdVariables
 } from 'graphql/generated/QueryProfessorById'
 import protectedRoutes from 'utils/protected-routes'
+import { Base64 } from 'js-base64'
 
 export type Values = Omit<
   UsersRegisterTemplateProps,
@@ -63,7 +64,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     QueryProfessorByIdVariables
   >({
     query: QUERY_PROFESSOR_BY_ID,
-    variables: { id: `${params?.id}` },
+    variables: { id: Base64.decode(`${params?.id}`) },
     fetchPolicy: 'no-cache'
   })
 

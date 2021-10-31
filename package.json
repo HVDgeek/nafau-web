@@ -28,6 +28,7 @@
     "formik": "^2.2.9",
     "framer-motion": "^4.1.17",
     "graphql": "^15.5.1",
+    "js-base64": "^3.7.2",
     "next": "10.2.3",
     "next-auth": "^3.29.0",
     "nextjs-progressbar": "^0.0.11",

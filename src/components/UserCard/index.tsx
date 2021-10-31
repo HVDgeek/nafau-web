@@ -5,6 +5,7 @@ import { AiOutlineClose } from 'react-icons/ai'
 import Button from 'components/Button'
 import IconButton from 'components/IconButton'
 import themes from 'styles/alt-themes'
+import { Base64 } from 'js-base64'
 
 export type UserCardProps = {
   id: string
@@ -68,7 +69,7 @@ const UserCard = ({
           </IconButton>
         </Box>
       </Tooltip>
-      <Link href={`/manager/${route}/${id}`} passHref>
+      <Link href={`/manager/${route}/${Base64.encode(`${id}`)}`} passHref>
         <Button as="a" color="purple" size="sm" fullWidth>
           Ver perfil
         </Button>
