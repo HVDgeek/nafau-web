@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from 'react'
+import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/client'
 import { useMutation } from '@apollo/client'
 import {
@@ -37,6 +38,9 @@ import {
   MutationDeleteAluno,
   MutationDeleteAlunoVariables
 } from 'graphql/generated/MutationDeleteAluno'
+import { QUERY_ALUNOS } from 'graphql/queries/alunos'
+import { SessionProps } from 'pages/api/auth/[...nextauth]'
+import { Base64 } from 'js-base64'
 
 export type StudentPayload = {
   // User
@@ -79,6 +83,7 @@ export const StudentContext = createContext<StudentContextData>(
 const StudentProvider = ({ children }: StudentProviderProps) => {
   const [session] = useSession()
   const toast = useToast()
+  const { push } = useRouter()
 
   const [createUser, { loading: loadingCreateUser }] = useMutation<
     MutationCreateUser,
@@ -91,14 +96,34 @@ const StudentProvider = ({ children }: StudentProviderProps) => {
     MutationCreateAluno,
     MutationCreateAlunoVariables
   >(MUTATION_CREATE_ALUNO, {
-    context: { session }
+    context: { session },
+    refetchQueries: [
+      {
+        query: QUERY_ALUNOS,
+        context: { session },
+        variables: {
+          limit: 9,
+          institutionId: (session as SessionProps)?.user?.institution
+        }
+      }
+    ]
   })
 
   const [deleteUser, { loading: loadingDeleteUser }] = useMutation<
     MutationDeleteUser,
     MutationDeleteUserVariables
   >(MUTATION_DELETE_USER, {
-    context: { session }
+    context: { session },
+    refetchQueries: [
+      {
+        query: QUERY_ALUNOS,
+        context: { session },
+        variables: {
+          limit: 9,
+          institutionId: (session as SessionProps)?.user?.institution
+        }
+      }
+    ]
   })
 
   const [deleteAluno, { loading: loadingDeleteAluno }] = useMutation<
@@ -163,6 +188,12 @@ const StudentProvider = ({ children }: StudentProviderProps) => {
               status: 'success',
               isClosable: true
             })
+            push(
+              `/manager/student/${Base64.encode(
+                res.data!.createAluno!.aluno!.id
+              )}`
+            )
+            return
           })
           .catch((error) => {
             //Delete user
@@ -272,6 +303,7 @@ const StudentProvider = ({ children }: StudentProviderProps) => {
               status: 'success',
               isClosable: true
             })
+            return
           })
           .catch((error) => {
             toast({

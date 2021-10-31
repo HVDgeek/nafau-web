@@ -56,6 +56,17 @@ export default function CreateStudentPage(props: UsersRegisterTemplateProps) {
       })
     }
 
+    if (!values.sexo) {
+      return toast({
+        title: `Preencha o campo de sexo 😢`,
+        // variant: 'left-accent',
+        position: 'top-right',
+        description: 'Verifique os dados e tente novamente',
+        status: 'error',
+        isClosable: true
+      })
+    }
+
     if (values.password !== values.confirm_password) {
       return toast({
         title: `As senhas são diferentes 😢`,

@@ -27,9 +27,8 @@ export const MUTATION_DELETE_USER = gql`
   mutation MutationDeleteUser($input: deleteUserInput!) {
     deleteUser(input: $input) {
       user {
-        ...UserFragment
+        id
       }
     }
   }
-  ${UserFragment}
 `

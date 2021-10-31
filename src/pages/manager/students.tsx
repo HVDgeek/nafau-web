@@ -7,10 +7,12 @@ import UsersTemplate, { UsersTemplateProps } from 'templates/Users'
 import { UserCardProps } from 'components/UserCard'
 import protectedRoutes from 'utils/protected-routes'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
+import { useStudent } from 'hooks/use-student'
 
 export default function StudentsPage(props: UsersTemplateProps) {
   const [session, loadingSession] = useSession()
   const { asPath, push } = useRouter()
+  const { removeStudent } = useStudent()
 
   let hasMoreAlunos = false
   const { data, loading, fetchMore } = useQueryAlunos({
@@ -44,7 +46,7 @@ export default function StudentsPage(props: UsersTemplateProps) {
   }
 
   const onRemove = (id: string) => {
-    console.log('REMOVER', id)
+    removeStudent(id)
   }
 
   const handleShowMore = () => {

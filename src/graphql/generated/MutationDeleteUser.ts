@@ -9,19 +9,9 @@ import { deleteUserInput } from "./globalTypes";
 // GraphQL mutation operation: MutationDeleteUser
 // ====================================================
 
-export interface MutationDeleteUser_deleteUser_user_avatar {
-  __typename: "UploadFile";
-  alternativeText: string | null;
-  src: string;
-}
-
 export interface MutationDeleteUser_deleteUser_user {
   __typename: "UsersPermissionsUser";
   id: string;
-  email: string;
-  username: string;
-  blocked: boolean | null;
-  avatar: MutationDeleteUser_deleteUser_user_avatar | null;
 }
 
 export interface MutationDeleteUser_deleteUser {
