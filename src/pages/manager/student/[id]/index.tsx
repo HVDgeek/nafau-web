@@ -47,6 +47,7 @@ export default function Index(props: UsersRegisterTemplateProps) {
   return (
     <UsersRegisterTemplate
       {...props}
+      title={props.name}
       onSubmit={onSubmit}
       initialValues={initialValues}
     />
@@ -78,6 +79,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
+      session: session,
       name: aluno.name,
       sexo: aluno.sexo,
       birthday: aluno.birthday,

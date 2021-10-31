@@ -5,17 +5,12 @@ import { FormikHelpers } from 'formik'
 import UsersRegisterTemplate, {
   UsersRegisterTemplateProps
 } from 'templates/UsersRegister'
-import { QUERY_PROFESSOR_BY_ID } from 'graphql/queries/professores'
-import {
-  QueryProfessorById,
-  QueryProfessorByIdVariables
-} from 'graphql/generated/QueryProfessorById'
+
 import protectedRoutes from 'utils/protected-routes'
-import { Base64 } from 'js-base64'
 
 export type Values = Omit<
   UsersRegisterTemplateProps,
-  'onSubmit' | 'user' | 'initialValues' | 'numeroDeMatricula'
+  'onSubmit' | 'user' | 'initialValues'
 > & {
   username: string
   isActive: boolean
@@ -47,7 +42,7 @@ export default function Index(props: UsersRegisterTemplateProps) {
   return (
     <UsersRegisterTemplate
       {...props}
-      title={props.name}
+      title="Cadastrar novo Estudante"
       onSubmit={onSubmit}
       initialValues={initialValues}
     />
@@ -56,37 +51,21 @@ export default function Index(props: UsersRegisterTemplateProps) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await protectedRoutes(context)
-  const apolloClient = initializeApollo(null, session)
-
-  const { params } = context
-
-  const { data } = await apolloClient.query<
-    QueryProfessorById,
-    QueryProfessorByIdVariables
-  >({
-    query: QUERY_PROFESSOR_BY_ID,
-    variables: { id: Base64.decode(`${params?.id}`) },
-    fetchPolicy: 'no-cache'
-  })
-
-  if (!data.professore) {
-    return { notFound: true }
-  }
-
-  const { professore } = data
 
   return {
     props: {
-      name: professore.name,
-      sexo: professore.sexo,
-      birthday: professore.birthday,
-      telefone: professore.telefone,
-      numero_do_BI: professore.numero_do_BI,
+      session: session,
+      name: '',
+      sexo: '',
+      birthday: '',
+      telefone: '',
+      numero_do_BI: '',
+      numeroDeMatricula: '',
       user: {
-        email: professore.user?.email,
-        username: professore.user?.username,
-        avatar: `http://localhost:1337${professore.user?.avatar?.src}`,
-        isActive: !professore.user?.blocked
+        email: '',
+        username: '',
+        avatar: '',
+        isActive: true
       }
     }
   }

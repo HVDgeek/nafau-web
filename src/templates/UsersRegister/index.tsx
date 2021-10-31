@@ -8,14 +8,19 @@ import managerMock from 'components/Sidebar/managerMock'
 import { UserCardProps } from 'components/UserCard'
 import FormUser from 'components/FormUser'
 import UserMenu from 'components/UserMenu'
+import Heading from 'components/Heading'
 import { FormikHelpers } from 'formik'
+import { Session } from 'next-auth'
+import themes from 'styles/alt-themes'
 
 type MainProps = {
   children: React.ReactNode
 }
 
 export type UsersRegisterTemplateProps = {
+  session: Session
   name: string
+  title: string
   sexo: string
   birthday: string
   telefone: string
@@ -72,7 +77,7 @@ const UsersRegisterTemplate = (props: UsersRegisterTemplateProps) => {
   })
 
   const { asPath } = useRouter()
-  const { onSubmit, initialValues } = props
+  const { onSubmit, initialValues, title } = props
 
   return (
     <Base>
@@ -84,6 +89,9 @@ const UsersRegisterTemplate = (props: UsersRegisterTemplateProps) => {
             <Main>
               <UserMenu activeLink={asPath} />
               <Box w="100%" bgColor="gray.800" p={4}>
+                <Heading lineLeft={true} color={themes.colors.gray}>
+                  {title}
+                </Heading>
                 <ScaleFade initialScale={0.9} in={true}>
                   <FormUser onSubmit={onSubmit} initialValues={initialValues} />
                 </ScaleFade>

@@ -66,18 +66,19 @@ const UserMenu = ({ activeLink }: UserMenuProps) => {
         href={activeLink!.replace('your-courses', '')}
         icon={<VscAccount size={18} />}
       />
-      {!activeLink?.includes('attendant') && (
-        <Link
-          isActive={activeLink?.includes('your-courses')}
-          title="Turmas"
-          href={
-            activeLink?.includes('your-courses')
-              ? `${activeLink}`
-              : `${activeLink}/your-courses`
-          }
-          icon={<IoSchoolOutline size={18} />}
-        />
-      )}
+      {!activeLink?.includes('attendant') &&
+        !activeLink?.includes('student/create') && (
+          <Link
+            isActive={activeLink?.includes('your-courses')}
+            title="Turmas"
+            href={
+              activeLink?.includes('your-courses')
+                ? `${activeLink}`
+                : `${activeLink}/your-courses`
+            }
+            icon={<IoSchoolOutline size={18} />}
+          />
+        )}
     </Flex>
   )
 }

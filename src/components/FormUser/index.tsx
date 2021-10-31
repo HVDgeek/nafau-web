@@ -41,9 +41,9 @@ const FormUser = ({ onSubmit, initialValues }: FormUserProps) => {
 
   return (
     <Box borderRadius={themes.border.radius} backgroundColor="gray.800" p={4}>
-      <Text mb={4} fontWeight="bold" fontSize="md">
+      {/* <Text mb={4} fontWeight="bold" fontSize="md">
         Dados do usuário
-      </Text>
+      </Text> */}
       <ScaleFade initialScale={0.9} in={true}>
         <Formik
           // validationSchema={SignInSchema}
@@ -61,11 +61,12 @@ const FormUser = ({ onSubmit, initialValues }: FormUserProps) => {
                 <TextField
                   label="Nome Completo"
                   name="name"
+                  isRequired
                   placeholder="Nome completo"
                 />
                 <Field name="sexo">
                   {({ field }: FieldType) => (
-                    <FormControl isRequired id="sexo">
+                    <FormControl id="sexo">
                       <FormLabel htmlFor="sexo">Sexo</FormLabel>
                       <Select
                         {...field}
@@ -117,6 +118,7 @@ const FormUser = ({ onSubmit, initialValues }: FormUserProps) => {
                 />
                 <TextField
                   label="E-mail"
+                  isRequired
                   name="email"
                   placeholder="E-mail"
                   autoComplete="email"
@@ -124,6 +126,7 @@ const FormUser = ({ onSubmit, initialValues }: FormUserProps) => {
                   withIcon={true}
                 />
                 <TextField
+                  isRequired
                   label="Nome do Usuário"
                   name="username"
                   placeholder="Nome do Usuário"
