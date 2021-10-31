@@ -21,6 +21,7 @@ import themes from 'styles/alt-themes'
 import ShowMore from 'components/ShowMore'
 import Empty from 'components/Empty'
 import LoadingClient from 'components/LoadingClient'
+import { Session } from 'next-auth'
 
 const titles = {
   student: 'Estudante',
@@ -40,6 +41,7 @@ export type UsersTemplateProps = {
   hasMore: boolean
   onSubmit: () => void
   handleShowMore: () => void
+  session: Session
 }
 
 export const Main = ({ children }: MainProps) => {

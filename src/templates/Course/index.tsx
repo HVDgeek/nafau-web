@@ -13,6 +13,7 @@ import { Main } from 'templates/Users'
 import ShowMore from 'components/ShowMore'
 import { LinkProps } from 'components/Sidebar'
 import LoadingClient from 'components/LoadingClient'
+import { Session } from 'next-auth'
 
 export type CourseTemplateProps = {
   route?: string
@@ -26,6 +27,7 @@ export type CourseTemplateProps = {
   links: LinkProps[]
   titleSemTurma?: string
   descriptionSemTurma?: string
+  session: Session
 }
 
 const Course = ({

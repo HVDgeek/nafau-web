@@ -59,4 +59,6 @@ export interface QueryAtendentes {
 
 export interface QueryAtendentesVariables {
   limit: number;
+  start?: number | null;
+  institutionId: string;
 }

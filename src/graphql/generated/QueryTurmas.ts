@@ -88,4 +88,6 @@ export interface QueryTurmas {
 
 export interface QueryTurmasVariables {
   limit: number;
+  start?: number | null;
+  institutionId: string;
 }

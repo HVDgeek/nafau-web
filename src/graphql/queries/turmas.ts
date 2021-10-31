@@ -9,8 +9,13 @@ import {
 } from 'graphql/generated/QueryTurmas'
 
 export const QUERY_TURMAS = gql`
-  query QueryTurmas($limit: Int!) {
-    turmas(limit: $limit, sort: "created_at:desc") {
+  query QueryTurmas($limit: Int!, $start: Int, $institutionId: ID!) {
+    turmas(
+      limit: $limit
+      sort: "created_at:desc"
+      start: $start
+      where: { institution: { id: $institutionId } }
+    ) {
       ...TurmaFragment
       institution {
         ...InstitutionFragment
@@ -29,7 +34,7 @@ export const QUERY_TURMAS = gql`
         title
       }
     }
-    turmasConnection {
+    turmasConnection(where: { institution: { id: $institutionId } }) {
       values {
         id
       }

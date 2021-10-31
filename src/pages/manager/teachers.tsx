@@ -6,6 +6,7 @@ import UsersTemplate, { UsersTemplateProps } from 'templates/Users'
 import { useQueryProfessores } from 'graphql/queries/professores'
 import protectedRoutes from 'utils/protected-routes'
 import { UserCardProps } from 'components/UserCard'
+import { SessionProps } from 'pages/api/auth/[...nextauth]'
 
 export default function StudentsPage(props: UsersTemplateProps) {
   const [session, loadingSession] = useSession()
@@ -13,7 +14,10 @@ export default function StudentsPage(props: UsersTemplateProps) {
 
   let hasMoreProfessores = false
   const { data, loading, fetchMore } = useQueryProfessores({
-    variables: { limit: 9 }
+    variables: {
+      limit: 9,
+      institutionId: (props.session as SessionProps)?.user?.institution
+    }
   })
 
   if (data) {
@@ -39,7 +43,11 @@ export default function StudentsPage(props: UsersTemplateProps) {
 
   const handleShowMore = () => {
     fetchMore({
-      variables: { limit: 9, start: data?.professores.length }
+      variables: {
+        limit: 9,
+        start: data?.professores.length,
+        institutionId: (props.session as SessionProps).user?.institution
+      }
     })
   }
 
@@ -63,7 +71,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
-      title: 'Professores'
+      title: 'Professores',
+      session: session
     }
   }
 }

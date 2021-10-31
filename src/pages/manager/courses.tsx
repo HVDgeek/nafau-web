@@ -7,6 +7,7 @@ import { useQueryTurmas } from 'graphql/queries/turmas'
 import { useSession } from 'next-auth/client'
 import protectedRoutes from 'utils/protected-routes'
 import { ClassCardProps } from 'components/ClassCard'
+import { SessionProps } from 'pages/api/auth/[...nextauth]'
 
 export default function Courses(props: CourseTemplateProps) {
   const [session, loadingSession] = useSession()
@@ -15,7 +16,10 @@ export default function Courses(props: CourseTemplateProps) {
   let hasMoreTurmas = false
   const { data, loading, fetchMore } = useQueryTurmas({
     // notifyOnNetworkStatusChange: true,
-    variables: { limit: 10 }
+    variables: {
+      limit: 10,
+      institutionId: (props.session as SessionProps)?.user?.institution
+    }
   })
 
   if (data) {
@@ -47,7 +51,11 @@ export default function Courses(props: CourseTemplateProps) {
 
   const handleShowMore = () => {
     fetchMore({
-      variables: { limit: 9, start: data?.turmas.length }
+      variables: {
+        limit: 9,
+        start: data?.turmas.length,
+        institutionId: (props.session as SessionProps).user?.institution
+      }
     })
   }
 
@@ -75,7 +83,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
-      title: 'Turmas'
+      title: 'Turmas',
+      session: session
     }
   }
 }

@@ -61,4 +61,13 @@ const options = {
 const Auth = (req: NextApiRequest, res: NextApiResponse) =>
   NextAuth(req, res, options)
 
+export type SessionProps = {
+  user: {
+    name?: string | null | undefined
+    email?: string | null | undefined
+    image?: string | null | undefined
+    institution: string
+  }
+}
+
 export default Auth

@@ -8,8 +8,13 @@ import {
 } from 'graphql/generated/QueryAtendentes'
 
 export const QUERY_ATENDENTES = gql`
-  query QueryAtendentes($limit: Int!) {
-    atendentes(limit: $limit, sort: "created_at:desc") {
+  query QueryAtendentes($limit: Int!, $start: Int, $institutionId: ID!) {
+    atendentes(
+      limit: $limit
+      sort: "created_at:desc"
+      start: $start
+      where: { institution: { id: $institutionId } }
+    ) {
       ...AtendenteFragment
       user {
         ...UserFragment
@@ -18,7 +23,7 @@ export const QUERY_ATENDENTES = gql`
         }
       }
     }
-    atendentesConnection {
+    atendentesConnection(where: { institution: { id: $institutionId } }) {
       values {
         id
       }

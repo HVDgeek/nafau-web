@@ -59,4 +59,6 @@ export interface QueryProfessores {
 
 export interface QueryProfessoresVariables {
   limit: number;
+  start?: number | null;
+  institutionId: string;
 }

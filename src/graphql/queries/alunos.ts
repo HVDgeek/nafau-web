@@ -8,8 +8,13 @@ import {
 } from 'graphql/generated/QueryAlunos'
 
 export const QUERY_ALUNOS = gql`
-  query QueryAlunos($limit: Int!, $start: Int) {
-    alunos(limit: $limit, sort: "created_at:desc", start: $start) {
+  query QueryAlunos($limit: Int!, $start: Int, $institutionId: ID!) {
+    alunos(
+      limit: $limit
+      sort: "created_at:desc"
+      start: $start
+      where: { institution: { id: $institutionId } }
+    ) {
       ...AlunoFragment
       user {
         ...UserFragment
@@ -18,7 +23,7 @@ export const QUERY_ALUNOS = gql`
         }
       }
     }
-    alunosConnection {
+    alunosConnection(where: { institution: { id: $institutionId } }) {
       values {
         id
       }

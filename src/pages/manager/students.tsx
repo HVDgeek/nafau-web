@@ -6,6 +6,7 @@ import { useQueryAlunos } from 'graphql/queries/alunos'
 import UsersTemplate, { UsersTemplateProps } from 'templates/Users'
 import { UserCardProps } from 'components/UserCard'
 import protectedRoutes from 'utils/protected-routes'
+import { SessionProps } from 'pages/api/auth/[...nextauth]'
 
 export default function StudentsPage(props: UsersTemplateProps) {
   const [session, loadingSession] = useSession()
@@ -14,7 +15,10 @@ export default function StudentsPage(props: UsersTemplateProps) {
   let hasMoreAlunos = false
   const { data, loading, fetchMore } = useQueryAlunos({
     // notifyOnNetworkStatusChange: true,
-    variables: { limit: 9 }
+    variables: {
+      limit: 9,
+      institutionId: (props.session as SessionProps)?.user?.institution
+    }
   })
 
   if (data) {
@@ -39,7 +43,11 @@ export default function StudentsPage(props: UsersTemplateProps) {
 
   const handleShowMore = () => {
     fetchMore({
-      variables: { limit: 9, start: data?.alunos.length }
+      variables: {
+        limit: 9,
+        start: data?.alunos.length,
+        institutionId: (props.session as SessionProps).user?.institution
+      }
     })
   }
 
@@ -64,7 +72,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
-      title: 'Estudantes'
+      title: 'Estudantes',
+      session: session
     }
   }
 }

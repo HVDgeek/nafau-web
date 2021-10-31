@@ -8,8 +8,13 @@ import {
 } from 'graphql/generated/QueryProfessores'
 
 export const QUERY_PROFESSORES = gql`
-  query QueryProfessores($limit: Int!) {
-    professores(limit: $limit, sort: "created_at:desc") {
+  query QueryProfessores($limit: Int!, $start: Int, $institutionId: ID!) {
+    professores(
+      limit: $limit
+      sort: "created_at:desc"
+      start: $start
+      where: { institution: { id: $institutionId } }
+    ) {
       ...ProfessorFragment
       user {
         ...UserFragment
@@ -18,7 +23,7 @@ export const QUERY_PROFESSORES = gql`
         }
       }
     }
-    professoresConnection {
+    professoresConnection(where: { institution: { id: $institutionId } }) {
       values {
         id
       }

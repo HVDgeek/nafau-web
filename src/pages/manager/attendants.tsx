@@ -6,14 +6,18 @@ import UsersTemplate, { UsersTemplateProps } from 'templates/Users'
 import { useQueryAtendentes } from 'graphql/queries/atendentes'
 import { UserCardProps } from 'components/UserCard'
 import protectedRoutes from 'utils/protected-routes'
+import { SessionProps } from 'pages/api/auth/[...nextauth]'
 
-export default function StudentsPage(props: UsersTemplateProps) {
+export default function AttendantsPage(props: UsersTemplateProps) {
   const [session, loadingSession] = useSession()
   const { asPath } = useRouter()
 
   let hasMoreAtendentes = false
   const { data, loading, fetchMore } = useQueryAtendentes({
-    variables: { limit: 9 }
+    variables: {
+      limit: 9,
+      institutionId: (props.session as SessionProps)?.user?.institution
+    }
   })
 
   if (data) {
@@ -39,7 +43,11 @@ export default function StudentsPage(props: UsersTemplateProps) {
 
   const handleShowMore = () => {
     fetchMore({
-      variables: { limit: 9, start: data?.atendentes.length }
+      variables: {
+        limit: 9,
+        start: data?.atendentes.length,
+        institutionId: (props.session as SessionProps).user?.institution
+      }
     })
   }
 
@@ -63,7 +71,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
-      title: 'Atendentes'
+      title: 'Atendentes',
+      session: session
     }
   }
 }
