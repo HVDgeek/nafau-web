@@ -106,7 +106,7 @@ const UserCard = ({
             bgColor="#353646"
             borderRadius={themes.border.radius}
           >
-            Remover aluno
+            Remover usuário
           </ModalHeader>
           <ModalCloseButton _focus={{ shadow: 'none' }} />
           <ModalBody bgColor="#353646" borderRadius={themes.border.radius}>

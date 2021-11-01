@@ -8,10 +8,12 @@ import { useSession } from 'next-auth/client'
 import protectedRoutes from 'utils/protected-routes'
 import { ClassCardProps } from 'components/ClassCard'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
+import { useCourse } from 'hooks/use-turma'
 
 export default function Courses(props: CourseTemplateProps) {
   const [session, loadingSession] = useSession()
   const { asPath, push } = useRouter()
+  const { removeCourse } = useCourse()
 
   let hasMoreTurmas = false
   const { data, loading, fetchMore } = useQueryTurmas({
@@ -51,6 +53,10 @@ export default function Courses(props: CourseTemplateProps) {
     window.location.href = `/sign-in?callbackUrl=${asPath}`
   }
 
+  const onRemove = (id: string) => {
+    removeCourse(id)
+  }
+
   const handleShowMore = () => {
     fetchMore({
       variables: {
@@ -72,6 +78,7 @@ export default function Courses(props: CourseTemplateProps) {
       titleSemTurma="Nenhuma turma cadastrada!"
       descriptionSemTurma="Você precisa cadastrar novas turma para que apareça aqui. Abraços 😃"
       hasMore={hasMoreTurmas}
+      onRemove={onRemove}
       onSubmit={() => {
         push('course/create')
       }}

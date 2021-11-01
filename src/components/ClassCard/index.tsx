@@ -10,7 +10,15 @@ import {
   Avatar,
   Badge,
   Tooltip,
-  useBreakpointValue
+  useBreakpointValue,
+  useDisclosure,
+  ModalCloseButton,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  ModalOverlay
 } from '@chakra-ui/react'
 import themes from 'styles/alt-themes'
 import { stringToColour } from 'utils/stringToColor'
@@ -40,7 +48,7 @@ export type ClassCardProps = {
   countAlunos: number
   route?: string
   timing?: number
-  onRemove?: () => void
+  onRemove: (id: string) => void
 }
 
 const ClassCard = ({
@@ -55,6 +63,7 @@ const ClassCard = ({
   onRemove
 }: ClassCardProps) => {
   const color = shade(0.7, stringToColour(title))
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   const sizeButton = useBreakpointValue({
     base: 'xs',
@@ -201,11 +210,50 @@ const ClassCard = ({
         aria-label="A tooltip"
       >
         <Box p={2} position="absolute" top={0} right={0}>
-          <IconButton onClick={onRemove} ariaLabel="Remover turma">
+          <IconButton
+            onClick={() => {
+              onOpen()
+            }}
+            ariaLabel="Remover turma"
+          >
             <AiOutlineClose size={18} />
           </IconButton>
         </Box>
       </Tooltip>
+      <Modal onClose={onClose} size="md" isOpen={isOpen}>
+        <ModalOverlay />
+        <ModalContent bgColor="#353646">
+          <ModalHeader
+            fontWeight="medium"
+            fontSize="medium"
+            bgColor="#353646"
+            borderRadius={themes.border.radius}
+          >
+            Remover Turma
+          </ModalHeader>
+          <ModalCloseButton _focus={{ shadow: 'none' }} />
+          <ModalBody bgColor="#353646" borderRadius={themes.border.radius}>
+            <Text fontWeight="light" mr={2}>
+              Tem certeza que deseja remover {title} ?
+            </Text>
+          </ModalBody>
+          <ModalFooter bgColor="#353646" borderRadius={themes.border.radius}>
+            <Button
+              size="xs"
+              onClick={() => {
+                onRemove(id)
+                onClose()
+              }}
+            >
+              Sim
+            </Button>
+            <Box mr={2} />
+            <Button color="red" size="xs" onClick={onClose}>
+              Não
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Flex>
   )
 }

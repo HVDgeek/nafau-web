@@ -7,11 +7,13 @@ export type CoursesListProps = {
   titleSemTurma?: string
   descriptionSemTurma?: string
   route?: string
+  onRemove: (id: string) => void
 }
 
 const CoursesList = ({
   route,
   courses,
+  onRemove,
   titleSemTurma = 'Você ainda não tem turmas!',
   descriptionSemTurma = 'Você precisa estar inscrito em alguma turma para que apareça aqui. Abraços 😃'
 }: CoursesListProps) => {
@@ -26,7 +28,7 @@ const CoursesList = ({
                 w="full"
                 key={`${index} - ${course.title}`}
               >
-                <ClassCard {...course} route={route} />
+                <ClassCard {...course} route={route} onRemove={onRemove} />
               </Box>
             ))}
           </VStack>

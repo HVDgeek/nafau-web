@@ -28,6 +28,7 @@ export type CourseTemplateProps = {
   titleSemTurma?: string
   descriptionSemTurma?: string
   session: Session
+  onRemove: (id: string) => void
 }
 
 const Course = ({
@@ -35,6 +36,7 @@ const Course = ({
   courses = [],
   loading,
   hasMore,
+  onRemove,
   onSubmit,
   handleShowMore,
   title = 'Minhas turmas',
@@ -73,6 +75,7 @@ const Course = ({
                 titleSemTurma={titleSemTurma}
                 descriptionSemTurma={descriptionSemTurma}
                 courses={courses}
+                onRemove={onRemove}
               />
               {hasMore && (
                 <ShowMore
