@@ -6,6 +6,12 @@ import Base from 'templates/Base'
 import managerMock from 'components/Sidebar/managerMock'
 import { UserCardProps } from 'components/UserCard'
 import { ClassItemProps } from 'components/ClassItem'
+import ClassMenu from 'components/ClassMenu'
+import Heading from 'components/Heading'
+import themes from 'styles/alt-themes'
+import { useRouter } from 'next/router'
+import { FormikHelpers } from 'formik'
+import FormClass from 'components/FormClass'
 
 type MainProps = {
   children: React.ReactNode
@@ -18,7 +24,31 @@ export type CourseRegisterTemplateProps = {
   status: string
   alunos: UserCardProps[]
   professores: UserCardProps[]
+  description: string
   aulas: ClassItemProps[]
+  initialValues: any
+  onSubmit: (
+    values: any,
+    formikHelpers: FormikHelpers<any>
+  ) => void | Promise<any>
+}
+
+export const MainContainer = ({ children }: MainProps) => {
+  const isDesktopVesion = useBreakpointValue({
+    base: false,
+    md: true
+  })
+
+  return (
+    <Grid
+      mt={4}
+      display="grid"
+      gridTemplateColumns={isDesktopVesion ? `150px 1fr` : '1fr'}
+      gap={10}
+    >
+      {children}
+    </Grid>
+  )
 }
 
 export const Main = ({ children }: MainProps) => {
@@ -39,16 +69,52 @@ export const Main = ({ children }: MainProps) => {
   )
 }
 
-const CourseRegisterTemplate = (props: CourseRegisterTemplateProps) => {
+const CourseRegisterTemplate = ({
+  onSubmit,
+  initialValues,
+  title
+}: CourseRegisterTemplateProps) => {
+  const isDesktopVersion = useBreakpointValue({
+    base: false,
+    md: true
+  })
+
+  const { asPath } = useRouter()
+
   return (
     <Base>
       <Container>
-        <Main>
+        <MainContainer>
           <Sidebar links={managerMock} />
-          <ScaleFade initialScale={0.9} in={true}>
-            <Box>{JSON.stringify(props, null, 2)}</Box>
-          </ScaleFade>
-        </Main>
+          {isDesktopVersion ? (
+            <Main>
+              <ClassMenu activeLink={asPath} />
+              <Box w="100%" bgColor="gray.800" p={4}>
+                <Heading lineLeft={true} color={themes.colors.gray}>
+                  {title}
+                </Heading>
+                <ScaleFade initialScale={0.9} in={true}>
+                  <FormClass
+                    onSubmit={onSubmit}
+                    initialValues={initialValues}
+                  />
+                </ScaleFade>
+              </Box>
+            </Main>
+          ) : (
+            <Box mt={8}>
+              <ClassMenu activeLink={asPath} />
+              <Box w="100%" bgColor="gray.800" p={4}>
+                <ScaleFade initialScale={0.9} in={true}>
+                  <FormClass
+                    onSubmit={onSubmit}
+                    initialValues={initialValues}
+                  />
+                </ScaleFade>
+              </Box>
+            </Box>
+          )}
+        </MainContainer>
       </Container>
     </Base>
   )

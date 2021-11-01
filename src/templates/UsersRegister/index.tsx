@@ -90,7 +90,6 @@ const UsersRegisterTemplate = ({
       <Container>
         <MainContainer>
           <Sidebar links={managerMock} />
-          {/* <Box>{JSON.stringify(props, null, 2)}</Box> */}
           {isDesktopVersion ? (
             <Main>
               <UserMenu activeLink={asPath} />

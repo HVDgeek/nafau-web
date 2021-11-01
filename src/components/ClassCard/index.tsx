@@ -19,6 +19,7 @@ import { IoMdSchool } from 'react-icons/io'
 import { AiOutlineRight, AiOutlineClose } from 'react-icons/ai'
 import Button from 'components/Button'
 import IconButton from 'components/IconButton'
+import { Base64 } from 'js-base64'
 
 type TeacherProps = {
   name: string
@@ -170,7 +171,7 @@ const ClassCard = ({
                 </TagLabel>
               </Tag>
             ) : (
-              <Box position="absolute" pl={4} top={4} mb={2}>
+              <Box>
                 <Text fontSize="x-small" color="gray.500">
                   Sem professor
                 </Text>
@@ -187,7 +188,7 @@ const ClassCard = ({
         </Box> */}
 
         <Box position="absolute" right={0} bottom={0} p={4}>
-          <Link href={`/manager/${route}/${id}`} passHref>
+          <Link href={`/manager/${route}/${Base64.encode(`${id}`)}`} passHref>
             <Button as="a" size={'xs'} rightIcon={<Icon as={AiOutlineRight} />}>
               Acessar
             </Button>

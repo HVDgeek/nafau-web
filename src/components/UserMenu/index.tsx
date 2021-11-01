@@ -14,7 +14,7 @@ type LinkProps = {
   isActive?: boolean
 }
 
-const Link = ({ title, href, icon, isActive }: LinkProps) => {
+export const Link = ({ title, href, icon, isActive }: LinkProps) => {
   const isMobile = useBreakpointValue({
     base: true,
     md: false

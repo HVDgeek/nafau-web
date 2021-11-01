@@ -1,26 +1,36 @@
+import { FormikHelpers } from 'formik'
 import {
   QueryTurmaById,
   QueryTurmaByIdVariables
 } from 'graphql/generated/QueryTurmaById'
-import {
-  QueryTurmas,
-  QueryTurmasVariables
-} from 'graphql/generated/QueryTurmas'
-import { QUERY_TURMAS, QUERY_TURMA_BY_ID } from 'graphql/queries/turmas'
-import { GetStaticProps } from 'next'
+import { QUERY_TURMA_BY_ID } from 'graphql/queries/turmas'
+import { Base64 } from 'js-base64'
+import { GetServerSidePropsContext } from 'next'
 import { useSession } from 'next-auth/client'
 import { useRouter } from 'next/router'
 import CourseRegisterTemplate, {
   CourseRegisterTemplateProps
 } from 'templates/CourseRegister'
 import { initializeApollo } from 'utils/apollo'
+import protectedRoutes from 'utils/protected-routes'
 
-const apolloClient = initializeApollo()
+export type Values = Omit<
+  CourseRegisterTemplateProps,
+  'onSubmit' | 'user' | 'initialValues'
+>
 
 export default function Index(props: CourseRegisterTemplateProps) {
   const router = useRouter()
 
   const [session, loadingSession] = useSession()
+
+  const initialValues = {
+    id: props.id,
+    title: props.title,
+    code: props.code,
+    status: props.status,
+    description: props.description
+  }
 
   if (typeof window !== undefined && loadingSession) return null
 
@@ -28,35 +38,34 @@ export default function Index(props: CourseRegisterTemplateProps) {
     window.location.href = `/sign-in?callbackUrl=${router.asPath}`
   }
 
-  // se a rota não tiver sido gerada ainda
-  // você pode mostrar um loading
-  // uma tela de esqueleto
-  if (router.isFallback) return null
+  const onSubmit = async (
+    values: Values,
+    { setErrors, resetForm }: FormikHelpers<Values>
+  ) => {
+    console.log('VALUES', values)
+  }
 
-  return <CourseRegisterTemplate {...props} />
+  return (
+    <CourseRegisterTemplate
+      {...props}
+      onSubmit={onSubmit}
+      initialValues={initialValues}
+    />
+  )
 }
 
-// gerar em build time (/aluno/bla, /aluno/foo ...)
-export async function getStaticPaths() {
-  const { data } = await apolloClient.query<QueryTurmas, QueryTurmasVariables>({
-    query: QUERY_TURMAS,
-    variables: { limit: 9 }
-  })
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await protectedRoutes(context)
+  const apolloClient = initializeApollo(null, session)
 
-  const paths = data.turmas.map(({ id }) => ({
-    params: { id }
-  }))
+  const { params } = context
 
-  return { paths, fallback: true }
-}
-
-export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { data } = await apolloClient.query<
     QueryTurmaById,
     QueryTurmaByIdVariables
   >({
     query: QUERY_TURMA_BY_ID,
-    variables: { id: `${params?.id}` },
+    variables: { id: `${Base64.decode(`${params?.id}`)}` },
     fetchPolicy: 'no-cache'
   })
 
@@ -67,12 +76,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { turma } = data
 
   return {
-    revalidate: 60,
     props: {
+      session: session,
       id: turma.id,
       title: turma.title,
       code: turma.code,
       status: turma.status,
+      description: turma.description,
       alunos: turma.alunos.map((aluno) => ({
         id: aluno.id,
         name: aluno.name

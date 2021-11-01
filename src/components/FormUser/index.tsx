@@ -68,7 +68,9 @@ const FormUser = ({ onSubmit, initialValues, createForm }: FormUserProps) => {
                 <Field name="sexo">
                   {({ field }: FieldType) => (
                     <FormControl id="sexo">
-                      <FormLabel htmlFor="sexo">Sexo</FormLabel>
+                      <FormLabel fontSize="sm" htmlFor="sexo">
+                        Sexo
+                      </FormLabel>
                       <Select
                         {...field}
                         name="sexo"
@@ -159,7 +161,7 @@ const FormUser = ({ onSubmit, initialValues, createForm }: FormUserProps) => {
                       display="flex"
                       alignItems="center"
                     >
-                      <FormLabel htmlFor="isActive" mb="0">
+                      <FormLabel fontSize="sm" htmlFor="isActive" mb="0">
                         Conceder acesso à plataforma ?
                       </FormLabel>
                       <Switch
