@@ -7,19 +7,19 @@ import CourseRegisterTemplate, {
   CourseRegisterTemplateProps
 } from 'templates/CourseRegister'
 import protectedRoutes from 'utils/protected-routes'
+import { useCourse } from 'hooks/use-turma'
+import { SessionProps } from 'pages/api/auth/[...nextauth]'
+import { ENUM_TURMAS_STATUS } from 'graphql/generated/globalTypes'
 
-export type Values = Omit<
-  CourseRegisterTemplateProps,
-  'onSubmit' | 'user' | 'initialValues'
->
+export type Values = CourseRegisterTemplateProps
 
 export default function CreateCourse(props: CourseRegisterTemplateProps) {
   const router = useRouter()
+  const { addCourse } = useCourse()
 
   const [session, loadingSession] = useSession()
 
   const initialValues = {
-    id: props.id,
     title: props.title,
     code: props.code,
     status: props.status,
@@ -36,7 +36,13 @@ export default function CreateCourse(props: CourseRegisterTemplateProps) {
     values: Values,
     { setErrors, resetForm }: FormikHelpers<Values>
   ) => {
-    console.log('VALUES', values)
+    addCourse({
+      title: values.title,
+      code: values.code,
+      status: values.status as ENUM_TURMAS_STATUS,
+      description: values.description,
+      institution: (props.session as SessionProps).user.institution
+    })
   }
 
   return (
@@ -44,7 +50,7 @@ export default function CreateCourse(props: CourseRegisterTemplateProps) {
       {...props}
       onSubmit={onSubmit}
       initialValues={initialValues}
-      title="Cadastrar nova turma"
+      title="Cadastrar nova turma/curso"
     />
   )
 }
@@ -55,7 +61,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
     props: {
       session: session,
-      id: '',
       title: '',
       code: '',
       status: 'EMCURSO',

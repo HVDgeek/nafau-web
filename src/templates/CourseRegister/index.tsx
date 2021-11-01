@@ -12,12 +12,14 @@ import themes from 'styles/alt-themes'
 import { useRouter } from 'next/router'
 import { FormikHelpers } from 'formik'
 import FormClass from 'components/FormClass'
+import { Session } from 'next-auth'
 
 type MainProps = {
   children: React.ReactNode
 }
 
 export type CourseRegisterTemplateProps = {
+  session: Session
   id: string
   title: string
   code: string

@@ -17,6 +17,16 @@ export enum ENUM_ATENDENTES_SEXO {
   M = "M",
 }
 
+export enum ENUM_COMPONENTTURMAHORARIO_DAYWEEK {
+  DOMINGO = "DOMINGO",
+  QUARTA_FEIRA = "QUARTA_FEIRA",
+  QUINTA_FEIRA = "QUINTA_FEIRA",
+  SABADO = "SABADO",
+  SEGUNDA_FEIRA = "SEGUNDA_FEIRA",
+  SEXTA_FEIRA = "SEXTA_FEIRA",
+  TERCA_FEIRA = "TERCA_FEIRA",
+}
+
 export enum ENUM_PROFESSORES_SEXO {
   F = "F",
   M = "M",
@@ -68,6 +78,13 @@ export interface ComponentRegisterEnderecoInput {
   numero?: string | null;
 }
 
+export interface ComponentTurmaHorarioInput {
+  dayweek: ENUM_COMPONENTTURMAHORARIO_DAYWEEK;
+  start_Hour: any;
+  end_Hour: any;
+  local?: string | null;
+}
+
 export interface InputID {
   id: string;
 }
@@ -82,6 +99,21 @@ export interface ProfessoreInput {
   institution?: string | null;
   user?: string | null;
   turmas?: (string | null)[] | null;
+  published_at?: any | null;
+  created_by?: string | null;
+  updated_by?: string | null;
+}
+
+export interface TurmaInput {
+  title: string;
+  description?: string | null;
+  code?: string | null;
+  status?: ENUM_TURMAS_STATUS | null;
+  Horario?: ComponentTurmaHorarioInput | null;
+  institution?: string | null;
+  alunos?: (string | null)[] | null;
+  teachers?: (string | null)[] | null;
+  aulas?: (string | null)[] | null;
   published_at?: any | null;
   created_by?: string | null;
   updated_by?: string | null;
@@ -126,6 +158,10 @@ export interface createProfessoreInput {
   data?: ProfessoreInput | null;
 }
 
+export interface createTurmaInput {
+  data?: TurmaInput | null;
+}
+
 export interface createUserInput {
   data?: UserInput | null;
 }
@@ -139,6 +175,10 @@ export interface deleteAtendenteInput {
 }
 
 export interface deleteProfessoreInput {
+  where?: InputID | null;
+}
+
+export interface deleteTurmaInput {
   where?: InputID | null;
 }
 
@@ -187,6 +227,14 @@ export interface editComponentRegisterEnderecoInput {
   numero?: string | null;
 }
 
+export interface editComponentTurmaHorarioInput {
+  id?: string | null;
+  dayweek?: ENUM_COMPONENTTURMAHORARIO_DAYWEEK | null;
+  start_Hour?: any | null;
+  end_Hour?: any | null;
+  local?: string | null;
+}
+
 export interface editProfessoreInput {
   name?: string | null;
   numero_do_BI?: string | null;
@@ -197,6 +245,21 @@ export interface editProfessoreInput {
   institution?: string | null;
   user?: string | null;
   turmas?: (string | null)[] | null;
+  published_at?: any | null;
+  created_by?: string | null;
+  updated_by?: string | null;
+}
+
+export interface editTurmaInput {
+  title?: string | null;
+  description?: string | null;
+  code?: string | null;
+  status?: ENUM_TURMAS_STATUS | null;
+  Horario?: editComponentTurmaHorarioInput | null;
+  institution?: string | null;
+  alunos?: (string | null)[] | null;
+  teachers?: (string | null)[] | null;
+  aulas?: (string | null)[] | null;
   published_at?: any | null;
   created_by?: string | null;
   updated_by?: string | null;
@@ -236,6 +299,11 @@ export interface updateAtendenteInput {
 export interface updateProfessoreInput {
   where?: InputID | null;
   data?: editProfessoreInput | null;
+}
+
+export interface updateTurmaInput {
+  where?: InputID | null;
+  data?: editTurmaInput | null;
 }
 
 export interface updateUserInput {

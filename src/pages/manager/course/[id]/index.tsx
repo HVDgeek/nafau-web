@@ -1,13 +1,16 @@
 import { FormikHelpers } from 'formik'
+import { ENUM_TURMAS_STATUS } from 'graphql/generated/globalTypes'
 import {
   QueryTurmaById,
   QueryTurmaByIdVariables
 } from 'graphql/generated/QueryTurmaById'
 import { QUERY_TURMA_BY_ID } from 'graphql/queries/turmas'
+import { useCourse } from 'hooks/use-turma'
 import { Base64 } from 'js-base64'
 import { GetServerSidePropsContext } from 'next'
 import { useSession } from 'next-auth/client'
 import { useRouter } from 'next/router'
+import { SessionProps } from 'pages/api/auth/[...nextauth]'
 import CourseRegisterTemplate, {
   CourseRegisterTemplateProps
 } from 'templates/CourseRegister'
@@ -21,6 +24,7 @@ export type Values = Omit<
 
 export default function Index(props: CourseRegisterTemplateProps) {
   const router = useRouter()
+  const { updateCourse } = useCourse()
 
   const [session, loadingSession] = useSession()
 
@@ -42,12 +46,19 @@ export default function Index(props: CourseRegisterTemplateProps) {
     values: Values,
     { setErrors, resetForm }: FormikHelpers<Values>
   ) => {
-    console.log('VALUES', values)
+    updateCourse(props.id, {
+      title: values.title,
+      code: values.code,
+      status: values.status as ENUM_TURMAS_STATUS,
+      description: values.description,
+      institution: (props.session as SessionProps).user.institution
+    })
   }
 
   return (
     <CourseRegisterTemplate
       {...props}
+      title={props.title}
       onSubmit={onSubmit}
       initialValues={initialValues}
     />
