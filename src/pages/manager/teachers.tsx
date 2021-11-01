@@ -35,7 +35,7 @@ export default function StudentsPage(props: UsersTemplateProps) {
     name: prof.name,
     email: prof.user?.email,
     username: prof.user?.username,
-    avatar: `http://localhost:1337${prof.user?.avatar?.src}`,
+    avatar: `${process.env.NEXT_PUBLIC_API_URL}${prof.user?.avatar?.src}`,
     isActive: !prof.user?.blocked
   })) as UserCardProps[]
 

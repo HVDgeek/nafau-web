@@ -3,7 +3,7 @@ import { Container } from 'components/Container'
 import Footer from 'components/Footer'
 import Menu from 'components/Menu'
 import { useSession } from 'next-auth/client'
-import { useEffect } from 'react'
+import { SessionProps } from 'pages/api/auth/[...nextauth]'
 
 export type BaseTemplateProps = {
   children: React.ReactNode
@@ -20,7 +20,12 @@ const Base = ({ children }: BaseTemplateProps) => {
       height="100vh"
     >
       <Container>
-        <Menu username={session?.user?.name} />
+        <Menu
+          username={session?.user?.name}
+          avatar={`${process.env.NEXT_PUBLIC_API_URL}${
+            (session as SessionProps).user?.avatar
+          }`}
+        />
       </Container>
       <Box mt={4} flex="1 0 auto">
         {children}

@@ -13,22 +13,18 @@ import Sidebar from 'components/Sidebar'
 import Base from 'templates/Base'
 import managerMock from 'components/Sidebar/managerMock'
 import UserMenu from 'components/UserMenu'
-import CoursesList from 'components/CoursesList'
-import { ClassCardProps } from 'components/ClassCard'
 import { FaPlus } from 'react-icons/fa'
 import Heading from 'components/Heading'
 import Button from 'components/Button'
 import themes from 'styles/alt-themes'
+import ClassMenu from 'components/ClassMenu'
 
 type MainProps = {
   children: React.ReactNode
 }
 
-export type YourCoursesTemplateProps = {
+export type YourUsersTemplateProps = {
   route?: string
-  courses: ClassCardProps[]
-  titleSemTurma?: string
-  descriptionSemTurma?: string
   title: string
   withRegister?: boolean
 }
@@ -73,14 +69,11 @@ export const Main = ({ children }: MainProps) => {
   )
 }
 
-const YourCoursesTemplate = ({
+const YourUsersTemplate = ({
   route,
   title,
-  withRegister = false,
-  courses = [],
-  titleSemTurma = 'Você ainda não tem turmas!',
-  descriptionSemTurma = 'Você precisa estar inscrito em alguma turma para que apareça aqui. Abraços 😃'
-}: YourCoursesTemplateProps) => {
+  withRegister = false
+}: YourUsersTemplateProps) => {
   const isDesktopVersion = useBreakpointValue({
     base: false,
     md: true
@@ -95,7 +88,7 @@ const YourCoursesTemplate = ({
           <Sidebar links={managerMock} />
           {isDesktopVersion || isDesktopVersion === undefined ? (
             <Main>
-              <UserMenu activeLink={asPath} />
+              <ClassMenu activeLink={asPath} />
               <Box w="100%" bgColor="gray.800" p={4}>
                 <ScaleFade initialScale={0.9} in={true}>
                   <Flex justifyContent="space-between" ml={4}>
@@ -115,15 +108,7 @@ const YourCoursesTemplate = ({
                       </Button>
                     )}
                   </Flex>
-                  <CoursesList
-                    onRemove={() => {
-                      console.log('')
-                    }}
-                    route={route}
-                    titleSemTurma={titleSemTurma}
-                    descriptionSemTurma={descriptionSemTurma}
-                    courses={courses}
-                  />
+                  {/**/}
                 </ScaleFade>
               </Box>
             </Main>
@@ -132,15 +117,7 @@ const YourCoursesTemplate = ({
               <UserMenu activeLink={asPath} />
               <Box w="100%" bgColor="gray.800" p={4}>
                 <ScaleFade initialScale={0.9} in={true}>
-                  <CoursesList
-                    onRemove={() => {
-                      console.log('')
-                    }}
-                    route={route}
-                    titleSemTurma={titleSemTurma}
-                    descriptionSemTurma={descriptionSemTurma}
-                    courses={courses}
-                  />
+                  {/* */}
                 </ScaleFade>
               </Box>
             </Box>
@@ -151,4 +128,4 @@ const YourCoursesTemplate = ({
   )
 }
 
-export default YourCoursesTemplate
+export default YourUsersTemplate

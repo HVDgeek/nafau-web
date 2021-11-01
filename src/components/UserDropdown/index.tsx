@@ -7,11 +7,12 @@ import ProfileHeader from 'components/Menu/ProfileHeader'
 
 export type UserDropdownProps = {
   username?: string | null
+  avatar?: string
 }
 
-const UserDropdown = ({ username }: UserDropdownProps) => {
+const UserDropdown = ({ username, avatar }: UserDropdownProps) => {
   return (
-    <Dropdown title={<ProfileHeader username={username} />}>
+    <Dropdown title={<ProfileHeader username={username} avatar={avatar} />}>
       <Box as="nav" w="200px" p={2}>
         <Link href="/profile/me" passHref>
           <Flex

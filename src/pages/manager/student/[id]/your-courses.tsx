@@ -18,7 +18,7 @@ export default function Courses(props: YourCoursesTemplateProps) {
 
   if (router.isFallback) return null
 
-  return <YourCoursesTemplate {...props} />
+  return <YourCoursesTemplate {...props} title="Turmas" withRegister={true} />
 }
 
 export async function getStaticPaths() {

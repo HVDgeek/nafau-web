@@ -110,7 +110,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       user: {
         email: aluno.user?.email,
         username: aluno.user?.username,
-        avatar: `http://localhost:1337${aluno.user?.avatar?.src}`,
+        avatar: `${process.env.NEXT_PUBLIC_API_URL}${aluno.user?.avatar?.src}`,
         isActive: !aluno.user?.blocked
       }
     }

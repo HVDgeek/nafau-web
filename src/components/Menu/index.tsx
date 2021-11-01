@@ -18,9 +18,10 @@ import UserDropdown from 'components/UserDropdown'
 
 export type MenuProps = {
   username?: string | null
+  avatar?: string
 }
 
-const Menu = ({ username }: MenuProps) => {
+const Menu = ({ username, avatar }: MenuProps) => {
   const disclosure = useDisclosure()
   const { asPath } = useRouter()
 
@@ -113,7 +114,10 @@ const Menu = ({ username }: MenuProps) => {
             </Box>
           </Box>
         </IconButton>
-        <UserDropdown username={username?.split('*#nafau#*')[0] || username} />
+        <UserDropdown
+          username={username?.split('*#nafau#*')[0] || username}
+          avatar={avatar}
+        />
       </HStack>
       {!isDesktopVersion && isDesktopVersion !== undefined && (
         <SideMenu {...disclosure} />

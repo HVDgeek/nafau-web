@@ -42,7 +42,7 @@ export default function Courses(props: CourseTemplateProps) {
     },
     teacher: {
       name: turma?.teachers[0]?.name,
-      avatar: `http://localhost:1337${turma?.teachers[0]?.user?.avatar?.src}`
+      avatar: `${process.env.NEXT_PUBLIC_API_URL}${turma?.teachers[0]?.user?.avatar?.src}`
     },
     countAlunos: turma.alunos.length
   })) as ClassCardProps[]
