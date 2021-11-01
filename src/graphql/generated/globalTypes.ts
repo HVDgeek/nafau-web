@@ -45,6 +45,20 @@ export interface AlunoInput {
   updated_by?: string | null;
 }
 
+export interface AtendenteInput {
+  Endereco?: ComponentRegisterEnderecoInput | null;
+  name: string;
+  sexo?: ENUM_ATENDENTES_SEXO | null;
+  numero_do_BI?: string | null;
+  telefone?: string | null;
+  birthday?: any | null;
+  institution?: string | null;
+  user?: string | null;
+  published_at?: any | null;
+  created_by?: string | null;
+  updated_by?: string | null;
+}
+
 export interface ComponentRegisterEnderecoInput {
   pais: string;
   provincia: string;
@@ -104,6 +118,10 @@ export interface createAlunoInput {
   data?: AlunoInput | null;
 }
 
+export interface createAtendenteInput {
+  data?: AtendenteInput | null;
+}
+
 export interface createProfessoreInput {
   data?: ProfessoreInput | null;
 }
@@ -113,6 +131,10 @@ export interface createUserInput {
 }
 
 export interface deleteAlunoInput {
+  where?: InputID | null;
+}
+
+export interface deleteAtendenteInput {
   where?: InputID | null;
 }
 
@@ -136,6 +158,20 @@ export interface editAlunoInput {
   turmas?: (string | null)[] | null;
   entregas?: string | null;
   numeroDeMatricula?: string | null;
+  published_at?: any | null;
+  created_by?: string | null;
+  updated_by?: string | null;
+}
+
+export interface editAtendenteInput {
+  Endereco?: editComponentRegisterEnderecoInput | null;
+  name?: string | null;
+  sexo?: ENUM_ATENDENTES_SEXO | null;
+  numero_do_BI?: string | null;
+  telefone?: string | null;
+  birthday?: any | null;
+  institution?: string | null;
+  user?: string | null;
   published_at?: any | null;
   created_by?: string | null;
   updated_by?: string | null;
@@ -190,6 +226,11 @@ export interface editUserInput {
 export interface updateAlunoInput {
   where?: InputID | null;
   data?: editAlunoInput | null;
+}
+
+export interface updateAtendenteInput {
+  where?: InputID | null;
+  data?: editAtendenteInput | null;
 }
 
 export interface updateProfessoreInput {

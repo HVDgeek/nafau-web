@@ -67,7 +67,7 @@ const UserMenu = ({ activeLink }: UserMenuProps) => {
         icon={<VscAccount size={18} />}
       />
       {!activeLink?.includes('attendant') &&
-        !activeLink?.includes('student/create') && (
+        !activeLink?.includes('create') && (
           <Link
             isActive={activeLink?.includes('your-courses')}
             title="Turmas"

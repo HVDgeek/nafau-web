@@ -7,10 +7,12 @@ import { useQueryAtendentes } from 'graphql/queries/atendentes'
 import { UserCardProps } from 'components/UserCard'
 import protectedRoutes from 'utils/protected-routes'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
+import { useAtendente } from 'hooks/use-atendente'
 
 export default function AttendantsPage(props: UsersTemplateProps) {
   const [session, loadingSession] = useSession()
-  const { asPath } = useRouter()
+  const { asPath, push } = useRouter()
+  const { removeAtendente } = useAtendente()
 
   let hasMoreAtendentes = false
   const { data, loading, fetchMore } = useQueryAtendentes({
@@ -43,6 +45,10 @@ export default function AttendantsPage(props: UsersTemplateProps) {
     window.location.href = `/sign-in?callbackUrl=${asPath}`
   }
 
+  const onRemove = (id: string) => {
+    removeAtendente(id)
+  }
+
   const handleShowMore = () => {
     fetchMore({
       variables: {
@@ -60,8 +66,9 @@ export default function AttendantsPage(props: UsersTemplateProps) {
       loading={loading}
       users={users}
       hasMore={hasMoreAtendentes}
+      onRemove={onRemove}
       onSubmit={() => {
-        console.log('ADD ATENDENTES')
+        push('attendant/create')
       }}
       handleShowMore={handleShowMore}
     />

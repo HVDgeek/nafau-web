@@ -12,6 +12,10 @@ import UsersRegisterTemplate, {
 } from 'templates/UsersRegister'
 import protectedRoutes from 'utils/protected-routes'
 import { Base64 } from 'js-base64'
+import { SessionProps } from 'pages/api/auth/[...nextauth]'
+import { useAtendente } from 'hooks/use-atendente'
+import { ENUM_ATENDENTES_SEXO } from 'graphql/generated/globalTypes'
+import { v4 as uuidV4 } from 'uuid'
 
 export type Values = Omit<
   UsersRegisterTemplateProps,
@@ -25,6 +29,8 @@ export type Values = Omit<
 }
 
 export default function Index(props: UsersRegisterTemplateProps) {
+  const { updateAtendente } = useAtendente()
+
   const initialValues = {
     name: props.name,
     email: props.user?.email,
@@ -32,7 +38,7 @@ export default function Index(props: UsersRegisterTemplateProps) {
     numero_do_BI: props.numero_do_BI,
     birthday: props.birthday,
     telefone: props.telefone,
-    username: props.user?.username,
+    username: props.user.username?.split('*#nafau#*')[0] || props.user.username,
     isActive: props.user?.isActive,
     password: '',
     confirm_password: ''
@@ -42,7 +48,18 @@ export default function Index(props: UsersRegisterTemplateProps) {
     values: Values,
     { setErrors, resetForm }: FormikHelpers<Values>
   ) => {
-    console.log('ON SUBMIT', JSON.stringify(values, null, 2))
+    updateAtendente(props.id, {
+      blocked: !values.isActive,
+      email: values.email,
+      institution: (props.session as SessionProps).user.institution, // Não atualiza
+      password: values.password!,
+      username: `${values.username}*#nafau#*${uuidV4()}`,
+      birthday: values.birthday,
+      name: values.name,
+      numero_do_BI: values.numero_do_BI,
+      sexo: values.sexo as ENUM_ATENDENTES_SEXO,
+      telefone: values.telefone
+    })
   }
 
   return (
@@ -51,6 +68,7 @@ export default function Index(props: UsersRegisterTemplateProps) {
       title={props.name}
       onSubmit={onSubmit}
       initialValues={initialValues}
+      createForm={false}
     />
   )
 }
@@ -78,6 +96,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
+      session: session,
+      id: atendente.id,
       name: atendente.name,
       sexo: atendente.sexo,
       birthday: atendente.birthday,

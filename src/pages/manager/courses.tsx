@@ -39,8 +39,8 @@ export default function Courses(props: CourseTemplateProps) {
       title: turma.aulas[turma.aulas.length].title
     },
     teacher: {
-      name: turma.teachers[0].name,
-      avatar: `http://localhost:1337${turma.teachers[0].user?.avatar?.src}`
+      name: turma?.teachers[0]?.name,
+      avatar: `http://localhost:1337${turma?.teachers[0]?.user?.avatar?.src}`
     },
     countAlunos: turma.alunos.length
   })) as ClassCardProps[]

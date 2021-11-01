@@ -145,23 +145,37 @@ const ClassCard = ({
             PROFESSOR
           </Text>
           <Box w={250}>
-            <Tag mt={2} maxWidth={200} size="md" bg={color} borderRadius="full">
-              <Avatar
-                src={teacher?.avatar}
-                size="2xs"
-                name={teacher.name}
-                ml={-1}
-                mr={2}
-              />
-              <TagLabel
-                isTruncated
-                color="white"
-                fontSize="x-small"
-                fontWeight="normal"
+            {teacher.name ? (
+              <Tag
+                mt={2}
+                maxWidth={200}
+                size="md"
+                bg={color}
+                borderRadius="full"
               >
-                {teacher.name}
-              </TagLabel>
-            </Tag>
+                <Avatar
+                  src={teacher?.avatar}
+                  size="2xs"
+                  name={teacher.name}
+                  ml={-1}
+                  mr={2}
+                />
+                <TagLabel
+                  isTruncated
+                  color="white"
+                  fontSize="x-small"
+                  fontWeight="normal"
+                >
+                  {teacher.name}
+                </TagLabel>
+              </Tag>
+            ) : (
+              <Box position="absolute" pl={4} top={4} mb={2}>
+                <Text fontSize="x-small" color="gray.500">
+                  Sem professor
+                </Text>
+              </Box>
+            )}
           </Box>
         </Box>
 

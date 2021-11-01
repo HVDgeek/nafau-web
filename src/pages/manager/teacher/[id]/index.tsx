@@ -96,6 +96,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
+      session: session,
+      id: professore.id,
       name: professore.name,
       sexo: professore.sexo,
       birthday: professore.birthday,
