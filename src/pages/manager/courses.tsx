@@ -11,7 +11,7 @@ import { SessionProps } from 'pages/api/auth/[...nextauth]'
 
 export default function Courses(props: CourseTemplateProps) {
   const [session, loadingSession] = useSession()
-  const { asPath } = useRouter()
+  const { asPath, push } = useRouter()
 
   let hasMoreTurmas = false
   const { data, loading, fetchMore } = useQueryTurmas({
@@ -73,7 +73,7 @@ export default function Courses(props: CourseTemplateProps) {
       descriptionSemTurma="Você precisa cadastrar novas turma para que apareça aqui. Abraços 😃"
       hasMore={hasMoreTurmas}
       onSubmit={() => {
-        console.log('ADD TURMA')
+        push('course/create')
       }}
       handleShowMore={handleShowMore}
     />

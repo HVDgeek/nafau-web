@@ -56,7 +56,7 @@ const FormClass = ({ onSubmit, initialValues }: FormClassProps) => {
                 />
                 <Field name="status">
                   {({ field }: FieldType) => (
-                    <FormControl id="status">
+                    <FormControl id="status" isRequired>
                       <FormLabel fontSize="sm" htmlFor="status">
                         Status da turma
                       </FormLabel>

@@ -25,26 +25,30 @@ const ClassMenu = ({ activeLink }: ClassMenuProps) => {
         href={activeLink!.replace('your-courses', '')}
         icon={<IoSchoolOutline size={18} />}
       />
-      <Link
-        isActive={activeLink?.includes('students')}
-        title="Alunos"
-        href={
-          activeLink?.includes('students')
-            ? `${activeLink}`
-            : `${activeLink}/students`
-        }
-        icon={<BsPersonSquare size={15} />}
-      />
-      <Link
-        isActive={activeLink?.includes('teachers')}
-        title="Professores"
-        href={
-          activeLink?.includes('teachers')
-            ? `${activeLink}`
-            : `${activeLink}/teachers`
-        }
-        icon={<GiTeacher size={15} />}
-      />
+      {!activeLink?.includes('create') && (
+        <Link
+          isActive={activeLink?.includes('students')}
+          title="Alunos"
+          href={
+            activeLink?.includes('students')
+              ? `${activeLink}`
+              : `${activeLink}/students`
+          }
+          icon={<BsPersonSquare size={15} />}
+        />
+      )}
+      {!activeLink?.includes('create') && (
+        <Link
+          isActive={activeLink?.includes('teachers')}
+          title="Professores"
+          href={
+            activeLink?.includes('teachers')
+              ? `${activeLink}`
+              : `${activeLink}/teachers`
+          }
+          icon={<GiTeacher size={15} />}
+        />
+      )}
     </Flex>
   )
 }
