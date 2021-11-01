@@ -7,10 +7,12 @@ import { useQueryProfessores } from 'graphql/queries/professores'
 import protectedRoutes from 'utils/protected-routes'
 import { UserCardProps } from 'components/UserCard'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
+import { useTeacher } from 'hooks/use-teacher'
 
 export default function StudentsPage(props: UsersTemplateProps) {
   const [session, loadingSession] = useSession()
-  const { asPath } = useRouter()
+  const { asPath, push } = useRouter()
+  const { removeTeacher } = useTeacher()
 
   let hasMoreProfessores = false
   const { data, loading, fetchMore } = useQueryProfessores({
@@ -43,6 +45,10 @@ export default function StudentsPage(props: UsersTemplateProps) {
     window.location.href = `/sign-in?callbackUrl=${asPath}`
   }
 
+  const onRemove = (id: string) => {
+    removeTeacher(id)
+  }
+
   const handleShowMore = () => {
     fetchMore({
       variables: {
@@ -60,8 +66,9 @@ export default function StudentsPage(props: UsersTemplateProps) {
       loading={loading}
       users={users}
       hasMore={hasMoreProfessores}
+      onRemove={onRemove}
       onSubmit={() => {
-        console.log('ADD PROFESSORES')
+        push('teacher/create')
       }}
       handleShowMore={handleShowMore}
     />

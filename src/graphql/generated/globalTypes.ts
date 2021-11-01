@@ -58,6 +58,21 @@ export interface InputID {
   id: string;
 }
 
+export interface ProfessoreInput {
+  name: string;
+  numero_do_BI?: string | null;
+  sexo?: ENUM_PROFESSORES_SEXO | null;
+  birthday?: any | null;
+  telefone?: string | null;
+  Endereco?: ComponentRegisterEnderecoInput | null;
+  institution?: string | null;
+  user?: string | null;
+  turmas?: (string | null)[] | null;
+  published_at?: any | null;
+  created_by?: string | null;
+  updated_by?: string | null;
+}
+
 export interface UserInput {
   username: string;
   email: string;
@@ -89,11 +104,19 @@ export interface createAlunoInput {
   data?: AlunoInput | null;
 }
 
+export interface createProfessoreInput {
+  data?: ProfessoreInput | null;
+}
+
 export interface createUserInput {
   data?: UserInput | null;
 }
 
 export interface deleteAlunoInput {
+  where?: InputID | null;
+}
+
+export interface deleteProfessoreInput {
   where?: InputID | null;
 }
 
@@ -128,6 +151,21 @@ export interface editComponentRegisterEnderecoInput {
   numero?: string | null;
 }
 
+export interface editProfessoreInput {
+  name?: string | null;
+  numero_do_BI?: string | null;
+  sexo?: ENUM_PROFESSORES_SEXO | null;
+  birthday?: any | null;
+  telefone?: string | null;
+  Endereco?: editComponentRegisterEnderecoInput | null;
+  institution?: string | null;
+  user?: string | null;
+  turmas?: (string | null)[] | null;
+  published_at?: any | null;
+  created_by?: string | null;
+  updated_by?: string | null;
+}
+
 export interface editUserInput {
   username?: string | null;
   email?: string | null;
@@ -152,6 +190,11 @@ export interface editUserInput {
 export interface updateAlunoInput {
   where?: InputID | null;
   data?: editAlunoInput | null;
+}
+
+export interface updateProfessoreInput {
+  where?: InputID | null;
+  data?: editProfessoreInput | null;
 }
 
 export interface updateUserInput {

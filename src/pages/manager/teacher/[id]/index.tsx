@@ -12,6 +12,10 @@ import {
 } from 'graphql/generated/QueryProfessorById'
 import protectedRoutes from 'utils/protected-routes'
 import { Base64 } from 'js-base64'
+import { SessionProps } from 'pages/api/auth/[...nextauth]'
+import { ENUM_PROFESSORES_SEXO } from 'graphql/generated/globalTypes'
+import { useTeacher } from 'hooks/use-teacher'
+import { v4 as uuidV4 } from 'uuid'
 
 export type Values = Omit<
   UsersRegisterTemplateProps,
@@ -25,6 +29,8 @@ export type Values = Omit<
 }
 
 export default function Index(props: UsersRegisterTemplateProps) {
+  const { updateTeacher } = useTeacher()
+
   const initialValues = {
     name: props.name,
     email: props.user?.email,
@@ -32,7 +38,7 @@ export default function Index(props: UsersRegisterTemplateProps) {
     numero_do_BI: props.numero_do_BI,
     birthday: props.birthday,
     telefone: props.telefone,
-    username: props.user?.username,
+    username: props.user.username?.split('*#nafau#*')[0] || props.user.username,
     isActive: props.user?.isActive,
     password: '',
     confirm_password: ''
@@ -42,7 +48,18 @@ export default function Index(props: UsersRegisterTemplateProps) {
     values: Values,
     { setErrors, resetForm }: FormikHelpers<Values>
   ) => {
-    console.log('ON SUBMIT', JSON.stringify(values, null, 2))
+    updateTeacher(props.id, {
+      blocked: !values.isActive,
+      email: values.email,
+      institution: (props.session as SessionProps).user.institution, // Não atualiza
+      password: values.password!,
+      username: `${values.username}*#nafau#*${uuidV4()}`,
+      birthday: values.birthday,
+      name: values.name,
+      numero_do_BI: values.numero_do_BI,
+      sexo: values.sexo as ENUM_PROFESSORES_SEXO,
+      telefone: values.telefone
+    })
   }
 
   return (
@@ -51,6 +68,7 @@ export default function Index(props: UsersRegisterTemplateProps) {
       title={props.name}
       onSubmit={onSubmit}
       initialValues={initialValues}
+      createForm={false}
     />
   )
 }
