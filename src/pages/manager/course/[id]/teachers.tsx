@@ -1,13 +1,32 @@
 import { useRouter } from 'next/router'
-import classroomsMock from 'components/ClassCard/mock'
-
 import { useSession } from 'next-auth/client'
 import YourUsersTemplate, { YourUsersTemplateProps } from 'templates/YourUsers'
+import { GetServerSidePropsContext } from 'next'
+import protectedRoutes from 'utils/protected-routes'
+import { useQueryTurmaById } from 'graphql/queries/turmas'
+import { Base64 } from 'js-base64'
+import { UserCardProps } from 'components/UserCard'
 
 export default function StudentClass(props: YourUsersTemplateProps) {
   const router = useRouter()
-
   const [session, loadingSession] = useSession()
+
+  const { data, loading } = useQueryTurmaById({
+    skip: !session?.user?.email || !router.query?.id,
+    context: { session },
+    variables: {
+      id: Base64.decode(router.query?.id as string)
+    }
+  })
+
+  const users = data?.turma?.teachers.map((prof) => ({
+    id: prof.id,
+    name: prof.name,
+    email: prof.user?.email,
+    username: prof.user?.username,
+    avatar: `${process.env.NEXT_PUBLIC_API_URL}${prof.user?.avatar?.src}`,
+    isActive: !prof.user?.blocked
+  })) as UserCardProps[]
 
   if (typeof window !== undefined && loadingSession) return null
 
@@ -16,14 +35,22 @@ export default function StudentClass(props: YourUsersTemplateProps) {
   }
 
   return (
-    <YourUsersTemplate {...props} title="Professores" withRegister={true} />
+    <YourUsersTemplate
+      {...props}
+      loading={loading}
+      users={users}
+      route="teacher"
+      title="Professores"
+      withRegister={true}
+    />
   )
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await protectedRoutes(context)
   return {
     props: {
-      courses: classroomsMock
+      session: session
     }
   }
 }
