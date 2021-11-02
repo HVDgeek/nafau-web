@@ -1,12 +1,21 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import {
+  Text,
   Grid,
   Box,
   ScaleFade,
   useBreakpointValue,
   Icon,
-  Flex
+  Flex,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalBody,
+  ModalContent,
+  ModalCloseButton,
+  ModalHeader,
+  ModalFooter
 } from '@chakra-ui/react'
 import { Container } from 'components/Container'
 import Sidebar from 'components/Sidebar'
@@ -21,9 +30,16 @@ import Button from 'components/Button'
 import themes from 'styles/alt-themes'
 import { Session } from 'next-auth'
 import LoadingClient from 'components/LoadingClient'
+import CourseItem from 'components/CourseItem'
 
 type MainProps = {
   children: React.ReactNode
+}
+
+export type NewCourses = {
+  id: string
+  code: string
+  title: string
 }
 
 export type YourCoursesTemplateProps = {
@@ -35,6 +51,7 @@ export type YourCoursesTemplateProps = {
   descriptionSemTurma?: string
   title: string
   withRegister?: boolean
+  newCourses: NewCourses[]
 }
 
 export const MainContainer = ({ children }: MainProps) => {
@@ -81,6 +98,7 @@ const YourCoursesTemplate = ({
   route,
   title,
   loading,
+  newCourses,
   withRegister = false,
   courses = [],
   titleSemTurma = 'Você ainda não tem turmas!',
@@ -90,6 +108,8 @@ const YourCoursesTemplate = ({
     base: false,
     md: true
   })
+
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   const { asPath } = useRouter()
 
@@ -111,7 +131,7 @@ const YourCoursesTemplate = ({
                     {withRegister && (
                       <Button
                         onClick={() => {
-                          console.log('')
+                          onOpen()
                         }}
                         size="sm"
                         leftIcon={<Icon as={FaPlus} />}
@@ -160,6 +180,50 @@ const YourCoursesTemplate = ({
           )}
         </MainContainer>
       </Container>
+      <Modal onClose={onClose} size="md" isOpen={isOpen}>
+        <ModalOverlay />
+        <ModalContent bgColor="#353646">
+          <ModalHeader
+            fontWeight="medium"
+            fontSize="medium"
+            bgColor="#353646"
+            borderRadius={themes.border.radius}
+          >
+            Adicionar Turmas
+          </ModalHeader>
+          <ModalCloseButton _focus={{ shadow: 'none' }} />
+          <ModalBody bgColor="#353646" borderRadius={themes.border.radius}>
+            {newCourses?.map(
+              (course) =>
+                course && (
+                  <Box mb={4}>
+                    <CourseItem
+                      key={course.id}
+                      title={course.title}
+                      code={course.code}
+                      id={course.id}
+                    />
+                  </Box>
+                )
+            )}
+          </ModalBody>
+          <ModalFooter bgColor="#353646" borderRadius={themes.border.radius}>
+            <Button
+              size="xs"
+              onClick={() => {
+                // onRemove(id)
+                onClose()
+              }}
+            >
+              Adicionar
+            </Button>
+            <Box mr={2} />
+            <Button color="red" size="xs" onClick={onClose}>
+              cancelar
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Base>
   )
 }

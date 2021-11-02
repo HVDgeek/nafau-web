@@ -4,13 +4,12 @@ import themes from 'styles/alt-themes'
 import { stringToColour } from 'utils/stringToColor'
 
 export type CourseItemProps = {
-  children: React.ReactNode
-  color: string
   title: string
   code?: string
+  id: string
 }
 
-const CourseItem = ({ title, code }: CourseItemProps) => {
+const CourseItem = ({ title, code, id }: CourseItemProps) => {
   const color = shade(0.7, stringToColour(title))
 
   return (
