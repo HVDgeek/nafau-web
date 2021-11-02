@@ -98,6 +98,16 @@ export default function Courses(props: YourCoursesTemplateProps) {
     }
   }
 
+  const onRemove = (id: string) => {
+    const existsIds = data?.aluno?.turmas.map((aluno) => aluno.id)
+
+    if (studentId && existsIds) {
+      addCourseToStudent(studentId, {
+        ids: existsIds?.filter((turmaId) => turmaId !== id)
+      })
+    }
+  }
+
   if (typeof window !== undefined && loadingSession) return null
 
   if (!session) {
@@ -113,6 +123,7 @@ export default function Courses(props: YourCoursesTemplateProps) {
       loading={loading}
       courses={courses}
       onSubmit={onSubmit}
+      onRemove={onRemove}
       newCourses={studentCourses as NewCourses[]}
       titleSemTurma="Este aluno não tem turmas adicionadas!"
       descriptionSemTurma="Você precisa adicionar novas turma para este aluno. Abraços 😃"

@@ -20,7 +20,7 @@ import {
   QUERY_PROFESSORES,
   QUERY_PROFESSOR_BY_ID
 } from 'graphql/queries/professores'
-import { QUERY_TURMA_BY_ID } from 'graphql/queries/turmas'
+import { QUERY_TURMAS, QUERY_TURMA_BY_ID } from 'graphql/queries/turmas'
 import { Base64 } from 'js-base64'
 import { useSession } from 'next-auth/client'
 import { useRouter } from 'next/router'
@@ -85,6 +85,14 @@ const SubscriptionProvider = ({ children }: SubscriptionProviderProps) => {
         variables: {
           id: query?.id ? Base64.decode(query?.id as string) : ''
         }
+      },
+      {
+        query: QUERY_TURMAS,
+        context: { session },
+        variables: {
+          limit: 200,
+          institutionId: (session as SessionProps)?.user?.institution
+        }
       }
     ]
   })
@@ -100,6 +108,14 @@ const SubscriptionProvider = ({ children }: SubscriptionProviderProps) => {
         context: { session },
         variables: {
           id: query?.id ? Base64.decode(query?.id as string) : ''
+        }
+      },
+      {
+        query: QUERY_TURMAS,
+        context: { session },
+        variables: {
+          limit: 200,
+          institutionId: (session as SessionProps)?.user?.institution
         }
       }
     ]
@@ -185,7 +201,7 @@ const SubscriptionProvider = ({ children }: SubscriptionProviderProps) => {
     })
       .then(({ data }) => {
         toast({
-          title: `Turmas adicionadas para ${data?.updateAluno?.aluno?.name} 😃`,
+          title: `Turmas alteradas para ${data?.updateAluno?.aluno?.name} 😃`,
           // variant: 'left-accent',
           position: 'top-right',
           // description: 'Verifique as suas credenciais e tente novamente',
@@ -218,7 +234,7 @@ const SubscriptionProvider = ({ children }: SubscriptionProviderProps) => {
     })
       .then(({ data }) => {
         toast({
-          title: `Turmas adicionadas para ${data?.updateProfessore?.professore?.name} 😃`,
+          title: `Turmas alteradas para ${data?.updateProfessore?.professore?.name} 😃`,
           // variant: 'left-accent',
           position: 'top-right',
           // description: 'Verifique as suas credenciais e tente novamente',

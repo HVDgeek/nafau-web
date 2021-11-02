@@ -90,6 +90,16 @@ export default function StudentClass(props: YourUsersTemplateProps) {
     }
   }
 
+  const onRemove = (id: string) => {
+    const existsIds = data?.turma?.teachers.map((prof) => prof.id)
+
+    if (courseId && existsIds) {
+      addTeacherToCourse(courseId, {
+        ids: existsIds?.filter((userId) => userId !== id)
+      })
+    }
+  }
+
   if (typeof window !== undefined && loadingSession) return null
 
   if (!session) {
@@ -104,6 +114,7 @@ export default function StudentClass(props: YourUsersTemplateProps) {
       route="teacher"
       title="Professores"
       onSubmit={onSubmit}
+      onRemove={onRemove}
       newUsers={courseUsers as UserItemProps[]}
       withRegister={true}
     />

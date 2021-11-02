@@ -54,6 +54,7 @@ export type YourCoursesTemplateProps = {
   withRegister?: boolean
   newCourses: NewCourses[]
   onSubmit: () => void
+  onRemove: (id: string) => void
 }
 
 export const MainContainer = ({ children }: MainProps) => {
@@ -103,6 +104,7 @@ const YourCoursesTemplate = ({
   newCourses,
   withRegister = false,
   courses = [],
+  onRemove,
   onSubmit,
   titleSemTurma = 'Você ainda não tem turmas!',
   descriptionSemTurma = 'Você precisa estar inscrito em alguma turma para que apareça aqui. Abraços 😃'
@@ -149,9 +151,7 @@ const YourCoursesTemplate = ({
                     <LoadingClient title={title} />
                   ) : (
                     <CoursesList
-                      onRemove={() => {
-                        console.log('')
-                      }}
+                      onRemove={onRemove}
                       route={route}
                       titleSemTurma={titleSemTurma}
                       descriptionSemTurma={descriptionSemTurma}
@@ -170,9 +170,7 @@ const YourCoursesTemplate = ({
                     <LoadingClient title={title} />
                   ) : (
                     <CoursesList
-                      onRemove={() => {
-                        console.log('')
-                      }}
+                      onRemove={onRemove}
                       route={route}
                       titleSemTurma={titleSemTurma}
                       descriptionSemTurma={descriptionSemTurma}

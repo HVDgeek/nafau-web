@@ -47,6 +47,7 @@ export type YourUsersTemplateProps = {
   newUsers: UserItemProps[]
   withRegister?: boolean
   onSubmit: () => void
+  onRemove: (id: string) => void
 }
 
 export const MainContainer = ({ children }: MainProps) => {
@@ -96,7 +97,8 @@ const YourUsersTemplate = ({
   loading,
   newUsers,
   withRegister = false,
-  onSubmit
+  onSubmit,
+  onRemove
 }: YourUsersTemplateProps) => {
   const isDesktopVersion = useBreakpointValue({
     base: false,
@@ -176,9 +178,7 @@ const YourUsersTemplate = ({
                           key={item.email}
                           {...item}
                           route={route}
-                          onRemove={() => {
-                            console.log('REMOVE USER')
-                          }}
+                          onRemove={onRemove}
                         />
                       ))}
                       {!users.length && (

@@ -96,6 +96,16 @@ export default function StudentClass(props: YourUsersTemplateProps) {
     window.location.href = `/sign-in?callbackUrl=${router.asPath}`
   }
 
+  const onRemove = (id: string) => {
+    const existsIds = data?.turma?.alunos.map((aluno) => aluno.id)
+
+    if (courseId && existsIds) {
+      addStudentToCourse(courseId, {
+        ids: existsIds?.filter((userId) => userId !== id)
+      })
+    }
+  }
+
   return (
     <YourUsersTemplate
       {...props}
@@ -104,6 +114,7 @@ export default function StudentClass(props: YourUsersTemplateProps) {
       route="student"
       title="Alunos"
       onSubmit={onSubmit}
+      onRemove={onRemove}
       newUsers={courseUsers as UserItemProps[]}
       withRegister={true}
     />
