@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import { GetServerSidePropsContext } from 'next'
 import YourCoursesTemplate, {
+  NewCourses,
   YourCoursesTemplateProps
 } from 'templates/YourCourses'
 import { useSession } from 'next-auth/client'
@@ -8,6 +9,8 @@ import protectedRoutes from 'utils/protected-routes'
 import { useQueryProfessorById } from 'graphql/queries/professores'
 import { Base64 } from 'js-base64'
 import { ClassCardProps } from 'components/ClassCard'
+import { useQueryTurmas } from 'graphql/queries/turmas'
+import { SessionProps } from 'pages/api/auth/[...nextauth]'
 
 export default function Courses(props: YourCoursesTemplateProps) {
   const router = useRouter()
@@ -18,6 +21,16 @@ export default function Courses(props: YourCoursesTemplateProps) {
     context: { session },
     variables: {
       id: Base64.decode(router.query?.id as string)
+    }
+  })
+
+  const { data: dataTurmas, loading: loadingTurmas } = useQueryTurmas({
+    // notifyOnNetworkStatusChange: true,
+    skip: !session?.user?.email, // Não roda se não tiver session
+    context: { session }, // passando a session de autentication
+    variables: {
+      limit: 10,
+      institutionId: (props.session as SessionProps)?.user?.institution
     }
   })
 
@@ -37,6 +50,23 @@ export default function Courses(props: YourCoursesTemplateProps) {
     countAlunos: turma.alunos.length
   })) as ClassCardProps[]
 
+  const teacherId = data?.professore?.id
+
+  const teacherCourses = dataTurmas?.turmas.map((turma) => {
+    const classExists = turma.teachers.find(
+      (teacher) => teacher.id === teacherId
+    )
+
+    if (!classExists) {
+      return {
+        id: turma.id,
+        code: turma.code,
+        title: turma.title
+      }
+    }
+    return null
+  })
+
   if (typeof window !== undefined && loadingSession) return null
 
   if (!session) {
@@ -51,6 +81,7 @@ export default function Courses(props: YourCoursesTemplateProps) {
       withRegister={true}
       loading={loading}
       courses={courses}
+      newCourses={teacherCourses as NewCourses[]}
       titleSemTurma="Este professor não tem turmas adicionadas!"
       descriptionSemTurma="Você precisa adicionar novas turma para este professor. Abraços 😃"
     />
