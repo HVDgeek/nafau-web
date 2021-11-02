@@ -1,4 +1,5 @@
 import { Text, Box, Flex, Checkbox, Avatar } from '@chakra-ui/react'
+import { useSubscription } from 'hooks/use-subscription'
 import themes from 'styles/alt-themes'
 
 export type UserItemProps = {
@@ -8,7 +9,24 @@ export type UserItemProps = {
   avatar?: string
 }
 
+type CheckedProps = {
+  target: {
+    checked: boolean
+  }
+}
+
 const UserItem = ({ name, email, avatar, id }: UserItemProps) => {
+  const { addUser, deleteUser } = useSubscription()
+
+  const handleCheck = ({ target }: CheckedProps) => {
+    if (target.checked) {
+      addUser({ id: id })
+    }
+
+    if (!target.checked) {
+      deleteUser({ id: id })
+    }
+  }
   return (
     <Flex
       w="full"
@@ -48,7 +66,12 @@ const UserItem = ({ name, email, avatar, id }: UserItemProps) => {
             {email}
           </Text>
         </Box>
-        <Checkbox size="lg" borderColor="gray.400" colorScheme="purple" />
+        <Checkbox
+          onChange={handleCheck}
+          size="lg"
+          borderColor="gray.400"
+          colorScheme="purple"
+        />
       </Flex>
     </Flex>
   )

@@ -9,10 +9,12 @@ import { UserCardProps } from 'components/UserCard'
 import { UserItemProps } from 'components/UserItem'
 import { useQueryProfessores } from 'graphql/queries/professores'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
+import { useSubscription } from 'hooks/use-subscription'
 
 export default function StudentClass(props: YourUsersTemplateProps) {
   const router = useRouter()
   const [session, loadingSession] = useSession()
+  const { state } = useSubscription()
 
   const { data, loading } = useQueryTurmaById({
     skip: !session?.user?.email || !router.query?.id,
@@ -57,6 +59,10 @@ export default function StudentClass(props: YourUsersTemplateProps) {
     return null
   })
 
+  const onSubmit = () => {
+    console.log('STATE  => ', state)
+  }
+
   if (typeof window !== undefined && loadingSession) return null
 
   if (!session) {
@@ -70,6 +76,7 @@ export default function StudentClass(props: YourUsersTemplateProps) {
       users={users}
       route="teacher"
       title="Professores"
+      onSubmit={onSubmit}
       newUsers={courseUsers as UserItemProps[]}
       withRegister={true}
     />

@@ -32,6 +32,7 @@ import { Session } from 'next-auth'
 import Empty from 'components/Empty'
 import LoadingClient from 'components/LoadingClient'
 import UserItem, { UserItemProps } from 'components/UserItem'
+import { useSubscription } from 'hooks/use-subscription'
 
 type MainProps = {
   children: React.ReactNode
@@ -103,6 +104,7 @@ const YourUsersTemplate = ({
   })
 
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const { deleteAllUsers } = useSubscription()
 
   const { asPath } = useRouter()
 
@@ -124,6 +126,7 @@ const YourUsersTemplate = ({
                     {withRegister && (
                       <Button
                         onClick={() => {
+                          deleteAllUsers()
                           onOpen()
                         }}
                         size="sm"
