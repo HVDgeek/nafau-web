@@ -7,6 +7,10 @@ import {
   QueryTurmas,
   QueryTurmasVariables
 } from 'graphql/generated/QueryTurmas'
+import {
+  QueryTurmaById,
+  QueryTurmaByIdVariables
+} from 'graphql/generated/QueryTurmaById'
 
 export const QUERY_TURMAS = gql`
   query QueryTurmas($limit: Int!, $start: Int, $institutionId: ID!) {
@@ -56,6 +60,9 @@ export const QUERY_TURMA_BY_ID = gql`
       }
       alunos {
         ...AlunoFragment
+        user {
+          ...UserFragment
+        }
       }
       teachers {
         ...ProfessorFragment
@@ -80,4 +87,13 @@ export function useQueryTurmas(
   options?: QueryHookOptions<QueryTurmas, QueryTurmasVariables>
 ) {
   return useQuery<QueryTurmas, QueryTurmasVariables>(QUERY_TURMAS, options)
+}
+
+export function useQueryTurmaById(
+  options?: QueryHookOptions<QueryTurmaById, QueryTurmaByIdVariables>
+) {
+  return useQuery<QueryTurmaById, QueryTurmaByIdVariables>(
+    QUERY_TURMA_BY_ID,
+    options
+  )
 }

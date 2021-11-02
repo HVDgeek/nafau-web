@@ -7,7 +7,7 @@ export type LoadingClientProps = {
 
 const LoadingClient = ({ title }: LoadingClientProps) => {
   return (
-    <Flex alignItems="center">
+    <Flex alignItems="center" mt={2}>
       <Spinner
         marginRight={2}
         emptyColor="gray.200"

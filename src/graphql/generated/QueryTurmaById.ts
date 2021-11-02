@@ -15,6 +15,21 @@ export interface QueryTurmaById_turma_institution {
   name: string;
 }
 
+export interface QueryTurmaById_turma_alunos_user_avatar {
+  __typename: "UploadFile";
+  alternativeText: string | null;
+  src: string;
+}
+
+export interface QueryTurmaById_turma_alunos_user {
+  __typename: "UsersPermissionsUser";
+  id: string;
+  email: string;
+  username: string;
+  blocked: boolean | null;
+  avatar: QueryTurmaById_turma_alunos_user_avatar | null;
+}
+
 export interface QueryTurmaById_turma_alunos {
   __typename: "Alunos";
   id: string;
@@ -24,6 +39,7 @@ export interface QueryTurmaById_turma_alunos {
   numeroDeMatricula: string | null;
   birthday: any | null;
   telefone: string | null;
+  user: QueryTurmaById_turma_alunos_user | null;
 }
 
 export interface QueryTurmaById_turma_teachers_user_avatar {

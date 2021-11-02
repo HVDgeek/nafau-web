@@ -6,7 +6,8 @@ import {
   ScaleFade,
   useBreakpointValue,
   Icon,
-  Flex
+  Flex,
+  SimpleGrid
 } from '@chakra-ui/react'
 import { Container } from 'components/Container'
 import Sidebar from 'components/Sidebar'
@@ -18,14 +19,21 @@ import Heading from 'components/Heading'
 import Button from 'components/Button'
 import themes from 'styles/alt-themes'
 import ClassMenu from 'components/ClassMenu'
+import UserCard, { UserCardProps } from 'components/UserCard'
+import { Session } from 'next-auth'
+import Empty from 'components/Empty'
+import LoadingClient from 'components/LoadingClient'
 
 type MainProps = {
   children: React.ReactNode
 }
 
 export type YourUsersTemplateProps = {
-  route?: string
   title: string
+  route: 'student' | 'teacher'
+  users: UserCardProps[]
+  session: Session
+  loading: boolean
   withRegister?: boolean
 }
 
@@ -70,8 +78,10 @@ export const Main = ({ children }: MainProps) => {
 }
 
 const YourUsersTemplate = ({
-  route,
+  route = 'student',
+  users = [],
   title,
+  loading,
   withRegister = false
 }: YourUsersTemplateProps) => {
   const isDesktopVersion = useBreakpointValue({
@@ -108,7 +118,29 @@ const YourUsersTemplate = ({
                       </Button>
                     )}
                   </Flex>
-                  {/**/}
+                  {loading ? (
+                    <LoadingClient title={title} />
+                  ) : (
+                    <SimpleGrid columns={3} spacing={8} minChildWidth="250px">
+                      {users?.map((item) => (
+                        <UserCard
+                          key={item.email}
+                          {...item}
+                          route={route}
+                          onRemove={() => {
+                            console.log('REMOVE USER')
+                          }}
+                        />
+                      ))}
+                      {!users.length && (
+                        <Empty
+                          title={`Sem ${title} adicionados nesta turma!`}
+                          description={`Adicione novos ${title} para que apareça aqui. Abraços 😃`}
+                          hasLink
+                        />
+                      )}
+                    </SimpleGrid>
+                  )}
                 </ScaleFade>
               </Box>
             </Main>
@@ -117,7 +149,29 @@ const YourUsersTemplate = ({
               <UserMenu activeLink={asPath} />
               <Box w="100%" bgColor="gray.800" p={4}>
                 <ScaleFade initialScale={0.9} in={true}>
-                  {/* */}
+                  {loading ? (
+                    <LoadingClient title={title} />
+                  ) : (
+                    <SimpleGrid columns={3} spacing={8} minChildWidth="250px">
+                      {users?.map((item) => (
+                        <UserCard
+                          key={item.email}
+                          {...item}
+                          route={route}
+                          onRemove={() => {
+                            console.log('REMOVE USER')
+                          }}
+                        />
+                      ))}
+                      {!users.length && (
+                        <Empty
+                          title={`Sem ${title} adicionados nesta turma!`}
+                          description={`Adicione novos ${title} para que apareça aqui. Abraços 😃`}
+                          hasLink
+                        />
+                      )}
+                    </SimpleGrid>
+                  )}
                 </ScaleFade>
               </Box>
             </Box>

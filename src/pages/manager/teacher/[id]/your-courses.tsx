@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router'
 import { GetServerSidePropsContext } from 'next'
-import classroomsMock from 'components/ClassCard/mock'
 import YourCoursesTemplate, {
   YourCoursesTemplateProps
 } from 'templates/YourCourses'
@@ -63,7 +62,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
-      courses: classroomsMock,
       session: session
     }
   }
