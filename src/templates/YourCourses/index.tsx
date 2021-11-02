@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import {
   Text,
@@ -31,6 +31,7 @@ import themes from 'styles/alt-themes'
 import { Session } from 'next-auth'
 import LoadingClient from 'components/LoadingClient'
 import CourseItem from 'components/CourseItem'
+import { useSubscription } from 'hooks/use-subscription'
 
 type MainProps = {
   children: React.ReactNode
@@ -52,6 +53,7 @@ export type YourCoursesTemplateProps = {
   title: string
   withRegister?: boolean
   newCourses: NewCourses[]
+  onSubmit: () => void
 }
 
 export const MainContainer = ({ children }: MainProps) => {
@@ -101,6 +103,7 @@ const YourCoursesTemplate = ({
   newCourses,
   withRegister = false,
   courses = [],
+  onSubmit,
   titleSemTurma = 'Você ainda não tem turmas!',
   descriptionSemTurma = 'Você precisa estar inscrito em alguma turma para que apareça aqui. Abraços 😃'
 }: YourCoursesTemplateProps) => {
@@ -109,6 +112,7 @@ const YourCoursesTemplate = ({
     md: true
   })
 
+  const { deleteAllUsers } = useSubscription()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const { asPath } = useRouter()
@@ -131,6 +135,7 @@ const YourCoursesTemplate = ({
                     {withRegister && (
                       <Button
                         onClick={() => {
+                          deleteAllUsers()
                           onOpen()
                         }}
                         size="sm"
@@ -196,9 +201,8 @@ const YourCoursesTemplate = ({
             {newCourses?.map(
               (course) =>
                 course && (
-                  <Box mb={4}>
+                  <Box key={course.id} mb={4}>
                     <CourseItem
-                      key={course.id}
                       title={course.title}
                       code={course.code}
                       id={course.id}
@@ -211,8 +215,8 @@ const YourCoursesTemplate = ({
             <Button
               size="xs"
               onClick={() => {
-                // onRemove(id)
-                onClose()
+                onSubmit()
+                // onClose()
               }}
             >
               Adicionar

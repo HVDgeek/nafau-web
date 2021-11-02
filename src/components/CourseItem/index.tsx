@@ -2,6 +2,7 @@ import { Text, Box, Flex, Checkbox } from '@chakra-ui/react'
 import { shade } from 'polished'
 import themes from 'styles/alt-themes'
 import { stringToColour } from 'utils/stringToColor'
+import { useSubscription } from 'hooks/use-subscription'
 
 export type CourseItemProps = {
   title: string
@@ -9,8 +10,25 @@ export type CourseItemProps = {
   id: string
 }
 
+type CheckedProps = {
+  target: {
+    checked: boolean
+  }
+}
+
 const CourseItem = ({ title, code, id }: CourseItemProps) => {
   const color = shade(0.7, stringToColour(title))
+  const { addUser, deleteUser } = useSubscription()
+
+  const handleCheck = ({ target }: CheckedProps) => {
+    if (target.checked) {
+      addUser({ id: id })
+    }
+
+    if (!target.checked) {
+      deleteUser({ id: id })
+    }
+  }
 
   return (
     <Flex
@@ -45,7 +63,12 @@ const CourseItem = ({ title, code, id }: CourseItemProps) => {
             {title} - {code}
           </Text>
         </Box>
-        <Checkbox size="lg" borderColor="gray.400" colorScheme="purple" />
+        <Checkbox
+          onChange={handleCheck}
+          size="lg"
+          borderColor="gray.400"
+          colorScheme="purple"
+        />
       </Flex>
     </Flex>
   )

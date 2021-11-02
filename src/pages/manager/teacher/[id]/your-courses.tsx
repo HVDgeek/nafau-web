@@ -11,10 +11,12 @@ import { Base64 } from 'js-base64'
 import { ClassCardProps } from 'components/ClassCard'
 import { useQueryTurmas } from 'graphql/queries/turmas'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
+import { useSubscription } from 'hooks/use-subscription'
 
 export default function Courses(props: YourCoursesTemplateProps) {
   const router = useRouter()
   const [session, loadingSession] = useSession()
+  const { state } = useSubscription()
 
   const { data, loading } = useQueryProfessorById({
     skip: !session?.user?.email || !router.query?.id,
@@ -67,6 +69,10 @@ export default function Courses(props: YourCoursesTemplateProps) {
     return null
   })
 
+  const onSubmit = () => {
+    console.log('STATE  => ', state)
+  }
+
   if (typeof window !== undefined && loadingSession) return null
 
   if (!session) {
@@ -80,6 +86,7 @@ export default function Courses(props: YourCoursesTemplateProps) {
       route="course"
       withRegister={true}
       loading={loading}
+      onSubmit={onSubmit}
       courses={courses}
       newCourses={teacherCourses as NewCourses[]}
       titleSemTurma="Este professor não tem turmas adicionadas!"

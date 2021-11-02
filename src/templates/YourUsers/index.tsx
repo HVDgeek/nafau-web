@@ -45,6 +45,7 @@ export type YourUsersTemplateProps = {
   loading: boolean
   newUsers: UserItemProps[]
   withRegister?: boolean
+  onSubmit: () => void
 }
 
 export const MainContainer = ({ children }: MainProps) => {
@@ -93,7 +94,8 @@ const YourUsersTemplate = ({
   title,
   loading,
   newUsers,
-  withRegister = false
+  withRegister = false,
+  onSubmit
 }: YourUsersTemplateProps) => {
   const isDesktopVersion = useBreakpointValue({
     base: false,
@@ -207,13 +209,12 @@ const YourUsersTemplate = ({
             {newUsers?.map(
               (user) =>
                 user && (
-                  <Box mb={4}>
+                  <Box key={user.id} mb={4}>
                     <UserItem
                       email={user.email}
                       name={user.name}
                       avatar={user.avatar}
                       id={user.id}
-                      key={user.id}
                     />
                   </Box>
                 )
@@ -223,8 +224,8 @@ const YourUsersTemplate = ({
             <Button
               size="xs"
               onClick={() => {
-                // onRemove(id)
-                onClose()
+                onSubmit()
+                // onClose()
               }}
             >
               Adicionar
