@@ -27,6 +27,25 @@ export const QUERY_ALUNOS = gql`
           ...InstitutionFragment
         }
       }
+      turmas {
+        ...TurmaFragment
+        alunos {
+          ...AlunoFragment
+          user {
+            ...UserFragment
+          }
+        }
+        teachers {
+          ...ProfessorFragment
+          user {
+            ...UserFragment
+          }
+        }
+        aulas {
+          id
+          title
+        }
+      }
     }
     alunosConnection(where: { institution: { id: $institutionId } }) {
       values {
@@ -37,6 +56,8 @@ export const QUERY_ALUNOS = gql`
   ${AlunoFragment}
   ${UserFragment}
   ${InstitutionFragment}
+  ${TurmaFragment}
+  ${ProfessorFragment}
 `
 
 export const QUERY_ALUNO_BY_ID = gql`

@@ -7,7 +7,15 @@ import {
   useBreakpointValue,
   Icon,
   Flex,
-  SimpleGrid
+  SimpleGrid,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalBody,
+  ModalContent,
+  ModalCloseButton,
+  ModalHeader,
+  ModalFooter
 } from '@chakra-ui/react'
 import { Container } from 'components/Container'
 import Sidebar from 'components/Sidebar'
@@ -23,6 +31,7 @@ import UserCard, { UserCardProps } from 'components/UserCard'
 import { Session } from 'next-auth'
 import Empty from 'components/Empty'
 import LoadingClient from 'components/LoadingClient'
+import UserItem, { UserItemProps } from 'components/UserItem'
 
 type MainProps = {
   children: React.ReactNode
@@ -34,6 +43,7 @@ export type YourUsersTemplateProps = {
   users: UserCardProps[]
   session: Session
   loading: boolean
+  newUsers: UserItemProps[]
   withRegister?: boolean
 }
 
@@ -82,12 +92,15 @@ const YourUsersTemplate = ({
   users = [],
   title,
   loading,
+  newUsers,
   withRegister = false
 }: YourUsersTemplateProps) => {
   const isDesktopVersion = useBreakpointValue({
     base: false,
     md: true
   })
+
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   const { asPath } = useRouter()
 
@@ -109,7 +122,7 @@ const YourUsersTemplate = ({
                     {withRegister && (
                       <Button
                         onClick={() => {
-                          console.log('')
+                          onOpen()
                         }}
                         size="sm"
                         leftIcon={<Icon as={FaPlus} />}
@@ -178,6 +191,51 @@ const YourUsersTemplate = ({
           )}
         </MainContainer>
       </Container>
+      <Modal onClose={onClose} size="md" isOpen={isOpen}>
+        <ModalOverlay />
+        <ModalContent bgColor="#353646">
+          <ModalHeader
+            fontWeight="medium"
+            fontSize="medium"
+            bgColor="#353646"
+            borderRadius={themes.border.radius}
+          >
+            Adicionar {title}
+          </ModalHeader>
+          <ModalCloseButton _focus={{ shadow: 'none' }} />
+          <ModalBody bgColor="#353646" borderRadius={themes.border.radius}>
+            {newUsers?.map(
+              (user) =>
+                user && (
+                  <Box mb={4}>
+                    <UserItem
+                      email={user.email}
+                      name={user.name}
+                      avatar={user.avatar}
+                      id={user.id}
+                      key={user.id}
+                    />
+                  </Box>
+                )
+            )}
+          </ModalBody>
+          <ModalFooter bgColor="#353646" borderRadius={themes.border.radius}>
+            <Button
+              size="xs"
+              onClick={() => {
+                // onRemove(id)
+                onClose()
+              }}
+            >
+              Adicionar
+            </Button>
+            <Box mr={2} />
+            <Button color="red" size="xs" onClick={onClose}>
+              cancelar
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Base>
   )
 }

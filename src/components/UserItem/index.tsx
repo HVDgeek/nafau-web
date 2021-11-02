@@ -2,13 +2,13 @@ import { Text, Box, Flex, Checkbox, Avatar } from '@chakra-ui/react'
 import themes from 'styles/alt-themes'
 
 export type UserItemProps = {
+  id: string
   name: string
   email: string
-  username?: string
   avatar?: string
 }
 
-const UserItem = ({ name, email, avatar }: UserItemProps) => {
+const UserItem = ({ name, email, avatar, id }: UserItemProps) => {
   return (
     <Flex
       w="full"

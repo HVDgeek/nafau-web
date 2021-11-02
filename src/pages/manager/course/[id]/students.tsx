@@ -6,6 +6,9 @@ import protectedRoutes from 'utils/protected-routes'
 import { useQueryTurmaById } from 'graphql/queries/turmas'
 import { Base64 } from 'js-base64'
 import { UserCardProps } from 'components/UserCard'
+import { useQueryAlunos } from 'graphql/queries/alunos'
+import { SessionProps } from 'pages/api/auth/[...nextauth]'
+import { UserItemProps } from 'components/UserItem'
 
 export default function StudentClass(props: YourUsersTemplateProps) {
   const router = useRouter()
@@ -19,6 +22,16 @@ export default function StudentClass(props: YourUsersTemplateProps) {
     }
   })
 
+  const { data: dataStudents, loading: loadingStudents } = useQueryAlunos({
+    // notifyOnNetworkStatusChange: true,
+    skip: !session?.user?.email, // Não roda se não tiver session
+    context: { session }, // passando a session de autentication
+    variables: {
+      limit: 100,
+      institutionId: (props.session as SessionProps)?.user?.institution
+    }
+  })
+
   const users = data?.turma?.alunos.map((aluno) => ({
     id: aluno.id,
     name: aluno.name,
@@ -27,6 +40,22 @@ export default function StudentClass(props: YourUsersTemplateProps) {
     avatar: `${process.env.NEXT_PUBLIC_API_URL}${aluno.user?.avatar?.src}`,
     isActive: !aluno.user?.blocked
   })) as UserCardProps[]
+
+  const courseId = data?.turma?.id
+
+  const courseUsers = dataStudents?.alunos.map((aluno) => {
+    const studentExists = aluno.turmas.find((turma) => turma.id === courseId)
+
+    if (!studentExists) {
+      return {
+        id: aluno.id,
+        name: aluno.name,
+        email: aluno.user?.email,
+        avatar: `${process.env.NEXT_PUBLIC_API_URL}${aluno.user?.avatar?.src}`
+      }
+    }
+    return null
+  })
 
   if (typeof window !== undefined && loadingSession) return null
 
@@ -41,6 +70,7 @@ export default function StudentClass(props: YourUsersTemplateProps) {
       users={users}
       route="student"
       title="Alunos"
+      newUsers={courseUsers as UserItemProps[]}
       withRegister={true}
     />
   )
