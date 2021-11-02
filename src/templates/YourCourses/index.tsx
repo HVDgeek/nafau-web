@@ -216,7 +216,7 @@ const YourCoursesTemplate = ({
               size="xs"
               onClick={() => {
                 onSubmit()
-                // onClose()
+                onClose()
               }}
             >
               Adicionar

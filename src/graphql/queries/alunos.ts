@@ -70,7 +70,7 @@ export const QUERY_ALUNO_BY_ID = gql`
           ...InstitutionFragment
         }
       }
-      turmas {
+      turmas(sort: "created_at:asc") {
         ...TurmaFragment
         alunos {
           ...AlunoFragment

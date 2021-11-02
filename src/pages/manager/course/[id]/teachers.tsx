@@ -10,11 +10,13 @@ import { UserItemProps } from 'components/UserItem'
 import { useQueryProfessores } from 'graphql/queries/professores'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
 import { useSubscription } from 'hooks/use-subscription'
+import { useToast } from '@chakra-ui/toast'
 
 export default function StudentClass(props: YourUsersTemplateProps) {
   const router = useRouter()
   const [session, loadingSession] = useSession()
-  const { state } = useSubscription()
+  const { state, addTeacherToCourse } = useSubscription()
+  const toast = useToast()
 
   const { data, loading } = useQueryTurmaById({
     skip: !session?.user?.email || !router.query?.id,
@@ -60,7 +62,32 @@ export default function StudentClass(props: YourUsersTemplateProps) {
   })
 
   const onSubmit = () => {
-    console.log('STATE  => ', state)
+    if (state.selectUsers.length === 0) {
+      toast({
+        title: `Selecione algum professor 😢`,
+        // variant: 'left-accent',
+        position: 'top-right',
+        description: 'Verifique os dados e tente novamente',
+        status: 'error',
+        isClosable: true
+      })
+      return
+    }
+
+    const existsIds = data?.turma?.teachers.map((prof) => prof.id)
+    const newIds = state.selectUsers.map((user) => user.id)
+
+    if (courseId && existsIds) {
+      addTeacherToCourse(courseId, {
+        ids: [...existsIds, ...newIds]
+      })
+    }
+
+    if (courseId && !existsIds) {
+      addTeacherToCourse(courseId, {
+        ids: newIds
+      })
+    }
   }
 
   if (typeof window !== undefined && loadingSession) return null

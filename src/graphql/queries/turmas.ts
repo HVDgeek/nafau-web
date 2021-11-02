@@ -58,13 +58,13 @@ export const QUERY_TURMA_BY_ID = gql`
       institution {
         ...InstitutionFragment
       }
-      alunos {
+      alunos(sort: "created_at:asc") {
         ...AlunoFragment
         user {
           ...UserFragment
         }
       }
-      teachers {
+      teachers(sort: "created_at:asc") {
         ...ProfessorFragment
         user {
           ...UserFragment

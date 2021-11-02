@@ -12,11 +12,13 @@ import { ClassCardProps } from 'components/ClassCard'
 import { useQueryTurmas } from 'graphql/queries/turmas'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
 import { useSubscription } from 'hooks/use-subscription'
+import { useToast } from '@chakra-ui/toast'
 
 export default function Courses(props: YourCoursesTemplateProps) {
   const router = useRouter()
   const [session, loadingSession] = useSession()
-  const { state } = useSubscription()
+  const { state, addCourseToStudent } = useSubscription()
+  const toast = useToast()
 
   const { data, loading } = useQueryAlunoById({
     skip: !session?.user?.email || !router.query?.id,
@@ -68,7 +70,32 @@ export default function Courses(props: YourCoursesTemplateProps) {
   })
 
   const onSubmit = () => {
-    console.log('STATE  => ', state)
+    if (state.selectUsers.length === 0) {
+      toast({
+        title: `Selecione alguma turma 😢`,
+        // variant: 'left-accent',
+        position: 'top-right',
+        description: 'Verifique os dados e tente novamente',
+        status: 'error',
+        isClosable: true
+      })
+      return
+    }
+
+    const existsIds = data?.aluno?.turmas.map((aluno) => aluno.id)
+    const newIds = state.selectUsers.map((user) => user.id)
+
+    if (studentId && existsIds) {
+      addCourseToStudent(studentId, {
+        ids: [...existsIds, ...newIds]
+      })
+    }
+
+    if (studentId && !existsIds) {
+      addCourseToStudent(studentId, {
+        ids: newIds
+      })
+    }
   }
 
   if (typeof window !== undefined && loadingSession) return null
