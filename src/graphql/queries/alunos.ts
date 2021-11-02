@@ -1,7 +1,12 @@
 import { gql, QueryHookOptions, useQuery } from '@apollo/client'
 import { InstitutionFragment } from 'graphql/fragments/institution'
-import { AlunoFragment } from 'graphql/fragments/person'
+import { AlunoFragment, ProfessorFragment } from 'graphql/fragments/person'
+import { TurmaFragment } from 'graphql/fragments/turma'
 import { UserFragment } from 'graphql/fragments/user'
+import {
+  QueryAlunoById,
+  QueryAlunoByIdVariables
+} from 'graphql/generated/QueryAlunoById'
 import {
   QueryAlunos,
   QueryAlunosVariables
@@ -44,15 +49,45 @@ export const QUERY_ALUNO_BY_ID = gql`
           ...InstitutionFragment
         }
       }
+      turmas {
+        ...TurmaFragment
+        alunos {
+          ...AlunoFragment
+          user {
+            ...UserFragment
+          }
+        }
+        teachers {
+          ...ProfessorFragment
+          user {
+            ...UserFragment
+          }
+        }
+        aulas {
+          id
+          title
+        }
+      }
     }
   }
   ${AlunoFragment}
   ${UserFragment}
   ${InstitutionFragment}
+  ${TurmaFragment}
+  ${ProfessorFragment}
 `
 
 export function useQueryAlunos(
   options?: QueryHookOptions<QueryAlunos, QueryAlunosVariables>
 ) {
   return useQuery<QueryAlunos, QueryAlunosVariables>(QUERY_ALUNOS, options)
+}
+
+export function useQueryAlunoById(
+  options?: QueryHookOptions<QueryAlunoById, QueryAlunoByIdVariables>
+) {
+  return useQuery<QueryAlunoById, QueryAlunoByIdVariables>(
+    QUERY_ALUNO_BY_ID,
+    options
+  )
 }

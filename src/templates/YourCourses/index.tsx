@@ -19,6 +19,8 @@ import { FaPlus } from 'react-icons/fa'
 import Heading from 'components/Heading'
 import Button from 'components/Button'
 import themes from 'styles/alt-themes'
+import { Session } from 'next-auth'
+import LoadingClient from 'components/LoadingClient'
 
 type MainProps = {
   children: React.ReactNode
@@ -26,6 +28,8 @@ type MainProps = {
 
 export type YourCoursesTemplateProps = {
   route?: string
+  session: Session
+  loading: boolean
   courses: ClassCardProps[]
   titleSemTurma?: string
   descriptionSemTurma?: string
@@ -76,6 +80,7 @@ export const Main = ({ children }: MainProps) => {
 const YourCoursesTemplate = ({
   route,
   title,
+  loading,
   withRegister = false,
   courses = [],
   titleSemTurma = 'Você ainda não tem turmas!',
@@ -115,15 +120,19 @@ const YourCoursesTemplate = ({
                       </Button>
                     )}
                   </Flex>
-                  <CoursesList
-                    onRemove={() => {
-                      console.log('')
-                    }}
-                    route={route}
-                    titleSemTurma={titleSemTurma}
-                    descriptionSemTurma={descriptionSemTurma}
-                    courses={courses}
-                  />
+                  {loading ? (
+                    <LoadingClient title={title} />
+                  ) : (
+                    <CoursesList
+                      onRemove={() => {
+                        console.log('')
+                      }}
+                      route={route}
+                      titleSemTurma={titleSemTurma}
+                      descriptionSemTurma={descriptionSemTurma}
+                      courses={courses}
+                    />
+                  )}
                 </ScaleFade>
               </Box>
             </Main>
@@ -132,15 +141,19 @@ const YourCoursesTemplate = ({
               <UserMenu activeLink={asPath} />
               <Box w="100%" bgColor="gray.800" p={4}>
                 <ScaleFade initialScale={0.9} in={true}>
-                  <CoursesList
-                    onRemove={() => {
-                      console.log('')
-                    }}
-                    route={route}
-                    titleSemTurma={titleSemTurma}
-                    descriptionSemTurma={descriptionSemTurma}
-                    courses={courses}
-                  />
+                  {loading ? (
+                    <LoadingClient title={title} />
+                  ) : (
+                    <CoursesList
+                      onRemove={() => {
+                        console.log('')
+                      }}
+                      route={route}
+                      titleSemTurma={titleSemTurma}
+                      descriptionSemTurma={descriptionSemTurma}
+                      courses={courses}
+                    />
+                  )}
                 </ScaleFade>
               </Box>
             </Box>
