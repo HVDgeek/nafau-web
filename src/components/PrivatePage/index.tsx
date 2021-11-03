@@ -1,7 +1,7 @@
-import { Container, Center, Flex } from '@chakra-ui/react'
+import { Container, Flex } from '@chakra-ui/react'
 import Empty from 'components/Empty'
 
-export default function Page404() {
+export default function PrivatePage() {
   return (
     <Flex
       as="section"
@@ -12,8 +12,8 @@ export default function Page404() {
     >
       <Container>
         <Empty
-          title="404: Página Não encontrada!"
-          description="Ops.... esta página não existe"
+          title="🔒 Você não tem permissão para acessar esta página!"
+          description="Ops.... esta página é privada"
           hasLink
         />
       </Container>

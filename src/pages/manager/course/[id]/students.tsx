@@ -12,6 +12,7 @@ import { UserItemProps } from 'components/UserItem'
 import { useSubscription } from 'hooks/use-subscription'
 import { useToast } from '@chakra-ui/toast'
 import { getImageUrl } from 'utils/getImageUrl'
+import PrivatePage from 'components/PrivatePage'
 
 export default function StudentClass(props: YourUsersTemplateProps) {
   const router = useRouter()
@@ -89,6 +90,12 @@ export default function StudentClass(props: YourUsersTemplateProps) {
         ids: newIds
       })
     }
+  }
+
+  const canManageTurma = (session as SessionProps).user.profile.canManageTurma
+
+  if (!canManageTurma?.isActive) {
+    return <PrivatePage />
   }
 
   if (typeof window !== undefined && loadingSession) return null

@@ -17,6 +17,8 @@ import { ENUM_PROFESSORES_SEXO } from 'graphql/generated/globalTypes'
 import { useTeacher } from 'hooks/use-teacher'
 import { v4 as uuidV4 } from 'uuid'
 import { getImageUrl } from 'utils/getImageUrl'
+import { useSession } from 'next-auth/client'
+import PrivatePage from 'components/PrivatePage'
 
 export type Values = Omit<
   UsersRegisterTemplateProps,
@@ -31,6 +33,7 @@ export type Values = Omit<
 
 export default function Index(props: UsersRegisterTemplateProps) {
   const { updateTeacher } = useTeacher()
+  const [session] = useSession()
 
   const initialValues = {
     name: props.name,
@@ -61,6 +64,13 @@ export default function Index(props: UsersRegisterTemplateProps) {
       sexo: values.sexo as ENUM_PROFESSORES_SEXO,
       telefone: values.telefone
     })
+  }
+
+  const canManageTeacher = (session as SessionProps).user.profile
+    .canManageTeacher
+
+  if (!canManageTeacher?.isActive) {
+    return <PrivatePage />
   }
 
   return (

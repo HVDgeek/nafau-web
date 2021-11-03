@@ -43,6 +43,7 @@ const options = {
       session.user = {
         ...user,
         institution: user.institution.id,
+        profile: user.profile,
         avatar: user?.avatar?.url || ''
       }
 
@@ -54,7 +55,12 @@ const options = {
         token.email = user.email
         token.name = user.username as string
         token.jwt = user.jwt
-        token = { ...token, institution: user.institution, avatar: user.avatar }
+        token = {
+          ...token,
+          institution: user.institution,
+          profile: user.profile,
+          avatar: user.avatar
+        }
       }
 
       return Promise.resolve(token)
@@ -65,12 +71,32 @@ const options = {
 const Auth = (req: NextApiRequest, res: NextApiResponse) =>
   NextAuth(req, res, options)
 
+type CanProfileProps = {
+  isActive: boolean
+}
+
 export type SessionProps = {
   user: {
     name?: string | null | undefined
     email?: string | null | undefined
     image?: string | null | undefined
     institution: string
+    profile: {
+      canManageAluno: CanProfileProps
+      canManageAtendente: CanProfileProps
+      canManageAula: CanProfileProps
+      canManageGerente: CanProfileProps
+      canManageRoles: CanProfileProps
+      canManageTeacher: CanProfileProps
+      canManageTurma: CanProfileProps
+      canManageUsers: CanProfileProps
+      canSeeAulas: CanProfileProps
+      canSeeOtherUsers: CanProfileProps
+      canSeeTurmas: CanProfileProps
+
+      id: string
+      name: string
+    }
     avatar: string
   }
 }

@@ -9,6 +9,7 @@ import protectedRoutes from 'utils/protected-routes'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
 import { useStudent } from 'hooks/use-student'
 import { getImageUrl } from 'utils/getImageUrl'
+import PrivatePage from 'components/PrivatePage'
 
 export default function StudentsPage(props: UsersTemplateProps) {
   const [session, loadingSession] = useSession()
@@ -39,6 +40,12 @@ export default function StudentsPage(props: UsersTemplateProps) {
     avatar: `${getImageUrl(aluno.user?.avatar?.src)}`,
     isActive: !aluno.user?.blocked
   })) as UserCardProps[]
+
+  const canManageStudent = (session as SessionProps).user.profile.canManageAluno
+
+  if (!canManageStudent?.isActive) {
+    return <PrivatePage />
+  }
 
   if (typeof window !== undefined && loadingSession) return null
 

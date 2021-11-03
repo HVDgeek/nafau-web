@@ -17,6 +17,8 @@ import { ENUM_ALUNOS_SEXO } from 'graphql/generated/globalTypes'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
 import { v4 as uuidV4 } from 'uuid'
 import { getImageUrl } from 'utils/getImageUrl'
+import PrivatePage from 'components/PrivatePage'
+import { useSession } from 'next-auth/client'
 
 export type Values = Omit<
   UsersRegisterTemplateProps,
@@ -31,6 +33,7 @@ export type Values = Omit<
 
 export default function UpdateStudentPage(props: UsersRegisterTemplateProps) {
   const { updateStudent } = useStudent()
+  const [session] = useSession()
 
   const initialValues = {
     name: props.name,
@@ -62,6 +65,12 @@ export default function UpdateStudentPage(props: UsersRegisterTemplateProps) {
       sexo: values.sexo as ENUM_ALUNOS_SEXO,
       telefone: values.telefone
     })
+  }
+
+  const canManageStudent = (session as SessionProps).user.profile.canManageAluno
+
+  if (!canManageStudent?.isActive) {
+    return <PrivatePage />
   }
 
   return (

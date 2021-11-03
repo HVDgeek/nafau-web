@@ -23,7 +23,7 @@ const Base = ({ children }: BaseTemplateProps) => {
       <Container>
         <Menu
           username={session?.user?.name}
-          avatar={`${getImageUrl((session as SessionProps).user?.avatar)}`}
+          avatar={`${getImageUrl((session as SessionProps)?.user?.avatar)}`}
         />
       </Container>
       <Box mt={4} flex="1 0 auto">

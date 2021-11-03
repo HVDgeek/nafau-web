@@ -15,6 +15,8 @@ import IconButton from 'components/IconButton'
 import SideMenu from './SideMenu'
 import Link from 'components/Link'
 import UserDropdown from 'components/UserDropdown'
+import { useSession } from 'next-auth/client'
+import { SessionProps } from 'pages/api/auth/[...nextauth]'
 
 export type MenuProps = {
   username?: string | null
@@ -24,6 +26,13 @@ export type MenuProps = {
 const Menu = ({ username, avatar }: MenuProps) => {
   const disclosure = useDisclosure()
   const { asPath } = useRouter()
+  const [session] = useSession()
+
+  const canManage =
+    (session as SessionProps).user.profile.canManageTurma?.isActive &&
+    (session as SessionProps).user.profile.canManageAluno?.isActive &&
+    (session as SessionProps).user.profile.canManageAtendente?.isActive &&
+    (session as SessionProps).user.profile.canManageTeacher?.isActive
 
   const { onOpen } = disclosure
 
@@ -59,11 +68,13 @@ const Menu = ({ username, avatar }: MenuProps) => {
                 <Link isActive={asPath === '/'}>Início</Link>
               </a>
             </NextLink>
-            <NextLink href="/manager/students">
-              <a>
-                <Link isActive={asPath.includes('/manager')}>Gestão</Link>
-              </a>
-            </NextLink>
+            {canManage && (
+              <NextLink href="/manager/students">
+                <a>
+                  <Link isActive={asPath.includes('/manager')}>Gestão</Link>
+                </a>
+              </NextLink>
+            )}
             <NextLink href="/classrooms/my-courses">
               <a>
                 <Link isActive={asPath.includes('/classrooms')}>
@@ -81,11 +92,13 @@ const Menu = ({ username, avatar }: MenuProps) => {
                 <Link isActive={asPath === '/'}>Início</Link>
               </a>
             </NextLink>
-            <NextLink href="/manager/students">
-              <a>
-                <Link isActive={asPath.includes('/manager')}>Gestão</Link>
-              </a>
-            </NextLink>
+            {canManage && (
+              <NextLink href="/manager/students">
+                <a>
+                  <Link isActive={asPath.includes('/manager')}>Gestão</Link>
+                </a>
+              </NextLink>
+            )}
             <NextLink href="/classrooms/my-courses">
               <a>
                 <Link isActive={asPath.includes('/classrooms')}>

@@ -9,6 +9,7 @@ import protectedRoutes from 'utils/protected-routes'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
 import { useAtendente } from 'hooks/use-atendente'
 import { getImageUrl } from 'utils/getImageUrl'
+import PrivatePage from 'components/PrivatePage'
 
 export default function AttendantsPage(props: UsersTemplateProps) {
   const [session, loadingSession] = useSession()
@@ -39,6 +40,13 @@ export default function AttendantsPage(props: UsersTemplateProps) {
     avatar: `${getImageUrl(atendente.user?.avatar?.src)}`,
     isActive: !atendente.user?.blocked
   })) as UserCardProps[]
+
+  const canManageAtendente = (session as SessionProps).user.profile
+    .canManageAtendente
+
+  if (!canManageAtendente?.isActive) {
+    return <PrivatePage />
+  }
 
   if (typeof window !== undefined && loadingSession) return null
 

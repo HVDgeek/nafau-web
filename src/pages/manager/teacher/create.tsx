@@ -12,6 +12,8 @@ import { SessionProps } from 'pages/api/auth/[...nextauth]'
 import { v4 as uuidV4 } from 'uuid'
 import { ENUM_PROFESSORES_SEXO } from 'graphql/generated/globalTypes'
 import { useToast } from '@chakra-ui/toast'
+import { useSession } from 'next-auth/client'
+import PrivatePage from 'components/PrivatePage'
 
 export type Values = Omit<
   UsersRegisterTemplateProps,
@@ -26,6 +28,7 @@ export type Values = Omit<
 
 export default function CreateTeacherPage(props: UsersRegisterTemplateProps) {
   const { addTeacher } = useTeacher()
+  const [session] = useSession()
   const toast = useToast()
 
   const initialValues = {
@@ -90,6 +93,13 @@ export default function CreateTeacherPage(props: UsersRegisterTemplateProps) {
       sexo: values.sexo as ENUM_PROFESSORES_SEXO,
       telefone: values.telefone
     })
+  }
+
+  const canManageTeacher = (session as SessionProps).user.profile
+    .canManageTeacher
+
+  if (!canManageTeacher?.isActive) {
+    return <PrivatePage />
   }
 
   return (

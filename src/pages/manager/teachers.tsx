@@ -9,6 +9,7 @@ import { UserCardProps } from 'components/UserCard'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
 import { useTeacher } from 'hooks/use-teacher'
 import { getImageUrl } from 'utils/getImageUrl'
+import PrivatePage from 'components/PrivatePage'
 
 export default function StudentsPage(props: UsersTemplateProps) {
   const [session, loadingSession] = useSession()
@@ -39,6 +40,13 @@ export default function StudentsPage(props: UsersTemplateProps) {
     avatar: `${getImageUrl(prof.user?.avatar?.src)}`,
     isActive: !prof.user?.blocked
   })) as UserCardProps[]
+
+  const canManageTeacher = (session as SessionProps).user.profile
+    .canManageTeacher
+
+  if (!canManageTeacher?.isActive) {
+    return <PrivatePage />
+  }
 
   if (typeof window !== undefined && loadingSession) return null
 

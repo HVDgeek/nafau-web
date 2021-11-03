@@ -17,6 +17,8 @@ import { useAtendente } from 'hooks/use-atendente'
 import { ENUM_ATENDENTES_SEXO } from 'graphql/generated/globalTypes'
 import { v4 as uuidV4 } from 'uuid'
 import { getImageUrl } from 'utils/getImageUrl'
+import { useSession } from 'next-auth/client'
+import PrivatePage from 'components/PrivatePage'
 
 export type Values = Omit<
   UsersRegisterTemplateProps,
@@ -31,6 +33,7 @@ export type Values = Omit<
 
 export default function Index(props: UsersRegisterTemplateProps) {
   const { updateAtendente } = useAtendente()
+  const [session] = useSession()
 
   const initialValues = {
     name: props.name,
@@ -61,6 +64,13 @@ export default function Index(props: UsersRegisterTemplateProps) {
       sexo: values.sexo as ENUM_ATENDENTES_SEXO,
       telefone: values.telefone
     })
+  }
+
+  const canManageAttendant = (session as SessionProps).user.profile
+    .canManageAtendente
+
+  if (!canManageAttendant?.isActive) {
+    return <PrivatePage />
   }
 
   return (

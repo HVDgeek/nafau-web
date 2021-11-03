@@ -10,6 +10,7 @@ import { ClassCardProps } from 'components/ClassCard'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
 import { useCourse } from 'hooks/use-turma'
 import { getImageUrl } from 'utils/getImageUrl'
+import PrivatePage from 'components/PrivatePage'
 
 export default function Courses(props: CourseTemplateProps) {
   const [session, loadingSession] = useSession()
@@ -47,6 +48,12 @@ export default function Courses(props: CourseTemplateProps) {
     },
     countAlunos: turma.alunos.length
   })) as ClassCardProps[]
+
+  const canManageTurma = (session as SessionProps).user.profile.canManageTurma
+
+  if (!canManageTurma?.isActive) {
+    return <PrivatePage />
+  }
 
   if (typeof window !== undefined && loadingSession) return null
 

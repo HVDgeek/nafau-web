@@ -10,6 +10,7 @@ import protectedRoutes from 'utils/protected-routes'
 import { useCourse } from 'hooks/use-turma'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
 import { ENUM_TURMAS_STATUS } from 'graphql/generated/globalTypes'
+import PrivatePage from 'components/PrivatePage'
 
 export type Values = CourseRegisterTemplateProps
 
@@ -43,6 +44,12 @@ export default function CreateCourse(props: CourseRegisterTemplateProps) {
       description: values.description,
       institution: (props.session as SessionProps).user.institution
     })
+  }
+
+  const canManageTurma = (session as SessionProps).user.profile.canManageTurma
+
+  if (!canManageTurma?.isActive) {
+    return <PrivatePage />
   }
 
   return (

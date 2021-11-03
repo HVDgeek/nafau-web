@@ -12,6 +12,8 @@ import { SessionProps } from 'pages/api/auth/[...nextauth]'
 import { v4 as uuidV4 } from 'uuid'
 import { ENUM_ATENDENTES_SEXO } from 'graphql/generated/globalTypes'
 import { useToast } from '@chakra-ui/toast'
+import { useSession } from 'next-auth/client'
+import PrivatePage from 'components/PrivatePage'
 
 export type Values = Omit<
   UsersRegisterTemplateProps,
@@ -27,6 +29,7 @@ export type Values = Omit<
 export default function CreateAtendentePage(props: UsersRegisterTemplateProps) {
   const { addAtendente } = useAtendente()
   const toast = useToast()
+  const [session] = useSession()
 
   const initialValues = {
     name: props.name,
@@ -90,6 +93,13 @@ export default function CreateAtendentePage(props: UsersRegisterTemplateProps) {
       sexo: values.sexo as ENUM_ATENDENTES_SEXO,
       telefone: values.telefone
     })
+  }
+
+  const canManageAttendant = (session as SessionProps).user.profile
+    .canManageAtendente
+
+  if (!canManageAttendant?.isActive) {
+    return <PrivatePage />
   }
 
   return (

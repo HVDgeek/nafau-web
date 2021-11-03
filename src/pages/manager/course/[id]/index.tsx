@@ -16,6 +16,7 @@ import CourseRegisterTemplate, {
 } from 'templates/CourseRegister'
 import { initializeApollo } from 'utils/apollo'
 import protectedRoutes from 'utils/protected-routes'
+import PrivatePage from 'components/PrivatePage'
 
 export type Values = Omit<
   CourseRegisterTemplateProps,
@@ -53,6 +54,12 @@ export default function Index(props: CourseRegisterTemplateProps) {
       description: values.description,
       institution: (props.session as SessionProps).user.institution
     })
+  }
+
+  const canManageTurma = (session as SessionProps).user.profile.canManageTurma
+
+  if (!canManageTurma?.isActive) {
+    return <PrivatePage />
   }
 
   return (

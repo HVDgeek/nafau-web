@@ -14,6 +14,7 @@ import { SessionProps } from 'pages/api/auth/[...nextauth]'
 import { useSubscription } from 'hooks/use-subscription'
 import { useToast } from '@chakra-ui/toast'
 import { getImageUrl } from 'utils/getImageUrl'
+import PrivatePage from 'components/PrivatePage'
 
 export default function Courses(props: YourCoursesTemplateProps) {
   const router = useRouter()
@@ -109,6 +110,13 @@ export default function Courses(props: YourCoursesTemplateProps) {
         ids: existsIds?.filter((turmaId) => turmaId !== id)
       })
     }
+  }
+
+  const canManageTeacher = (session as SessionProps).user.profile
+    .canManageTeacher
+
+  if (!canManageTeacher?.isActive) {
+    return <PrivatePage />
   }
 
   if (typeof window !== undefined && loadingSession) return null
