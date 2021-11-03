@@ -41,10 +41,10 @@ export default function StudentsPage(props: UsersTemplateProps) {
     isActive: !prof.user?.blocked
   })) as UserCardProps[]
 
-  const canManageTeacher = (session as SessionProps).user.profile
+  const canManageTeacher = (session as SessionProps)?.user.profile
     .canManageTeacher
 
-  if (!canManageTeacher?.isActive) {
+  if (session && !canManageTeacher?.isActive) {
     return <PrivatePage />
   }
 

@@ -41,9 +41,10 @@ export default function StudentsPage(props: UsersTemplateProps) {
     isActive: !aluno.user?.blocked
   })) as UserCardProps[]
 
-  const canManageStudent = (session as SessionProps).user.profile.canManageAluno
+  const canManageStudent = (session as SessionProps)?.user.profile
+    .canManageAluno
 
-  if (!canManageStudent?.isActive) {
+  if (session && !canManageStudent?.isActive) {
     return <PrivatePage />
   }
 

@@ -29,10 +29,11 @@ const Menu = ({ username, avatar }: MenuProps) => {
   const [session] = useSession()
 
   const canManage =
-    (session as SessionProps).user.profile.canManageTurma?.isActive &&
-    (session as SessionProps).user.profile.canManageAluno?.isActive &&
-    (session as SessionProps).user.profile.canManageAtendente?.isActive &&
-    (session as SessionProps).user.profile.canManageTeacher?.isActive
+    session &&
+    (session as SessionProps)?.user.profile.canManageTurma?.isActive &&
+    (session as SessionProps)?.user.profile.canManageAluno?.isActive &&
+    (session as SessionProps)?.user.profile.canManageAtendente?.isActive &&
+    (session as SessionProps)?.user.profile.canManageTeacher?.isActive
 
   const { onOpen } = disclosure
 

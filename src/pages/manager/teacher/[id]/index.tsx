@@ -66,10 +66,10 @@ export default function Index(props: UsersRegisterTemplateProps) {
     })
   }
 
-  const canManageTeacher = (session as SessionProps).user.profile
+  const canManageTeacher = (session as SessionProps)?.user.profile
     .canManageTeacher
 
-  if (!canManageTeacher?.isActive) {
+  if (session && !canManageTeacher?.isActive) {
     return <PrivatePage />
   }
 

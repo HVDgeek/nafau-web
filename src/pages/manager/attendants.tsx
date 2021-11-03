@@ -41,10 +41,10 @@ export default function AttendantsPage(props: UsersTemplateProps) {
     isActive: !atendente.user?.blocked
   })) as UserCardProps[]
 
-  const canManageAtendente = (session as SessionProps).user.profile
+  const canManageAtendente = (session as SessionProps)?.user.profile
     .canManageAtendente
 
-  if (!canManageAtendente?.isActive) {
+  if (session && !canManageAtendente?.isActive) {
     return <PrivatePage />
   }
 

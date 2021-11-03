@@ -49,9 +49,9 @@ export default function Courses(props: CourseTemplateProps) {
     countAlunos: turma.alunos.length
   })) as ClassCardProps[]
 
-  const canManageTurma = (session as SessionProps).user.profile.canManageTurma
+  const canManageTurma = (session as SessionProps)?.user.profile.canManageTurma
 
-  if (!canManageTurma?.isActive) {
+  if (session && !canManageTurma?.isActive) {
     return <PrivatePage />
   }
 

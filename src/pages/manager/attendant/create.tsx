@@ -95,10 +95,10 @@ export default function CreateAtendentePage(props: UsersRegisterTemplateProps) {
     })
   }
 
-  const canManageAttendant = (session as SessionProps).user.profile
+  const canManageAttendant = (session as SessionProps)?.user.profile
     .canManageAtendente
 
-  if (!canManageAttendant?.isActive) {
+  if (session && !canManageAttendant?.isActive) {
     return <PrivatePage />
   }
 

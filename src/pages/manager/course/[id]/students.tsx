@@ -92,9 +92,9 @@ export default function StudentClass(props: YourUsersTemplateProps) {
     }
   }
 
-  const canManageTurma = (session as SessionProps).user.profile.canManageTurma
+  const canManageTurma = (session as SessionProps)?.user.profile.canManageTurma
 
-  if (!canManageTurma?.isActive) {
+  if (session && !canManageTurma?.isActive) {
     return <PrivatePage />
   }
 

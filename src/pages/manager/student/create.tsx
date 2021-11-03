@@ -96,9 +96,10 @@ export default function CreateStudentPage(props: UsersRegisterTemplateProps) {
     })
   }
 
-  const canManageStudent = (session as SessionProps).user.profile.canManageAluno
+  const canManageStudent = (session as SessionProps)?.user.profile
+    .canManageAluno
 
-  if (!canManageStudent?.isActive) {
+  if (session && !canManageStudent?.isActive) {
     return <PrivatePage />
   }
 

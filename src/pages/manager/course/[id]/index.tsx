@@ -56,9 +56,9 @@ export default function Index(props: CourseRegisterTemplateProps) {
     })
   }
 
-  const canManageTurma = (session as SessionProps).user.profile.canManageTurma
+  const canManageTurma = (session as SessionProps)?.user.profile.canManageTurma
 
-  if (!canManageTurma?.isActive) {
+  if (session && !canManageTurma?.isActive) {
     return <PrivatePage />
   }
 

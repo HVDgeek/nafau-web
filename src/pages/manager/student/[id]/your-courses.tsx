@@ -110,9 +110,10 @@ export default function Courses(props: YourCoursesTemplateProps) {
     }
   }
 
-  const canManageStudent = (session as SessionProps).user.profile.canManageAluno
+  const canManageStudent = (session as SessionProps)?.user.profile
+    .canManageAluno
 
-  if (!canManageStudent?.isActive) {
+  if (session && !canManageStudent?.isActive) {
     return <PrivatePage />
   }
 
