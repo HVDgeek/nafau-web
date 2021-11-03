@@ -20,20 +20,45 @@ import {
 } from 'react-icons/hi'
 import themes from 'styles/alt-themes'
 
+function formatProfile(name: string) {
+  if (name === 'STUDENT') {
+    return 'Estudante'
+  }
+  if (name === 'TEACHER_ONLY') {
+    return 'Apenas Professor'
+  }
+  if (name === 'TEACHER_MANAGER') {
+    return 'Professor Gerente'
+  }
+  if (name === 'ATTENDANT') return 'Atendente'
+  return ''
+}
+
 type FieldType = {
   field: any
+}
+
+export type ProfileProps = {
+  id: string
+  name: string
 }
 
 export type FormUserProps = {
   initialValues: any
   createForm: boolean
+  perfis: ProfileProps[]
   onSubmit: (
     values: any,
     formikHelpers: FormikHelpers<any>
   ) => void | Promise<any>
 }
 
-const FormUser = ({ onSubmit, initialValues, createForm }: FormUserProps) => {
+const FormUser = ({
+  onSubmit,
+  initialValues,
+  createForm,
+  perfis
+}: FormUserProps) => {
   const isDesktopVersion = useBreakpointValue({
     base: false,
     md: true,
@@ -67,7 +92,7 @@ const FormUser = ({ onSubmit, initialValues, createForm }: FormUserProps) => {
                 />
                 <Field name="sexo">
                   {({ field }: FieldType) => (
-                    <FormControl id="sexo">
+                    <FormControl id="sexo" isRequired>
                       <FormLabel fontSize="sm" htmlFor="sexo">
                         Sexo
                       </FormLabel>
@@ -184,6 +209,43 @@ const FormUser = ({ onSubmit, initialValues, createForm }: FormUserProps) => {
                         //   }
                         // }}
                       />
+                    </FormControl>
+                  )}
+                </Field>
+                <Field name="profile">
+                  {({ field }: FieldType) => (
+                    <FormControl id="profile" isRequired>
+                      <FormLabel fontSize="sm" htmlFor="sexo">
+                        Permissões dentro da plataforma
+                      </FormLabel>
+                      <Select
+                        {...field}
+                        name="profile"
+                        placeholder="Selecione a permissão"
+                        bg="gray.900"
+                        variant="filled"
+                        borderRadius={themes.border.radius}
+                        borderWidth={1}
+                        fontSize="sm"
+                        // _focus={{ shadow: 'none' }}
+                        _hover={{
+                          bgColor: 'gray.900'
+                        }}
+                        focusBorderColor="purple.500"
+                        errorBorderColor="red.300"
+                        css={{
+                          ':focus': {
+                            background: '#181b23'
+                          }
+                        }}
+                      >
+                        {perfis &&
+                          perfis.map((perfil) => (
+                            <option key={perfil.id} value={perfil.id}>
+                              {formatProfile(perfil.name)}
+                            </option>
+                          ))}
+                      </Select>
                     </FormControl>
                   )}
                 </Field>

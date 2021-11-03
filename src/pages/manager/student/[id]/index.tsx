@@ -19,6 +19,11 @@ import { v4 as uuidV4 } from 'uuid'
 import { getImageUrl } from 'utils/getImageUrl'
 import PrivatePage from 'components/PrivatePage'
 import { useSession } from 'next-auth/client'
+import { QUERY_PERFIS } from 'graphql/queries/perfis'
+import {
+  QueryPerfis,
+  QueryPerfisVariables
+} from 'graphql/generated/QueryPerfis'
 
 export type Values = Omit<
   UsersRegisterTemplateProps,
@@ -77,6 +82,9 @@ export default function UpdateStudentPage(props: UsersRegisterTemplateProps) {
   return (
     <UsersRegisterTemplate
       {...props}
+      perfis={props.perfis.filter((profile) =>
+        profile.name.includes('STUDENT')
+      )}
       title={props.name}
       onSubmit={onSubmit}
       initialValues={initialValues}
@@ -92,6 +100,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   if (!session) {
     return { props: {} }
   }
+
+  const { data: dataProfile } = await apolloClient.query<
+    QueryPerfis,
+    QueryPerfisVariables
+  >({
+    query: QUERY_PERFIS,
+    variables: {
+      limit: 10
+    }
+  })
 
   const { params } = context
 
@@ -114,6 +132,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
+      perfis: dataProfile.perfis,
       id: data.aluno.id,
       session: session,
       name: aluno.name,

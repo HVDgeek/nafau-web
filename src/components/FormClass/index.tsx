@@ -95,7 +95,7 @@ const FormClass = ({ onSubmit, initialValues }: FormClassProps) => {
                 />
 
                 <Field name="description">
-                  {({ field, form }) => (
+                  {({ field }: FieldType) => (
                     <FormControl id="description">
                       <FormLabel fontSize="sm" htmlFor="description">
                         Descrição da turma

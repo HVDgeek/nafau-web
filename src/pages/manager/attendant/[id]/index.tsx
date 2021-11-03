@@ -19,6 +19,11 @@ import { v4 as uuidV4 } from 'uuid'
 import { getImageUrl } from 'utils/getImageUrl'
 import { useSession } from 'next-auth/client'
 import PrivatePage from 'components/PrivatePage'
+import {
+  QueryPerfis,
+  QueryPerfisVariables
+} from 'graphql/generated/QueryPerfis'
+import { QUERY_PERFIS } from 'graphql/queries/perfis'
 
 export type Values = Omit<
   UsersRegisterTemplateProps,
@@ -76,6 +81,9 @@ export default function Index(props: UsersRegisterTemplateProps) {
   return (
     <UsersRegisterTemplate
       {...props}
+      perfis={props.perfis.filter((profile) =>
+        profile.name.includes('ATTENDANT')
+      )}
       title={props.name}
       onSubmit={onSubmit}
       initialValues={initialValues}
@@ -94,6 +102,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const { params } = context
 
+  const { data: dataProfile } = await apolloClient.query<
+    QueryPerfis,
+    QueryPerfisVariables
+  >({
+    query: QUERY_PERFIS,
+    variables: {
+      limit: 10
+    }
+  })
+
   const { data } = await apolloClient.query<
     QueryAtendenteById,
     QueryAtendenteByIdVariables
@@ -111,6 +129,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
+      perfis: dataProfile.perfis,
       session: session,
       id: atendente.id,
       name: atendente.name,

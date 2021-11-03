@@ -14,6 +14,12 @@ import { ENUM_ALUNOS_SEXO } from 'graphql/generated/globalTypes'
 import { useToast } from '@chakra-ui/toast'
 import { useSession } from 'next-auth/client'
 import PrivatePage from 'components/PrivatePage'
+import { initializeApollo } from 'utils/apollo'
+import {
+  QueryPerfis,
+  QueryPerfisVariables
+} from 'graphql/generated/QueryPerfis'
+import { QUERY_PERFIS } from 'graphql/queries/perfis'
 
 export type Values = Omit<
   UsersRegisterTemplateProps,
@@ -106,6 +112,9 @@ export default function CreateStudentPage(props: UsersRegisterTemplateProps) {
   return (
     <UsersRegisterTemplate
       {...props}
+      perfis={props.perfis.filter((profile) =>
+        profile.name.includes('STUDENT')
+      )}
       title="Cadastrar novo Estudante"
       onSubmit={onSubmit}
       initialValues={initialValues}
@@ -115,14 +124,23 @@ export default function CreateStudentPage(props: UsersRegisterTemplateProps) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await protectedRoutes(context)
+  const apolloClient = initializeApollo(null, session)
 
   if (!session) {
     return { props: {} }
   }
 
+  const { data } = await apolloClient.query<QueryPerfis, QueryPerfisVariables>({
+    query: QUERY_PERFIS,
+    variables: {
+      limit: 10
+    }
+  })
+
   return {
     props: {
       session: session,
+      perfis: data.perfis,
       name: '',
       sexo: '',
       birthday: '',

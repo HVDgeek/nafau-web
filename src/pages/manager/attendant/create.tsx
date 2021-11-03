@@ -14,6 +14,12 @@ import { ENUM_ATENDENTES_SEXO } from 'graphql/generated/globalTypes'
 import { useToast } from '@chakra-ui/toast'
 import { useSession } from 'next-auth/client'
 import PrivatePage from 'components/PrivatePage'
+import { QUERY_PERFIS } from 'graphql/queries/perfis'
+import { initializeApollo } from 'utils/apollo'
+import {
+  QueryPerfis,
+  QueryPerfisVariables
+} from 'graphql/generated/QueryPerfis'
 
 export type Values = Omit<
   UsersRegisterTemplateProps,
@@ -105,6 +111,9 @@ export default function CreateAtendentePage(props: UsersRegisterTemplateProps) {
   return (
     <UsersRegisterTemplate
       {...props}
+      perfis={props.perfis.filter((profile) =>
+        profile.name.includes('ATTENDANT')
+      )}
       title="Cadastrar novo Atendente"
       onSubmit={onSubmit}
       initialValues={initialValues}
@@ -114,13 +123,22 @@ export default function CreateAtendentePage(props: UsersRegisterTemplateProps) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await protectedRoutes(context)
+  const apolloClient = initializeApollo(null, session)
 
   if (!session) {
     return { props: {} }
   }
 
+  const { data } = await apolloClient.query<QueryPerfis, QueryPerfisVariables>({
+    query: QUERY_PERFIS,
+    variables: {
+      limit: 10
+    }
+  })
+
   return {
     props: {
+      perfis: data.perfis,
       session: session,
       name: '',
       sexo: '',

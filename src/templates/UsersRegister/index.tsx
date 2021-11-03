@@ -6,7 +6,7 @@ import Sidebar from 'components/Sidebar'
 import Base from 'templates/Base'
 import managerMock from 'components/Sidebar/managerMock'
 import { UserCardProps } from 'components/UserCard'
-import FormUser from 'components/FormUser'
+import FormUser, { ProfileProps } from 'components/FormUser'
 import UserMenu from 'components/UserMenu'
 import Heading from 'components/Heading'
 import { FormikHelpers } from 'formik'
@@ -30,6 +30,7 @@ export type UsersRegisterTemplateProps = {
   user: UserCardProps
   initialValues: any
   createForm: boolean
+  perfis: ProfileProps[]
   onSubmit: (
     values: any,
     formikHelpers: FormikHelpers<any>
@@ -76,6 +77,7 @@ const UsersRegisterTemplate = ({
   onSubmit,
   initialValues,
   title,
+  perfis,
   createForm = true
 }: UsersRegisterTemplateProps) => {
   const isDesktopVersion = useBreakpointValue({
@@ -99,6 +101,7 @@ const UsersRegisterTemplate = ({
                 </Heading>
                 <ScaleFade initialScale={0.9} in={true}>
                   <FormUser
+                    perfis={perfis}
                     onSubmit={onSubmit}
                     initialValues={initialValues}
                     createForm={createForm}
@@ -112,6 +115,7 @@ const UsersRegisterTemplate = ({
               <Box w="100%" bgColor="gray.800" p={4}>
                 <ScaleFade initialScale={0.9} in={true}>
                   <FormUser
+                    perfis={perfis}
                     onSubmit={onSubmit}
                     initialValues={initialValues}
                     createForm={createForm}
