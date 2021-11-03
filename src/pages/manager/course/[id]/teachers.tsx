@@ -11,6 +11,7 @@ import { useQueryProfessores } from 'graphql/queries/professores'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
 import { useSubscription } from 'hooks/use-subscription'
 import { useToast } from '@chakra-ui/toast'
+import { getImageUrl } from 'utils/getImageUrl'
 
 export default function StudentClass(props: YourUsersTemplateProps) {
   const router = useRouter()
@@ -41,7 +42,7 @@ export default function StudentClass(props: YourUsersTemplateProps) {
     name: prof.name,
     email: prof.user?.email,
     username: prof.user?.username,
-    avatar: `${process.env.NEXT_PUBLIC_API_URL}${prof.user?.avatar?.src}`,
+    avatar: `${getImageUrl(prof.user?.avatar?.src)}`,
     isActive: !prof.user?.blocked
   })) as UserCardProps[]
 
@@ -55,7 +56,7 @@ export default function StudentClass(props: YourUsersTemplateProps) {
         id: prof.id,
         name: prof.name,
         email: prof.user?.email,
-        avatar: `${process.env.NEXT_PUBLIC_API_URL}${prof.user?.avatar?.src}`
+        avatar: `${getImageUrl(prof.user?.avatar?.src)}`
       }
     }
     return null
@@ -123,6 +124,11 @@ export default function StudentClass(props: YourUsersTemplateProps) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await protectedRoutes(context)
+
+  if (!session) {
+    return { props: {} }
+  }
+
   return {
     props: {
       session: session

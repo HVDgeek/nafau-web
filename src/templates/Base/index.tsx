@@ -4,6 +4,7 @@ import Footer from 'components/Footer'
 import Menu from 'components/Menu'
 import { useSession } from 'next-auth/client'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
+import { getImageUrl } from 'utils/getImageUrl'
 
 export type BaseTemplateProps = {
   children: React.ReactNode
@@ -22,9 +23,7 @@ const Base = ({ children }: BaseTemplateProps) => {
       <Container>
         <Menu
           username={session?.user?.name}
-          avatar={`${process.env.NEXT_PUBLIC_API_URL}${
-            (session as SessionProps).user?.avatar
-          }`}
+          avatar={`${getImageUrl((session as SessionProps).user?.avatar)}`}
         />
       </Container>
       <Box mt={4} flex="1 0 auto">

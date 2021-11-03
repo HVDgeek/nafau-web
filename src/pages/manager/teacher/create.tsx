@@ -105,6 +105,10 @@ export default function CreateTeacherPage(props: UsersRegisterTemplateProps) {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await protectedRoutes(context)
 
+  if (!session) {
+    return { props: {} }
+  }
+
   return {
     props: {
       session: session,

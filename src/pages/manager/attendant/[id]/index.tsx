@@ -16,6 +16,7 @@ import { SessionProps } from 'pages/api/auth/[...nextauth]'
 import { useAtendente } from 'hooks/use-atendente'
 import { ENUM_ATENDENTES_SEXO } from 'graphql/generated/globalTypes'
 import { v4 as uuidV4 } from 'uuid'
+import { getImageUrl } from 'utils/getImageUrl'
 
 export type Values = Omit<
   UsersRegisterTemplateProps,
@@ -77,6 +78,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await protectedRoutes(context)
   const apolloClient = initializeApollo(null, session)
 
+  if (!session) {
+    return { props: {} }
+  }
+
   const { params } = context
 
   const { data } = await apolloClient.query<
@@ -106,7 +111,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       user: {
         email: atendente.user?.email,
         username: atendente.user?.username,
-        avatar: `${process.env.NEXT_PUBLIC_API_URL}${atendente.user?.avatar?.src}`,
+        avatar: `${getImageUrl(atendente.user?.avatar?.src)}`,
         isActive: !atendente.user?.blocked
       }
     }

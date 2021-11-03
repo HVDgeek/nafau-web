@@ -25,7 +25,7 @@ export default function Classrooms(props: VideoConferenceTemplateProps) {
   )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   return {
     props: {
       courses: classroomsMock

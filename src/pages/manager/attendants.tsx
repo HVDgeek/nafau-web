@@ -8,6 +8,7 @@ import { UserCardProps } from 'components/UserCard'
 import protectedRoutes from 'utils/protected-routes'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
 import { useAtendente } from 'hooks/use-atendente'
+import { getImageUrl } from 'utils/getImageUrl'
 
 export default function AttendantsPage(props: UsersTemplateProps) {
   const [session, loadingSession] = useSession()
@@ -35,7 +36,7 @@ export default function AttendantsPage(props: UsersTemplateProps) {
     name: atendente.name,
     email: atendente.user?.email,
     username: atendente.user?.username,
-    avatar: `${process.env.NEXT_PUBLIC_API_URL}${atendente.user?.avatar?.src}`,
+    avatar: `${getImageUrl(atendente.user?.avatar?.src)}`,
     isActive: !atendente.user?.blocked
   })) as UserCardProps[]
 
@@ -77,6 +78,10 @@ export default function AttendantsPage(props: UsersTemplateProps) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await protectedRoutes(context)
+
+  if (!session) {
+    return { props: {} }
+  }
 
   return {
     props: {

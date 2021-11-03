@@ -13,6 +13,7 @@ import { useQueryTurmas } from 'graphql/queries/turmas'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
 import { useSubscription } from 'hooks/use-subscription'
 import { useToast } from '@chakra-ui/toast'
+import { getImageUrl } from 'utils/getImageUrl'
 
 export default function Courses(props: YourCoursesTemplateProps) {
   const router = useRouter()
@@ -49,7 +50,7 @@ export default function Courses(props: YourCoursesTemplateProps) {
     },
     teacher: {
       name: turma?.teachers[0]?.name,
-      avatar: `${process.env.NEXT_PUBLIC_API_URL}${turma?.teachers[0]?.user?.avatar?.src}`
+      avatar: `${getImageUrl(turma?.teachers[0]?.user?.avatar?.src)}`
     },
     countAlunos: turma.alunos.length
   })) as ClassCardProps[]
@@ -133,6 +134,10 @@ export default function Courses(props: YourCoursesTemplateProps) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await protectedRoutes(context)
+
+  if (!session) {
+    return { props: {} }
+  }
 
   return {
     props: {

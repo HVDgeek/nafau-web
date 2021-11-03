@@ -58,6 +58,10 @@ export default function CreateCourse(props: CourseRegisterTemplateProps) {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await protectedRoutes(context)
 
+  if (!session) {
+    return { props: {} }
+  }
+
   return {
     props: {
       session: session,

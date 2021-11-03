@@ -21,7 +21,7 @@ export default function Courses(props: CoursesListProps) {
   )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   return {
     props: {
       courses: classroomsMock

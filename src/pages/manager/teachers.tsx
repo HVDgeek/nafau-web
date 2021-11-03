@@ -8,6 +8,7 @@ import protectedRoutes from 'utils/protected-routes'
 import { UserCardProps } from 'components/UserCard'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
 import { useTeacher } from 'hooks/use-teacher'
+import { getImageUrl } from 'utils/getImageUrl'
 
 export default function StudentsPage(props: UsersTemplateProps) {
   const [session, loadingSession] = useSession()
@@ -35,7 +36,7 @@ export default function StudentsPage(props: UsersTemplateProps) {
     name: prof.name,
     email: prof.user?.email,
     username: prof.user?.username,
-    avatar: `${process.env.NEXT_PUBLIC_API_URL}${prof.user?.avatar?.src}`,
+    avatar: `${getImageUrl(prof.user?.avatar?.src)}`,
     isActive: !prof.user?.blocked
   })) as UserCardProps[]
 
@@ -77,6 +78,10 @@ export default function StudentsPage(props: UsersTemplateProps) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await protectedRoutes(context)
+
+  if (!session) {
+    return { props: {} }
+  }
 
   return {
     props: {

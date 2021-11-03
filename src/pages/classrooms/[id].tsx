@@ -16,14 +16,7 @@ export default function Index(props: ClassroomTemplateProps) {
   return <Classroom {...props} />
 }
 
-export async function getStaticPaths() {
-  return {
-    paths: [{ params: { id: '1' } }],
-    fallback: false
-  }
-}
-
-export async function getStaticProps() {
+export async function getServerSideProps() {
   return {
     props: {
       lessons: lessonsMock,

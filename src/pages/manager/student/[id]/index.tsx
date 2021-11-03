@@ -16,6 +16,7 @@ import { useStudent } from 'hooks/use-student'
 import { ENUM_ALUNOS_SEXO } from 'graphql/generated/globalTypes'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
 import { v4 as uuidV4 } from 'uuid'
+import { getImageUrl } from 'utils/getImageUrl'
 
 export type Values = Omit<
   UsersRegisterTemplateProps,
@@ -78,6 +79,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await protectedRoutes(context)
   const apolloClient = initializeApollo(null, session)
 
+  if (!session) {
+    return { props: {} }
+  }
+
   const { params } = context
 
   const { data } = await apolloClient.query<
@@ -110,7 +115,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       user: {
         email: aluno.user?.email,
         username: aluno.user?.username,
-        avatar: `${process.env.NEXT_PUBLIC_API_URL}${aluno.user?.avatar?.src}`,
+        avatar: `${getImageUrl(aluno.user?.avatar?.src)}`,
         isActive: !aluno.user?.blocked
       }
     }

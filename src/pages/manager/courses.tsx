@@ -9,6 +9,7 @@ import protectedRoutes from 'utils/protected-routes'
 import { ClassCardProps } from 'components/ClassCard'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
 import { useCourse } from 'hooks/use-turma'
+import { getImageUrl } from 'utils/getImageUrl'
 
 export default function Courses(props: CourseTemplateProps) {
   const [session, loadingSession] = useSession()
@@ -42,7 +43,7 @@ export default function Courses(props: CourseTemplateProps) {
     },
     teacher: {
       name: turma?.teachers[0]?.name,
-      avatar: `${process.env.NEXT_PUBLIC_API_URL}${turma?.teachers[0]?.user?.avatar?.src}`
+      avatar: `${getImageUrl(turma?.teachers[0]?.user?.avatar?.src)}`
     },
     countAlunos: turma.alunos.length
   })) as ClassCardProps[]
@@ -89,6 +90,10 @@ export default function Courses(props: CourseTemplateProps) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await protectedRoutes(context)
+
+  if (!session) {
+    return { props: {} }
+  }
 
   return {
     props: {
