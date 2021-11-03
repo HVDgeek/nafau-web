@@ -1,12 +1,12 @@
-import Course, { CourseTemplateProps } from 'templates/Course'
 import classroomsMock from 'components/ClassCard/mock'
 import sidebarClassroomsMock from 'components/Sidebar/classroomsMock'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/client'
 import protectedRoutes from 'utils/protected-routes'
 import { GetServerSidePropsContext } from 'next'
+import ForumTemplate, { ForumTemplateProps } from 'templates/ForumTemplate'
 
-export default function Classrooms(props: CourseTemplateProps) {
+export default function Classrooms(props: ForumTemplateProps) {
   const router = useRouter()
   const [session, loadingSession] = useSession()
 
@@ -17,12 +17,10 @@ export default function Classrooms(props: CourseTemplateProps) {
   }
 
   return (
-    <Course
+    <ForumTemplate
       {...props}
-      title="Vídeo conferência"
+      title="Fórum de discussão"
       links={sidebarClassroomsMock}
-      buttonTitle="Entrar"
-      withRemove={false}
     />
   )
 }

@@ -28,6 +28,9 @@ export type CourseTemplateProps = {
   titleSemTurma?: string
   descriptionSemTurma?: string
   session: Session
+  module?: string
+  buttonTitle?: string
+  withRemove?: boolean
   onRemove: (id: string) => void
 }
 
@@ -35,6 +38,9 @@ const Course = ({
   route,
   courses = [],
   loading,
+  module,
+  buttonTitle,
+  withRemove,
   hasMore,
   onRemove,
   onSubmit,
@@ -71,6 +77,9 @@ const Course = ({
                 )}
               </Flex>
               <CoursesList
+                module={module}
+                buttonTitle={buttonTitle}
+                withRemove={withRemove}
                 route={route}
                 titleSemTurma={titleSemTurma}
                 descriptionSemTurma={descriptionSemTurma}

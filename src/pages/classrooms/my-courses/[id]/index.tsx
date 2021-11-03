@@ -3,6 +3,7 @@ import lessonsMock from 'components/ClassItem/mock'
 import courseInfoMock from 'components/ClassroomHeader/mock'
 import { useSession } from 'next-auth/client'
 import { useRouter } from 'next/router'
+import classroomsMock from 'components/Sidebar/classroomsMock'
 
 export default function Index(props: ClassroomTemplateProps) {
   const router = useRouter()
@@ -13,7 +14,7 @@ export default function Index(props: ClassroomTemplateProps) {
   if (!session) {
     window.location.href = `/sign-in?callbackUrl=${router.asPath}`
   }
-  return <Classroom {...props} />
+  return <Classroom {...props} links={classroomsMock} />
 }
 
 export async function getServerSideProps() {

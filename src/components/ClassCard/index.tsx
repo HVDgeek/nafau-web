@@ -49,6 +49,9 @@ export type ClassCardProps = {
   route?: string
   timing?: number
   onRemove: (id: string) => void
+  module?: string
+  buttonTitle?: string
+  withRemove?: boolean
 }
 
 const ClassCard = ({
@@ -60,7 +63,10 @@ const ClassCard = ({
   countAlunos,
   lastLesson,
   route,
-  onRemove
+  onRemove,
+  buttonTitle = 'Acessar',
+  withRemove = true,
+  module = 'manager'
 }: ClassCardProps) => {
   const color = shade(0.7, stringToColour(title))
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -197,29 +203,31 @@ const ClassCard = ({
         </Box> */}
 
         <Box position="absolute" right={0} bottom={0} p={4}>
-          <Link href={`/manager/${route}/${Base64.encode(`${id}`)}`} passHref>
+          <Link href={`/${module}/${route}/${Base64.encode(`${id}`)}`} passHref>
             <Button as="a" size={'xs'} rightIcon={<Icon as={AiOutlineRight} />}>
-              Acessar
+              {buttonTitle}
             </Button>
           </Link>
         </Box>
       </Box>
-      <Tooltip
-        fontSize="small"
-        label="Remover esta turma!"
-        aria-label="A tooltip"
-      >
-        <Box p={2} position="absolute" top={0} right={0}>
-          <IconButton
-            onClick={() => {
-              onOpen()
-            }}
-            ariaLabel="Remover turma"
-          >
-            <AiOutlineClose size={18} />
-          </IconButton>
-        </Box>
-      </Tooltip>
+      {withRemove && (
+        <Tooltip
+          fontSize="small"
+          label="Remover esta turma!"
+          aria-label="A tooltip"
+        >
+          <Box p={2} position="absolute" top={0} right={0}>
+            <IconButton
+              onClick={() => {
+                onOpen()
+              }}
+              ariaLabel="Remover turma"
+            >
+              <AiOutlineClose size={18} />
+            </IconButton>
+          </Box>
+        </Tooltip>
+      )}
       <Modal onClose={onClose} size="md" isOpen={isOpen}>
         <ModalOverlay />
         <ModalContent bgColor="#353646">

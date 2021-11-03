@@ -6,12 +6,7 @@ export default [
   {
     route: '/classrooms/my-courses',
     icon: FaChalkboardTeacher,
-    children: 'Minhas turmas'
-  },
-  {
-    route: '/classrooms/chat',
-    icon: BsChat,
-    children: 'Conversas'
+    children: 'Conteúdos'
   },
   {
     route: '/classrooms/forum',
