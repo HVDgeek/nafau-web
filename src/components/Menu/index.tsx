@@ -35,6 +35,11 @@ const Menu = ({ username, avatar }: MenuProps) => {
     (session as SessionProps)?.user.profile.canManageAtendente?.isActive &&
     (session as SessionProps)?.user.profile.canManageTeacher?.isActive
 
+  const canSeeClassroom =
+    session &&
+    (session as SessionProps)?.user.profile.canSeeTurmas?.isActive &&
+    (session as SessionProps)?.user.profile.canSeeAulas?.isActive
+
   const { onOpen } = disclosure
 
   const isDesktopVersion = useBreakpointValue({
@@ -76,13 +81,15 @@ const Menu = ({ username, avatar }: MenuProps) => {
                 </a>
               </NextLink>
             )}
-            <NextLink href="/classrooms/my-courses">
-              <a>
-                <Link isActive={asPath.includes('/classrooms')}>
-                  Salas de aula
-                </Link>
-              </a>
-            </NextLink>
+            {canSeeClassroom && (
+              <NextLink href="/classrooms/my-courses">
+                <a>
+                  <Link isActive={asPath.includes('/classrooms')}>
+                    Salas de aula
+                  </Link>
+                </a>
+              </NextLink>
+            )}
           </HStack>
         )}
 
@@ -100,13 +107,15 @@ const Menu = ({ username, avatar }: MenuProps) => {
                 </a>
               </NextLink>
             )}
-            <NextLink href="/classrooms/my-courses">
-              <a>
-                <Link isActive={asPath.includes('/classrooms')}>
-                  Salas de aula
-                </Link>
-              </a>
-            </NextLink>
+            {canSeeClassroom && (
+              <NextLink href="/classrooms/my-courses">
+                <a>
+                  <Link isActive={asPath.includes('/classrooms')}>
+                    Salas de aula
+                  </Link>
+                </a>
+              </NextLink>
+            )}
           </HStack>
         )}
       </HStack>
