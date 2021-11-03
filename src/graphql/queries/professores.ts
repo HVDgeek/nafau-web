@@ -69,6 +69,10 @@ export const QUERY_PROFESSOR_BY_ID = gql`
         institution {
           ...InstitutionFragment
         }
+        profile {
+          id
+          name
+        }
       }
       turmas(sort: "created_at:asc") {
         ...TurmaFragment

@@ -43,6 +43,10 @@ export const QUERY_ATENDENTE_BY_ID = gql`
         institution {
           ...InstitutionFragment
         }
+        profile {
+          id
+          name
+        }
       }
     }
   }

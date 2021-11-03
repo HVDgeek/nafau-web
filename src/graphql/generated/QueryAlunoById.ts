@@ -21,6 +21,12 @@ export interface QueryAlunoById_aluno_user_institution {
   name: string;
 }
 
+export interface QueryAlunoById_aluno_user_profile {
+  __typename: "Perfis";
+  id: string;
+  name: string;
+}
+
 export interface QueryAlunoById_aluno_user {
   __typename: "UsersPermissionsUser";
   id: string;
@@ -29,6 +35,7 @@ export interface QueryAlunoById_aluno_user {
   blocked: boolean | null;
   avatar: QueryAlunoById_aluno_user_avatar | null;
   institution: QueryAlunoById_aluno_user_institution | null;
+  profile: QueryAlunoById_aluno_user_profile | null;
 }
 
 export interface QueryAlunoById_aluno_turmas_alunos_user_avatar {

@@ -21,6 +21,12 @@ export interface QueryProfessorById_professore_user_institution {
   name: string;
 }
 
+export interface QueryProfessorById_professore_user_profile {
+  __typename: "Perfis";
+  id: string;
+  name: string;
+}
+
 export interface QueryProfessorById_professore_user {
   __typename: "UsersPermissionsUser";
   id: string;
@@ -29,6 +35,7 @@ export interface QueryProfessorById_professore_user {
   blocked: boolean | null;
   avatar: QueryProfessorById_professore_user_avatar | null;
   institution: QueryProfessorById_professore_user_institution | null;
+  profile: QueryProfessorById_professore_user_profile | null;
 }
 
 export interface QueryProfessorById_professore_turmas_alunos_user_avatar {

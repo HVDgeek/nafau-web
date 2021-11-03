@@ -30,6 +30,7 @@ export type UsersRegisterTemplateProps = {
   user: UserCardProps
   initialValues: any
   createForm: boolean
+  profile: string
   perfis: ProfileProps[]
   onSubmit: (
     values: any,

@@ -34,6 +34,7 @@ export type Values = Omit<
   isActive: boolean
   password?: string
   confirm_password?: string
+  profile: string
 }
 
 export default function Index(props: UsersRegisterTemplateProps) {
@@ -49,6 +50,7 @@ export default function Index(props: UsersRegisterTemplateProps) {
     telefone: props.telefone,
     username: props.user.username?.split('*#nafau#*')[0] || props.user.username,
     isActive: props.user?.isActive,
+    profile: props.profile,
     password: '',
     confirm_password: ''
   }
@@ -67,7 +69,8 @@ export default function Index(props: UsersRegisterTemplateProps) {
       name: values.name,
       numero_do_BI: values.numero_do_BI,
       sexo: values.sexo as ENUM_ATENDENTES_SEXO,
-      telefone: values.telefone
+      telefone: values.telefone,
+      profileId: values.profile
     })
   }
 
@@ -137,6 +140,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       birthday: atendente.birthday,
       telefone: atendente.telefone,
       numero_do_BI: atendente.numero_do_BI,
+      profile: atendente.user?.profile?.id,
       user: {
         email: atendente.user?.email,
         username: atendente.user?.username,

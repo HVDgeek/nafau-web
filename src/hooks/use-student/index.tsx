@@ -56,6 +56,8 @@ export type StudentPayload = {
   numeroDeMatricula: string
   sexo: ENUM_ALUNOS_SEXO | null
   telefone: string
+  //Profile
+  profileId: string
 }
 
 export type StudentContextData = {
@@ -157,7 +159,8 @@ const StudentProvider = ({ children }: StudentProviderProps) => {
             blocked: payload.blocked,
             confirmed: true,
             password: payload.password,
-            institution: payload.institution
+            institution: payload.institution,
+            profile: payload.profileId
           }
         }
       }
@@ -247,7 +250,8 @@ const StudentProvider = ({ children }: StudentProviderProps) => {
               data: {
                 email: payload.email,
                 username: payload.username,
-                blocked: payload.blocked
+                blocked: payload.blocked,
+                profile: payload.profileId
               }
             }
           }

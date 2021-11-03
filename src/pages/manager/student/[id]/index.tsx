@@ -34,6 +34,7 @@ export type Values = Omit<
   isActive: boolean
   password?: string
   confirm_password?: string
+  profile: string
 }
 
 export default function UpdateStudentPage(props: UsersRegisterTemplateProps) {
@@ -50,7 +51,8 @@ export default function UpdateStudentPage(props: UsersRegisterTemplateProps) {
     username: props.user.username?.split('*#nafau#*')[0] || props.user.username,
     isActive: props.user?.isActive,
     password: '',
-    confirm_password: ''
+    confirm_password: '',
+    profile: props.profile
   }
 
   const onSubmit = async (
@@ -68,7 +70,8 @@ export default function UpdateStudentPage(props: UsersRegisterTemplateProps) {
       numero_do_BI: values.numero_do_BI,
       numeroDeMatricula: values.numeroDeMatricula,
       sexo: values.sexo as ENUM_ALUNOS_SEXO,
-      telefone: values.telefone
+      telefone: values.telefone,
+      profileId: values.profile
     })
   }
 
@@ -133,6 +136,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
     props: {
       perfis: dataProfile.perfis,
+      profile: aluno.user?.profile?.id,
       id: data.aluno.id,
       session: session,
       name: aluno.name,

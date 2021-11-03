@@ -30,6 +30,7 @@ export type Values = Omit<
   isActive: boolean
   password?: string
   confirm_password?: string
+  profile: string
 }
 
 export default function CreateStudentPage(props: UsersRegisterTemplateProps) {
@@ -98,7 +99,8 @@ export default function CreateStudentPage(props: UsersRegisterTemplateProps) {
       numero_do_BI: values.numero_do_BI,
       numeroDeMatricula: values.numeroDeMatricula,
       sexo: values.sexo as ENUM_ALUNOS_SEXO,
-      telefone: values.telefone
+      telefone: values.telefone,
+      profileId: values.profile
     })
   }
 

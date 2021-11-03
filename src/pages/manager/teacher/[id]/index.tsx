@@ -34,6 +34,7 @@ export type Values = Omit<
   isActive: boolean
   password?: string
   confirm_password?: string
+  profile: string
 }
 
 export default function Index(props: UsersRegisterTemplateProps) {
@@ -50,7 +51,8 @@ export default function Index(props: UsersRegisterTemplateProps) {
     username: props.user.username?.split('*#nafau#*')[0] || props.user.username,
     isActive: props.user?.isActive,
     password: '',
-    confirm_password: ''
+    confirm_password: '',
+    profile: props.profile
   }
 
   const onSubmit = async (
@@ -67,7 +69,8 @@ export default function Index(props: UsersRegisterTemplateProps) {
       name: values.name,
       numero_do_BI: values.numero_do_BI,
       sexo: values.sexo as ENUM_PROFESSORES_SEXO,
-      telefone: values.telefone
+      telefone: values.telefone,
+      profileId: values.profile
     })
   }
 
@@ -130,6 +133,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
     props: {
       perfis: dataProfile.perfis,
+      profile: professore.user?.profile?.id,
       session: session,
       id: professore.id,
       name: professore.name,
