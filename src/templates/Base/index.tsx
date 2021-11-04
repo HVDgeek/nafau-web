@@ -8,9 +8,10 @@ import { getImageUrl } from 'utils/getImageUrl'
 
 export type BaseTemplateProps = {
   children: React.ReactNode
+  withOutFooter?: boolean
 }
 
-const Base = ({ children }: BaseTemplateProps) => {
+const Base = ({ children, withOutFooter = false }: BaseTemplateProps) => {
   const [session] = useSession()
 
   return (
@@ -29,17 +30,19 @@ const Base = ({ children }: BaseTemplateProps) => {
       <Box mt={4} flex="1 0 auto">
         {children}
       </Box>
-      <Container>
-        <Box
-          mb={4}
-          mt={8}
-          display="flex"
-          alignSelf="end"
-          justifyContent="center"
-        >
-          <Footer />
-        </Box>
-      </Container>
+      {!withOutFooter && (
+        <Container>
+          <Box
+            mb={4}
+            mt={8}
+            display="flex"
+            alignSelf="end"
+            justifyContent="center"
+          >
+            <Footer />
+          </Box>
+        </Container>
+      )}
     </Flex>
   )
 }

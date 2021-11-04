@@ -31,6 +31,7 @@ const useJitsi = ({
     }
 
     const myOverwrite = {
+      SHOW_PROMOTIONAL_CLOSE_PAGE: false,
       TOOLBAR_BUTTONS: [
         'microphone',
         'camera',

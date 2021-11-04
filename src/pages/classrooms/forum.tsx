@@ -1,5 +1,6 @@
 import classroomsMock from 'components/ClassCard/mock'
 import sidebarClassroomsMock from 'components/Sidebar/classroomsMock'
+import usersMock from 'components/UserCard/mock'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/client'
 import protectedRoutes from 'utils/protected-routes'
@@ -21,6 +22,7 @@ export default function Classrooms(props: ForumTemplateProps) {
       {...props}
       title="Fórum de discussão"
       links={sidebarClassroomsMock}
+      users={usersMock}
     />
   )
 }

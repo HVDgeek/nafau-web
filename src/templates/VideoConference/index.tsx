@@ -28,7 +28,7 @@ const VideoConferenceTemplate = ({
   const { asPath, back } = useRouter()
 
   return (
-    <Base>
+    <Base withOutFooter={true}>
       <Container>
         <Main>
           <Sidebar links={links} activeLink={asPath} />
@@ -45,7 +45,7 @@ const VideoConferenceTemplate = ({
               <div
                 style={{
                   marginTop: '20px',
-                  height: '75vh',
+                  height: '80vh',
                   backgroundColor: '#1F2029'
                 }}
               >
