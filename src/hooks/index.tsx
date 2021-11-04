@@ -5,13 +5,16 @@ import { TeacherProvider } from './use-teacher'
 import { AtendenteProvider } from './use-atendente'
 import { CourseProvider } from './use-turma'
 import { SubscriptionProvider } from './use-subscription'
+import { UserProvider } from './use-user'
 
 const AppProvider: React.FC = ({ children }) => (
   <StudentProvider>
     <TeacherProvider>
       <AtendenteProvider>
         <CourseProvider>
-          <SubscriptionProvider>{children}</SubscriptionProvider>
+          <SubscriptionProvider>
+            <UserProvider>{children}</UserProvider>
+          </SubscriptionProvider>
         </CourseProvider>
       </AtendenteProvider>
     </TeacherProvider>

@@ -45,7 +45,7 @@ const Course = ({
   onRemove,
   onSubmit,
   handleShowMore,
-  title = 'Minhas turmas',
+  title = 'minhas turmas',
   withRegister = false,
   links,
   titleSemTurma = 'Você ainda não tem turmas!',

@@ -76,6 +76,7 @@ type CanProfileProps = {
 }
 
 export type SessionProps = {
+  id: string
   user: {
     name?: string | null | undefined
     email?: string | null | undefined
