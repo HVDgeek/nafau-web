@@ -66,8 +66,14 @@ const useJitsi = ({
     const client = new window.JitsiMeetExternalAPI(domain, {
       ...options,
       configOverwrite: {
-        enableClosePage: true,
-        prejoinPageEnabled: true
+        enableClosePage: false,
+        prejoinPageEnabled: false,
+        enableNoAudioDetection: true,
+        enableNoisyMicDetection: true,
+        startAudioMuted: 3,
+        startWithVideoMuted: true,
+        requireDisplayName: false,
+        defaultLanguage: 'pt'
       },
       interfaceConfigOverwrite: myOverwrite
     })
@@ -88,7 +94,7 @@ const useJitsi = ({
     onMeetingEnd && client.addEventListener('readyToClose', onMeetingEnd)
 
     return () => jitsi && jitsi.dispose()
-  }, [window.JitsiMeetExternalAPI])
+  }, [])
 
   return { jitsi, error, loading }
 }

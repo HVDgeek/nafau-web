@@ -41,6 +41,7 @@ export default function Classrooms(props: CourseTemplateProps) {
       {...props}
       title="Vídeo conferência"
       courses={courses}
+      module="classrooms"
       route="video-conference"
       links={sidebarClassroomsMock}
       loading={loading}
@@ -59,8 +60,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
-      session: session,
-      courses: classroomsMock
+      session: session
     }
   }
 }
