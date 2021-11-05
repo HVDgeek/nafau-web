@@ -1,5 +1,13 @@
 import { useRouter } from 'next/router'
-import { Flex, ScaleFade, Avatar, TagLabel, Tag, Text } from '@chakra-ui/react'
+import {
+  Flex,
+  ScaleFade,
+  Avatar,
+  TagLabel,
+  Tag,
+  Text,
+  Box
+} from '@chakra-ui/react'
 import { Container } from 'components/Container'
 import Heading from 'components/Heading'
 import Base from 'templates/Base'
@@ -100,15 +108,24 @@ const ForumTemplate = ({
                 </SidebarChat>
                 <MainChat id={turmaSelected.id} title={turmaSelected.title} />
                 <Participants>
-                  <Text
-                    alignSelf="center"
-                    fontWeight="bold"
-                    color="gray.300"
-                    fontSize="small"
-                  >
-                    Participantes
-                  </Text>
-                  {users.map((user) => (
+                  <Flex my={2} align="center">
+                    <Box
+                      w={2}
+                      h={2}
+                      borderRadius="full"
+                      bgColor="green.500"
+                      mr={2}
+                    />
+                    <Text
+                      alignSelf="center"
+                      fontWeight="bold"
+                      color="gray.300"
+                      fontSize="small"
+                    >
+                      Participantes online
+                    </Text>
+                  </Flex>
+                  {/* {users.map((user) => (
                     <Tag
                       key={user.id}
                       mt={2}
@@ -134,7 +151,7 @@ const ForumTemplate = ({
                         teste
                       </TagLabel>
                     </Tag>
-                  ))}
+                  ))} */}
                 </Participants>
               </Flex>
             </ScaleFade>
