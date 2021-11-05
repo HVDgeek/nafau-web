@@ -6,6 +6,7 @@ import { AtendenteProvider } from './use-atendente'
 import { CourseProvider } from './use-turma'
 import { SubscriptionProvider } from './use-subscription'
 import { UserProvider } from './use-user'
+import { ForumProvider } from './use-forum'
 
 const AppProvider: React.FC = ({ children }) => (
   <StudentProvider>
@@ -13,7 +14,9 @@ const AppProvider: React.FC = ({ children }) => (
       <AtendenteProvider>
         <CourseProvider>
           <SubscriptionProvider>
-            <UserProvider>{children}</UserProvider>
+            <UserProvider>
+              <ForumProvider>{children}</ForumProvider>
+            </UserProvider>
           </SubscriptionProvider>
         </CourseProvider>
       </AtendenteProvider>

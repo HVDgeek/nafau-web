@@ -34,6 +34,7 @@ const Chat = ({ message }: ChatProps) => {
           />
           <TagLabel
             isTruncated
+            maxW="120px"
             color="gray.300"
             fontSize="xx-small"
             fontWeight="normal"
@@ -47,7 +48,7 @@ const Chat = ({ message }: ChatProps) => {
 }
 
 const Chats = () => {
-  const ref = useRef()
+  const ref = useRef(null)
 
   useEffect(() => {
     scrollToBottom()

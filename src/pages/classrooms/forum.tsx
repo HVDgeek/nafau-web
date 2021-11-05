@@ -6,10 +6,14 @@ import { useSession } from 'next-auth/client'
 import protectedRoutes from 'utils/protected-routes'
 import { GetServerSidePropsContext } from 'next'
 import ForumTemplate, { ForumTemplateProps } from 'templates/ForumTemplate'
+import { useUser } from 'hooks/use-user'
+import { getImageUrl } from 'utils/getImageUrl'
+import { ClassCardProps } from 'components/ClassCard'
 
 export default function Classrooms(props: ForumTemplateProps) {
   const router = useRouter()
   const [session, loadingSession] = useSession()
+  const { getTurmas, loading } = useUser()
 
   if (typeof window !== undefined && loadingSession) return null
 
@@ -17,10 +21,28 @@ export default function Classrooms(props: ForumTemplateProps) {
     window.location.href = `/sign-in?callbackUrl=${router.asPath}`
   }
 
+  const courses = getTurmas().map((turma) => ({
+    id: turma.id,
+    title: turma.title,
+    code: turma.code,
+    status: turma.status,
+    // timing: 50,
+    lastLesson: turma.aulas.length && {
+      title: turma.aulas[turma.aulas.length].title
+    },
+    teacher: {
+      name: turma?.teachers[0]?.name,
+      avatar: `${getImageUrl(turma?.teachers[0]?.user?.avatar?.src)}`
+    },
+    countAlunos: turma.alunos.length
+  })) as ClassCardProps[]
+
   return (
     <ForumTemplate
       {...props}
       title="Fórum de discussão"
+      loading={loading}
+      courses={courses}
       links={sidebarClassroomsMock}
       users={usersMock}
     />
@@ -36,8 +58,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
-      session: session,
-      courses: classroomsMock
+      session: session
     }
   }
 }

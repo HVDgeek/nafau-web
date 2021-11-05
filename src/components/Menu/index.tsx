@@ -123,7 +123,7 @@ const Menu = ({ username, avatar }: MenuProps) => {
         <IconButton ariaLabel="Notifications">
           <Box position="relative" mr={4}>
             <IoMdNotificationsOutline size={iconSize} />
-            <Box
+            {/* <Box
               fontSize="10px"
               position="absolute"
               right={5}
@@ -134,7 +134,7 @@ const Menu = ({ username, avatar }: MenuProps) => {
               transform="translateX(10px)"
             >
               8
-            </Box>
+            </Box> */}
           </Box>
         </IconButton>
         <UserDropdown

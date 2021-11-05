@@ -3,21 +3,24 @@ import { shade } from 'polished'
 import themes from 'styles/alt-themes'
 import { stringToColour } from 'utils/stringToColor'
 import { FiChevronRight } from 'react-icons/fi'
+import { useForum } from 'hooks/use-forum'
 
 export type CourseItemChatProps = {
   title: string
   code?: string
   id: string
+  onSelect: (id: string, title: string, code?: string) => void
 }
 
-const CourseItemChat = ({ title, code, id }: CourseItemChatProps) => {
+const CourseItemChat = ({ title, code, id, onSelect }: CourseItemChatProps) => {
   const color = shade(0.7, stringToColour(title))
+  const { turmaSelected } = useForum()
 
   return (
     <Flex
       w="full"
       maxW="400px"
-      bg="gray.800"
+      bg={turmaSelected.id === id ? shade(0.7, '#805AD5') : 'gray.800'}
       flexDir="row"
       boxShadow={'2xl'}
       mb={2}
@@ -26,6 +29,7 @@ const CourseItemChat = ({ title, code, id }: CourseItemChatProps) => {
       _hover={{
         backgroundColor: shade(0.7, '#805AD5')
       }}
+      onClick={() => onSelect(id, title, code)}
     >
       <Box
         borderTopStartRadius={themes.border.radius}

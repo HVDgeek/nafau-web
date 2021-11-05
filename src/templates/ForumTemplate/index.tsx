@@ -16,8 +16,11 @@ import CourseItemChat from 'components/CourseItemChat'
 import { UserCardProps } from 'components/UserCard'
 import { stringToColour } from 'utils/stringToColor'
 import { shade } from 'polished'
+import { Session } from 'next-auth'
+import { useForum } from 'hooks/use-forum'
 
 export type ForumTemplateProps = {
+  session: Session
   route?: string
   courses: ClassCardProps[]
   users: Omit<UserCardProps, 'onRemove' | 'route'>[]
@@ -36,6 +39,18 @@ const ForumTemplate = ({
   users
 }: ForumTemplateProps) => {
   const { asPath, push } = useRouter()
+  const { turmaSelected, selectTurma } = useForum()
+
+  const handleSelect = (id: string, title: string, code?: string) => {
+    console.log('DATA', id, title, code)
+    const data = {
+      id,
+      title,
+      code
+    }
+
+    selectTurma(data)
+  }
 
   return (
     <Base withOutFooter={true}>
@@ -69,14 +84,21 @@ const ForumTemplate = ({
                   </Text>
                   {courses.map((course) => (
                     <CourseItemChat
+                      onSelect={handleSelect}
                       key={course.id}
                       id={course.id}
                       title={course.title}
                       code={course?.code}
                     />
                   ))}
+                  {courses.length === 0 && (
+                    <Text px={4} fontSize="small" color="gray.400">
+                      Para utilizar o fórum, você precisa estar matriculado em
+                      pelo menos uma turma ⚠️
+                    </Text>
+                  )}
                 </SidebarChat>
-                <MainChat />
+                <MainChat id={turmaSelected.id} title={turmaSelected.title} />
                 <Participants>
                   <Text
                     alignSelf="center"
@@ -109,6 +131,7 @@ const ForumTemplate = ({
                         fontWeight="normal"
                       >
                         {user.name}
+                        teste
                       </TagLabel>
                     </Tag>
                   ))}
