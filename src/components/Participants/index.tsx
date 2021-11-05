@@ -29,7 +29,7 @@ const Participants = ({ children }: ParticipantsProps) => {
         }
       }}
     >
-      <Text>{children}</Text>
+      {children}
     </Box>
   )
 }

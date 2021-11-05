@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import { useSession } from 'next-auth/client'
-
+import io from 'socket.io-client'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
 
 export type SelectTurmaPayload = {
@@ -35,8 +35,22 @@ const ForumProvider = ({ children }: ForumProviderProps) => {
   const [session] = useSession()
   const [turmaSelected, setTurmaSelected] = useState({} as SelectTurmaPayload)
 
+  useEffect(() => {
+    registerSocket()
+  }, [])
+
   const selectTurma = (data: SelectTurmaPayload) => {
-    setTurmaSelected(data)
+    // setTurmaSelected(data)
+    // console.log('SOCKET', socket.connected)
+  }
+
+  const registerSocket = () => {
+    const socket = io('http://localhost:3333')
+
+    socket.on('message', (message) => {
+      console.log(message)
+      socket.emit('join', 'Hiduino Domingos..')
+    })
   }
 
   return (

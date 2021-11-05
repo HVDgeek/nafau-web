@@ -63,7 +63,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       room: {
         password: Base64.encode(turma.title),
         title: `${turma.title} ${turma?.code}`,
-        username: session.user?.name?.split('*#nafau#*')[0]
+        username:
+          session.user?.name?.split('*#nafau#*')[0] || session.user?.name
       }
     }
   }

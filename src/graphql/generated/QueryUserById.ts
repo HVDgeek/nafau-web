@@ -147,11 +147,106 @@ export interface QueryUserById_user_teacher {
   turmas: QueryUserById_user_teacher_turmas[];
 }
 
+export interface QueryUserById_user_profile_canManageAluno {
+  __typename: "ComponentProfileCanManageAluno";
+  id: string;
+  isActive: boolean;
+  title: string;
+}
+
+export interface QueryUserById_user_profile_canManageAtendente {
+  __typename: "ComponentProfileCanManageAtendente";
+  id: string;
+  isActive: boolean | null;
+  title: string;
+}
+
+export interface QueryUserById_user_profile_canManageAula {
+  __typename: "ComponentProfileCanManageAula";
+  id: string;
+  isActive: boolean | null;
+  title: string;
+}
+
+export interface QueryUserById_user_profile_canManageGerente {
+  __typename: "ComponentProfileCanManageGerente";
+  id: string;
+  isActive: boolean;
+  title: string;
+}
+
+export interface QueryUserById_user_profile_canManageRoles {
+  __typename: "ComponentProfileCanManageRoles";
+  id: string;
+  isActive: boolean | null;
+  title: string;
+}
+
+export interface QueryUserById_user_profile_canManageTeacher {
+  __typename: "ComponentProfileCanManageTeacher";
+  id: string;
+  isActive: boolean | null;
+  title: string;
+}
+
+export interface QueryUserById_user_profile_canManageTurma {
+  __typename: "ComponentProfileCanManageTurma";
+  id: string;
+  isActive: boolean | null;
+  title: string;
+}
+
+export interface QueryUserById_user_profile_canManageUsers {
+  __typename: "ComponentProfileCanManageUsers";
+  id: string;
+  isActive: boolean | null;
+  title: string;
+}
+
+export interface QueryUserById_user_profile_canSeeAulas {
+  __typename: "ComponentProfileCanSeeAulas";
+  id: string;
+  isActive: boolean | null;
+  title: string;
+}
+
+export interface QueryUserById_user_profile_canSeeOtherUsers {
+  __typename: "ComponentProfileCanSeeOtherUsers";
+  id: string;
+  isActive: boolean | null;
+  title: string;
+}
+
+export interface QueryUserById_user_profile_canSeeTurmas {
+  __typename: "ComponentProfileCanSeeTurmas";
+  id: string;
+  isActive: boolean | null;
+  title: string;
+}
+
+export interface QueryUserById_user_profile {
+  __typename: "Perfis";
+  canManageAluno: QueryUserById_user_profile_canManageAluno | null;
+  canManageAtendente: QueryUserById_user_profile_canManageAtendente | null;
+  canManageAula: QueryUserById_user_profile_canManageAula | null;
+  canManageGerente: QueryUserById_user_profile_canManageGerente | null;
+  canManageRoles: QueryUserById_user_profile_canManageRoles | null;
+  canManageTeacher: QueryUserById_user_profile_canManageTeacher | null;
+  canManageTurma: QueryUserById_user_profile_canManageTurma | null;
+  canManageUsers: QueryUserById_user_profile_canManageUsers | null;
+  canSeeAulas: QueryUserById_user_profile_canSeeAulas | null;
+  canSeeOtherUsers: QueryUserById_user_profile_canSeeOtherUsers | null;
+  canSeeTurmas: QueryUserById_user_profile_canSeeTurmas | null;
+  id: string;
+  name: string;
+}
+
 export interface QueryUserById_user {
   __typename: "UsersPermissionsUser";
   id: string;
   aluno: QueryUserById_user_aluno | null;
   teacher: QueryUserById_user_teacher | null;
+  profile: QueryUserById_user_profile | null;
 }
 
 export interface QueryUserById {

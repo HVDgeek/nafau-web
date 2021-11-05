@@ -116,14 +116,16 @@ const ForumTemplate = ({
                       bgColor="green.500"
                       mr={2}
                     />
-                    <Text
-                      alignSelf="center"
-                      fontWeight="bold"
-                      color="gray.300"
-                      fontSize="small"
-                    >
-                      Participantes online
-                    </Text>
+                    <Box>
+                      <Text
+                        alignSelf="center"
+                        fontWeight="bold"
+                        color="gray.300"
+                        fontSize="small"
+                      >
+                        Participantes online
+                      </Text>
+                    </Box>
                   </Flex>
                   {/* {users.map((user) => (
                     <Tag

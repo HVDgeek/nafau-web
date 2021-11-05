@@ -37,13 +37,49 @@ const options = {
     })
   ],
   callbacks: {
-    session: async (session: Session, user: any) => {
+    session: async (session: any, user: any) => {
       session.jwt = user.jwt
       session.id = user.id
       session.user = {
         ...user,
         institution: user.institution.id,
-        profile: user.profile,
+        profile: {
+          id: user.profile.id,
+          name: user.profile.name,
+          canManageAluno: {
+            isActive: user.profile['canManageAluno'].isActive
+          },
+          canSeeOtherUsers: {
+            isActive: user.profile['canSeeOtherUsers'].isActive
+          },
+          canManageUsers: {
+            isActive: user.profile['canManageUsers'].isActive
+          },
+          canManageRoles: {
+            isActive: user.profile['canManageRoles'].isActive
+          },
+          canManageAtendente: {
+            isActive: user.profile['canManageAtendente'].isActive
+          },
+          canManageGerente: {
+            isActive: user.profile['canManageGerente'].isActive
+          },
+          canManageTeacher: {
+            isActive: user.profile['canManageTeacher'].isActive
+          },
+          canManageTurma: {
+            isActive: user.profile['canManageTurma'].isActive
+          },
+          canSeeTurmas: {
+            isActive: user.profile['canSeeTurmas'].isActive
+          },
+          canSeeAulas: {
+            isActive: user.profile['canSeeAulas'].isActive
+          },
+          canManageAula: {
+            isActive: user.profile['canManageAula'].isActive
+          }
+        },
         avatar: user?.avatar?.url || ''
       }
 

@@ -58,6 +58,65 @@ export const QUERY_USER_BY_ID = gql`
           }
         }
       }
+      profile {
+        canManageAluno {
+          id
+          isActive
+          title
+        }
+        canManageAtendente {
+          id
+          isActive
+          title
+        }
+        canManageAula {
+          id
+          isActive
+          title
+        }
+        canManageGerente {
+          id
+          isActive
+          title
+        }
+        canManageRoles {
+          id
+          isActive
+          title
+        }
+        canManageTeacher {
+          id
+          isActive
+          title
+        }
+        canManageTurma {
+          id
+          isActive
+          title
+        }
+        canManageUsers {
+          id
+          isActive
+          title
+        }
+        canSeeAulas {
+          id
+          isActive
+          title
+        }
+        canSeeOtherUsers {
+          id
+          isActive
+          title
+        }
+        canSeeTurmas {
+          id
+          isActive
+          title
+        }
+        id
+        name
+      }
     }
   }
   ${TurmaFragment}
