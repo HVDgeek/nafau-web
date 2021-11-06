@@ -72,7 +72,7 @@ const ForumProvider = ({ children }: ForumProviderProps) => {
   }
 
   const registerSocket = (turmaId?: string) => {
-    const socket = io('http://localhost:3333')
+    const socket = io('https://forum-nafau.herokuapp.com')
 
     socket.emit('joinRoom', {
       username: (session as SessionProps)?.user.name,
