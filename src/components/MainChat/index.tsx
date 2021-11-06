@@ -4,6 +4,7 @@ import TextField from 'components/TextField'
 import { Form, Formik } from 'formik'
 import Button from 'components/Button'
 import { Backpack } from 'react-kawaii'
+import { useForum } from 'hooks/use-forum'
 import * as Yup from 'yup'
 
 export type MainChatProps = {
@@ -19,6 +20,8 @@ const MainChat = ({
   title = 'Nenhuma turma selecionada',
   id = ''
 }: MainChatProps) => {
+  const { sendMessage } = useForum()
+
   return (
     <Box flex="1 1 0" bgColor="gray.800" height="100%">
       <Box width="100%" borderBottom="2px solid #181b23">
@@ -42,7 +45,8 @@ const MainChat = ({
             // validationSchema={ChatSchema}
             initialValues={{ message: '' }}
             onSubmit={async (values, { setErrors, resetForm }) => {
-              console.log('MESSAGE', values.message)
+              sendMessage(values.message)
+              resetForm()
             }}
           >
             {({ isSubmitting }) => (

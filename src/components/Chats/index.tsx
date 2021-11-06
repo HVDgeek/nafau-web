@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import { Text, Flex, Box, Tag, Avatar, TagLabel } from '@chakra-ui/react'
 import { shade } from 'polished'
+import { useForum } from 'hooks/use-forum'
 
 export type ChatsProps = {
   children: React.ReactNode
@@ -8,9 +9,11 @@ export type ChatsProps = {
 
 type ChatProps = {
   message: string
+  avatar: string
+  name: string
 }
 
-const Chat = ({ message }: ChatProps) => {
+const Chat = ({ message, name, avatar }: ChatProps) => {
   return (
     <>
       <Box
@@ -25,13 +28,7 @@ const Chat = ({ message }: ChatProps) => {
       >
         <Text>{message}</Text>
         <Tag size="md" bg="transparent" borderRadius="full">
-          <Avatar
-            src="https://avatars.githubusercontent.com/u/34204904?v=4"
-            size="2xs"
-            name="Hiduino Domingos"
-            ml={-1}
-            mr={2}
-          />
+          <Avatar src={avatar} size="2xs" name={name} ml={-1} mr={2} />
           <TagLabel
             isTruncated
             maxW="120px"
@@ -39,7 +36,7 @@ const Chat = ({ message }: ChatProps) => {
             fontSize="xx-small"
             fontWeight="normal"
           >
-            Hiduino Domingos
+            {name}
           </TagLabel>
         </Tag>
       </Box>
@@ -49,10 +46,11 @@ const Chat = ({ message }: ChatProps) => {
 
 const Chats = () => {
   const ref = useRef(null)
+  const { messages, msg } = useForum()
 
   useEffect(() => {
     scrollToBottom()
-  }, [])
+  }, [msg])
 
   const scrollToBottom = () => {
     ref.current.scrollTop = ref.current.scrollHeight
@@ -81,17 +79,14 @@ const Chats = () => {
         }
       }}
     >
-      <Chat message="Mensagem" />
-      <Chat message="Mensagem" />
-      <Chat message="Mensagem" />
-      <Chat message="Mensagem" />
-      <Chat message="Mensagem" />
-      <Chat message="Mensagem" />
-      <Chat message="Mensagem" />
-      <Chat message="Mensagem 3" />
-      <Chat message="Mensagem" />
-      <Chat message="Mensagem" />
-      <Chat message="Tenho uma dúvida muito grande. Quem veio primeiro entre o ovo e a galinha ? kkkkkk" />
+      {messages.map((message, index) => (
+        <Chat
+          key={index}
+          message={message.text}
+          avatar={message.avatar}
+          name={message.username}
+        />
+      ))}
     </Flex>
   )
 }
