@@ -36,10 +36,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     return { props: {} }
   }
 
-  if (!session) {
-    return { props: {} }
-  }
-
   const { params } = context
 
   const { data } = await apolloClient.query<
