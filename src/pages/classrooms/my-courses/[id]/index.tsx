@@ -65,7 +65,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         })),
         audios: [],
         videos: [],
-        links: [],
+        links: aula.links?.map((link) => ({
+          id: link?.id,
+          title: link?.title,
+          description: link?.description,
+          url: link?.url
+        })),
         updated_at: aula.updated_at
       })),
       courseInfo: {
