@@ -11,6 +11,8 @@ import { Base64 } from 'js-base64'
 import { ClassCardProps } from 'components/ClassCard'
 import { useQueryTurmas } from 'graphql/queries/turmas'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
+import { useUser } from 'hooks/use-user'
+import CheckingProfile from 'components/CheckingProfile'
 import { useSubscription } from 'hooks/use-subscription'
 import { useToast } from '@chakra-ui/toast'
 import { getImageUrl } from 'utils/getImageUrl'
@@ -19,6 +21,7 @@ import PrivatePage from 'components/PrivatePage'
 export default function Courses(props: YourCoursesTemplateProps) {
   const router = useRouter()
   const [session, loadingSession] = useSession()
+  const { getProfiles, loading: loadingProfiles } = useUser()
   const { state, addCourseToTeacher } = useSubscription()
   const toast = useToast()
 
@@ -112,8 +115,11 @@ export default function Courses(props: YourCoursesTemplateProps) {
     }
   }
 
-  const canManageTeacher = (session as SessionProps)?.user.profile
-    .canManageTeacher
+  const canManageTeacher = getProfiles()?.canManageTeacher
+
+  if (loadingProfiles) {
+    return <CheckingProfile />
+  }
 
   if (session && !canManageTeacher?.isActive) {
     return <PrivatePage />

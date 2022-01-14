@@ -7,6 +7,8 @@ import { useQueryTurmas } from 'graphql/queries/turmas'
 import { useSession } from 'next-auth/client'
 import protectedRoutes from 'utils/protected-routes'
 import { ClassCardProps } from 'components/ClassCard'
+import { useUser } from 'hooks/use-user'
+import CheckingProfile from 'components/CheckingProfile'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
 import { useCourse } from 'hooks/use-turma'
 import { getImageUrl } from 'utils/getImageUrl'
@@ -14,6 +16,7 @@ import PrivatePage from 'components/PrivatePage'
 
 export default function Courses(props: CourseTemplateProps) {
   const [session, loadingSession] = useSession()
+  const { getProfiles, loading: loadingProfiles } = useUser()
   const { asPath, push } = useRouter()
   const { removeCourse } = useCourse()
 
@@ -49,7 +52,11 @@ export default function Courses(props: CourseTemplateProps) {
     countAlunos: turma.alunos.length
   })) as ClassCardProps[]
 
-  const canManageTurma = (session as SessionProps)?.user.profile.canManageTurma
+  const canManageTurma = getProfiles()?.canManageTurma
+
+  if (loadingProfiles) {
+    return <CheckingProfile />
+  }
 
   if (session && !canManageTurma?.isActive) {
     return <PrivatePage />

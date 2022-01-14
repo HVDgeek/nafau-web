@@ -7,6 +7,8 @@ import CourseRegisterTemplate, {
   CourseRegisterTemplateProps
 } from 'templates/CourseRegister'
 import protectedRoutes from 'utils/protected-routes'
+import { useUser } from 'hooks/use-user'
+import CheckingProfile from 'components/CheckingProfile'
 import { useCourse } from 'hooks/use-turma'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
 import { ENUM_TURMAS_STATUS } from 'graphql/generated/globalTypes'
@@ -16,6 +18,7 @@ export type Values = CourseRegisterTemplateProps
 
 export default function CreateCourse(props: CourseRegisterTemplateProps) {
   const router = useRouter()
+  const { getProfiles, loading: loadingProfiles } = useUser()
   const { addCourse } = useCourse()
 
   const [session, loadingSession] = useSession()
@@ -46,7 +49,11 @@ export default function CreateCourse(props: CourseRegisterTemplateProps) {
     })
   }
 
-  const canManageTurma = (session as SessionProps)?.user.profile.canManageTurma
+  const canManageTurma = getProfiles()?.canManageTurma
+
+  if (loadingProfiles) {
+    return <CheckingProfile />
+  }
 
   if (session && !canManageTurma?.isActive) {
     return <PrivatePage />

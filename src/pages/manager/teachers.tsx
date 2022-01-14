@@ -8,11 +8,14 @@ import protectedRoutes from 'utils/protected-routes'
 import { UserCardProps } from 'components/UserCard'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
 import { useTeacher } from 'hooks/use-teacher'
+import { useUser } from 'hooks/use-user'
 import { getImageUrl } from 'utils/getImageUrl'
 import PrivatePage from 'components/PrivatePage'
+import CheckingProfile from 'components/CheckingProfile'
 
 export default function StudentsPage(props: UsersTemplateProps) {
   const [session, loadingSession] = useSession()
+  const { getProfiles, loading: loadingProfiles } = useUser()
   const { asPath, push } = useRouter()
   const { removeTeacher } = useTeacher()
 
@@ -41,8 +44,11 @@ export default function StudentsPage(props: UsersTemplateProps) {
     isActive: !prof.user?.blocked
   })) as UserCardProps[]
 
-  const canManageTeacher = (session as SessionProps)?.user.profile
-    .canManageTeacher
+  const canManageTeacher = getProfiles()?.canManageTeacher
+
+  if (loadingProfiles) {
+    return <CheckingProfile />
+  }
 
   if (session && !canManageTeacher?.isActive) {
     return <PrivatePage />

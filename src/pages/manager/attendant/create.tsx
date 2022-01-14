@@ -13,6 +13,8 @@ import { v4 as uuidV4 } from 'uuid'
 import { ENUM_ATENDENTES_SEXO } from 'graphql/generated/globalTypes'
 import { useToast } from '@chakra-ui/toast'
 import { useSession } from 'next-auth/client'
+import { useUser } from 'hooks/use-user'
+import CheckingProfile from 'components/CheckingProfile'
 import PrivatePage from 'components/PrivatePage'
 import { QUERY_PERFIS } from 'graphql/queries/perfis'
 import { initializeApollo } from 'utils/apollo'
@@ -36,6 +38,7 @@ export type Values = Omit<
 export default function CreateAtendentePage(props: UsersRegisterTemplateProps) {
   const { addAtendente } = useAtendente()
   const toast = useToast()
+  const { getProfiles, loading: loadingProfiles } = useUser()
   const [session] = useSession()
 
   const initialValues = {
@@ -103,8 +106,11 @@ export default function CreateAtendentePage(props: UsersRegisterTemplateProps) {
     })
   }
 
-  const canManageAttendant = (session as SessionProps)?.user.profile
-    .canManageAtendente
+  const canManageAttendant = getProfiles()?.canManageAtendente
+
+  if (loadingProfiles) {
+    return <CheckingProfile />
+  }
 
   if (session && !canManageAttendant?.isActive) {
     return <PrivatePage />

@@ -9,6 +9,8 @@ import { UserCardProps } from 'components/UserCard'
 import { UserItemProps } from 'components/UserItem'
 import { useQueryProfessores } from 'graphql/queries/professores'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
+import { useUser } from 'hooks/use-user'
+import CheckingProfile from 'components/CheckingProfile'
 import { useSubscription } from 'hooks/use-subscription'
 import { useToast } from '@chakra-ui/toast'
 import { getImageUrl } from 'utils/getImageUrl'
@@ -17,6 +19,7 @@ import PrivatePage from 'components/PrivatePage'
 export default function StudentClass(props: YourUsersTemplateProps) {
   const router = useRouter()
   const [session, loadingSession] = useSession()
+  const { getProfiles, loading: loadingProfiles } = useUser()
   const { state, addTeacherToCourse } = useSubscription()
   const toast = useToast()
 
@@ -102,7 +105,11 @@ export default function StudentClass(props: YourUsersTemplateProps) {
     }
   }
 
-  const canManageTurma = (session as SessionProps)?.user.profile.canManageTurma
+  const canManageTurma = getProfiles()?.canManageTurma
+
+  if (loadingProfiles) {
+    return <CheckingProfile />
+  }
 
   if (session && !canManageTurma?.isActive) {
     return <PrivatePage />

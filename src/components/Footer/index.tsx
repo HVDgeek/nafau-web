@@ -10,7 +10,7 @@ const Footer = () => {
     <Flex flexDir="column" align="center" w="300px" mt={20}>
       <Box>
         <Text alignSelf="end" fontSize="x-small" textAlign="center" as="span">
-          NAFAU 2021 © Todos os Direitos Reservados
+          NAFAU {new Date().getFullYear()} © Todos os Direitos Reservados
         </Text>
       </Box>
       <HStack>

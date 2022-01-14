@@ -14,6 +14,8 @@ import protectedRoutes from 'utils/protected-routes'
 import { Base64 } from 'js-base64'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
 import { ENUM_PROFESSORES_SEXO } from 'graphql/generated/globalTypes'
+import { useUser } from 'hooks/use-user'
+import CheckingProfile from 'components/CheckingProfile'
 import { useTeacher } from 'hooks/use-teacher'
 import { v4 as uuidV4 } from 'uuid'
 import { getImageUrl } from 'utils/getImageUrl'
@@ -39,6 +41,7 @@ export type Values = Omit<
 
 export default function Index(props: UsersRegisterTemplateProps) {
   const { updateTeacher } = useTeacher()
+  const { getProfiles, loading: loadingProfiles } = useUser()
   const [session] = useSession()
 
   const initialValues = {
@@ -74,8 +77,11 @@ export default function Index(props: UsersRegisterTemplateProps) {
     })
   }
 
-  const canManageTeacher = (session as SessionProps)?.user.profile
-    .canManageTeacher
+  const canManageTeacher = getProfiles()?.canManageTeacher
+
+  if (loadingProfiles) {
+    return <CheckingProfile />
+  }
 
   if (session && !canManageTeacher?.isActive) {
     return <PrivatePage />

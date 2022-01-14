@@ -7,12 +7,15 @@ import UsersTemplate, { UsersTemplateProps } from 'templates/Users'
 import { UserCardProps } from 'components/UserCard'
 import protectedRoutes from 'utils/protected-routes'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
+import { useUser } from 'hooks/use-user'
+import CheckingProfile from 'components/CheckingProfile'
 import { useStudent } from 'hooks/use-student'
 import { getImageUrl } from 'utils/getImageUrl'
 import PrivatePage from 'components/PrivatePage'
 
 export default function StudentsPage(props: UsersTemplateProps) {
   const [session, loadingSession] = useSession()
+  const { getProfiles, loading: loadingProfiles } = useUser()
   const { asPath, push } = useRouter()
   const { removeStudent } = useStudent()
 
@@ -41,8 +44,11 @@ export default function StudentsPage(props: UsersTemplateProps) {
     isActive: !aluno.user?.blocked
   })) as UserCardProps[]
 
-  const canManageStudent = (session as SessionProps)?.user.profile
-    .canManageAluno
+  const canManageStudent = getProfiles()?.canManageAluno
+
+  if (loadingProfiles) {
+    return <CheckingProfile />
+  }
 
   if (session && !canManageStudent?.isActive) {
     return <PrivatePage />

@@ -18,6 +18,8 @@ import { ENUM_ATENDENTES_SEXO } from 'graphql/generated/globalTypes'
 import { v4 as uuidV4 } from 'uuid'
 import { getImageUrl } from 'utils/getImageUrl'
 import { useSession } from 'next-auth/client'
+import { useUser } from 'hooks/use-user'
+import CheckingProfile from 'components/CheckingProfile'
 import PrivatePage from 'components/PrivatePage'
 import {
   QueryPerfis,
@@ -39,6 +41,7 @@ export type Values = Omit<
 
 export default function Index(props: UsersRegisterTemplateProps) {
   const { updateAtendente } = useAtendente()
+  const { getProfiles, loading: loadingProfiles } = useUser()
   const [session] = useSession()
 
   const initialValues = {
@@ -74,8 +77,11 @@ export default function Index(props: UsersRegisterTemplateProps) {
     })
   }
 
-  const canManageAttendant = (session as SessionProps)?.user.profile
-    .canManageAtendente
+  const canManageAttendant = getProfiles()?.canManageAtendente
+
+  if (loadingProfiles) {
+    return <CheckingProfile />
+  }
 
   if (session && !canManageAttendant?.isActive) {
     return <PrivatePage />

@@ -12,6 +12,8 @@ import { SessionProps } from 'pages/api/auth/[...nextauth]'
 import { v4 as uuidV4 } from 'uuid'
 import { ENUM_PROFESSORES_SEXO } from 'graphql/generated/globalTypes'
 import { useToast } from '@chakra-ui/toast'
+import { useUser } from 'hooks/use-user'
+import CheckingProfile from 'components/CheckingProfile'
 import { useSession } from 'next-auth/client'
 import PrivatePage from 'components/PrivatePage'
 import { QUERY_PERFIS } from 'graphql/queries/perfis'
@@ -35,6 +37,7 @@ export type Values = Omit<
 
 export default function CreateTeacherPage(props: UsersRegisterTemplateProps) {
   const { addTeacher } = useTeacher()
+  const { getProfiles, loading: loadingProfiles } = useUser()
   const [session] = useSession()
   const toast = useToast()
 
@@ -103,8 +106,11 @@ export default function CreateTeacherPage(props: UsersRegisterTemplateProps) {
     })
   }
 
-  const canManageTeacher = (session as SessionProps)?.user.profile
-    .canManageTeacher
+  const canManageTeacher = getProfiles()?.canManageTeacher
+
+  if (loadingProfiles) {
+    return <CheckingProfile />
+  }
 
   if (session && !canManageTeacher?.isActive) {
     return <PrivatePage />

@@ -3,21 +3,27 @@ import { useSession } from 'next-auth/client'
 import { useQueryUserById } from 'graphql/queries/user'
 
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
-import { QueryUserById_user_teacher_turmas } from 'graphql/generated/QueryUserById'
+import {
+  QueryUserById_user_teacher_turmas,
+  QueryUserById_user_profile
+} from 'graphql/generated/QueryUserById'
 
 export type UserPayload = {
   id: string
 }
 
 export type TurmasResult = Omit<QueryUserById_user_teacher_turmas, '__typename'>
+export type ProfileResult = Omit<QueryUserById_user_profile, '__typename'>
 
 export type UserContextData = {
   getTurmas: () => TurmasResult[]
+  getProfiles: () => ProfileResult | null
   loading: boolean
 }
 
 export const UserContextDefaultValues = {
   getTurmas: () => [],
+  getProfiles: () => null,
   loading: false
 }
 
@@ -51,11 +57,20 @@ const UserProvider = ({ children }: UserProviderProps) => {
     return []
   }
 
+  const getProfiles = () => {
+    if (data && data.user) {
+      return data.user.profile
+    }
+
+    return {} as ProfileResult
+  }
+
   return (
     <UserContext.Provider
       value={{
         getTurmas,
-        loading
+        loading,
+        getProfiles
       }}
     >
       {children}

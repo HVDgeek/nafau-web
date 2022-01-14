@@ -28,17 +28,20 @@ const Menu = ({ username, avatar }: MenuProps) => {
   const { asPath } = useRouter()
   const [session] = useSession()
 
-  const canManage =
-    session &&
-    (session as SessionProps)?.user.profile.canManageTurma?.isActive &&
-    (session as SessionProps)?.user.profile.canManageAluno?.isActive &&
-    (session as SessionProps)?.user.profile.canManageAtendente?.isActive &&
-    (session as SessionProps)?.user.profile.canManageTeacher?.isActive
+  // const canManage =
+  //   session &&
+  //   (session as SessionProps)?.user.profile.canManageTurma?.isActive &&
+  //   (session as SessionProps)?.user.profile.canManageAluno?.isActive &&
+  //   (session as SessionProps)?.user.profile.canManageAtendente?.isActive &&
+  //   (session as SessionProps)?.user.profile.canManageTeacher?.isActive
 
-  const canSeeClassroom =
-    session &&
-    (session as SessionProps)?.user.profile.canSeeTurmas?.isActive &&
-    (session as SessionProps)?.user.profile.canSeeAulas?.isActive
+  // const canSeeClassroom =
+  //   session &&
+  //   (session as SessionProps)?.user.profile.canSeeTurmas?.isActive &&
+  //   (session as SessionProps)?.user.profile.canSeeAulas?.isActive
+
+  const canManage = true
+  const canSeeClassroom = true
 
   const { onOpen } = disclosure
 

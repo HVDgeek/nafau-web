@@ -10,6 +10,8 @@ import { Base64 } from 'js-base64'
 import { GetServerSidePropsContext } from 'next'
 import { useSession } from 'next-auth/client'
 import { useRouter } from 'next/router'
+import { useUser } from 'hooks/use-user'
+import CheckingProfile from 'components/CheckingProfile'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
 import CourseRegisterTemplate, {
   CourseRegisterTemplateProps
@@ -26,6 +28,7 @@ export type Values = Omit<
 export default function Index(props: CourseRegisterTemplateProps) {
   const router = useRouter()
   const { updateCourse } = useCourse()
+  const { getProfiles, loading: loadingProfiles } = useUser()
 
   const [session, loadingSession] = useSession()
 
@@ -56,7 +59,11 @@ export default function Index(props: CourseRegisterTemplateProps) {
     })
   }
 
-  const canManageTurma = (session as SessionProps)?.user.profile.canManageTurma
+  const canManageTurma = getProfiles()?.canManageTurma
+
+  if (loadingProfiles) {
+    return <CheckingProfile />
+  }
 
   if (session && !canManageTurma?.isActive) {
     return <PrivatePage />

@@ -13,6 +13,8 @@ import {
 import protectedRoutes from 'utils/protected-routes'
 import { Base64 } from 'js-base64'
 import { useStudent } from 'hooks/use-student'
+import { useUser } from 'hooks/use-user'
+import CheckingProfile from 'components/CheckingProfile'
 import { ENUM_ALUNOS_SEXO } from 'graphql/generated/globalTypes'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
 import { v4 as uuidV4 } from 'uuid'
@@ -39,6 +41,7 @@ export type Values = Omit<
 
 export default function UpdateStudentPage(props: UsersRegisterTemplateProps) {
   const { updateStudent } = useStudent()
+  const { getProfiles, loading: loadingProfiles } = useUser()
   const [session] = useSession()
 
   const initialValues = {
@@ -75,8 +78,11 @@ export default function UpdateStudentPage(props: UsersRegisterTemplateProps) {
     })
   }
 
-  const canManageStudent = (session as SessionProps)?.user.profile
-    .canManageAluno
+  const canManageStudent = getProfiles()?.canManageAluno
+
+  if (loadingProfiles) {
+    return <CheckingProfile />
+  }
 
   if (session && !canManageStudent?.isActive) {
     return <PrivatePage />

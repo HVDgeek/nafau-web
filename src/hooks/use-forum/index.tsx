@@ -62,40 +62,35 @@ const ForumProvider = ({ children }: ForumProviderProps) => {
   const [msg, setMsg] = useState('')
 
   useEffect(() => {
-    registerSocket()
+    // registerSocket()
   }, [turmaSelected, msg])
 
   const selectTurma = (data: SelectTurmaPayload) => {
     setTurmaSelected(data)
-    registerSocket(data.id)
+    // registerSocket(data.id)
     // console.log('SOCKET', socket.connected)
   }
 
-  const registerSocket = (turmaId?: string) => {
-    const socket = io('https://forum-nafau.herokuapp.com')
+  // const registerSocket = (turmaId?: string) => {
+  //   const socket = io('https://forum-nafau.herokuapp.com')
 
-    socket.emit('joinRoom', {
-      username: (session as SessionProps)?.user.name,
-      email: (session as SessionProps)?.user.email,
-      avatar: (session as SessionProps)?.user.avatar || '',
-      userId: (session as SessionProps)?.id,
-      turmaId: turmaId || ''
-    })
+  //   socket.emit('joinRoom', {
+  //     username: (session as SessionProps)?.user.name,
+  //     email: (session as SessionProps)?.user.email,
+  //     avatar: (session as SessionProps)?.user.avatar || '',
+  //     userId: (session as SessionProps)?.id,
+  //     turmaId: turmaId || ''
+  //   })
 
-    socket.on('message', (message: any) => {
-      setMessages((oldState) => [...oldState, message])
-    })
+  //   socket.on('message', (message: any) => {
+  //     setMessages((oldState) => [...oldState, message])
+  //   })
 
-    socket.emit('chatMessage', {
-      msg: msg,
-      userId: (session as SessionProps)?.id
-    })
-
-    // socket.on('roomUsers', (users: UserProps[]) => {
-    //   console.log('USUARIOS ON', users)
-    //   // setUsersOnline([...users])
-    // })
-  }
+  //   socket.emit('chatMessage', {
+  //     msg: msg,
+  //     userId: (session as SessionProps)?.id
+  //   })
+  // }
 
   const sendMessage = (text: string) => {
     setMsg(text)

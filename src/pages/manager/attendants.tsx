@@ -7,12 +7,15 @@ import { useQueryAtendentes } from 'graphql/queries/atendentes'
 import { UserCardProps } from 'components/UserCard'
 import protectedRoutes from 'utils/protected-routes'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
+import { useUser } from 'hooks/use-user'
+import CheckingProfile from 'components/CheckingProfile'
 import { useAtendente } from 'hooks/use-atendente'
 import { getImageUrl } from 'utils/getImageUrl'
 import PrivatePage from 'components/PrivatePage'
 
 export default function AttendantsPage(props: UsersTemplateProps) {
   const [session, loadingSession] = useSession()
+  const { getProfiles, loading: loadingProfiles } = useUser()
   const { asPath, push } = useRouter()
   const { removeAtendente } = useAtendente()
 
@@ -41,8 +44,11 @@ export default function AttendantsPage(props: UsersTemplateProps) {
     isActive: !atendente.user?.blocked
   })) as UserCardProps[]
 
-  const canManageAtendente = (session as SessionProps)?.user.profile
-    .canManageAtendente
+  const canManageAtendente = getProfiles()?.canManageAtendente
+
+  if (loadingProfiles) {
+    return <CheckingProfile />
+  }
 
   if (session && !canManageAtendente?.isActive) {
     return <PrivatePage />

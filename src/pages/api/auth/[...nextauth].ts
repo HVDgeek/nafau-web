@@ -43,43 +43,6 @@ const options = {
       session.user = {
         ...user,
         institution: user.institution.id,
-        profile: {
-          id: user.profile.id,
-          name: user.profile.name,
-          canManageAluno: {
-            isActive: user.profile['canManageAluno'].isActive
-          },
-          canSeeOtherUsers: {
-            isActive: user.profile['canSeeOtherUsers'].isActive
-          },
-          canManageUsers: {
-            isActive: user.profile['canManageUsers'].isActive
-          },
-          canManageRoles: {
-            isActive: user.profile['canManageRoles'].isActive
-          },
-          canManageAtendente: {
-            isActive: user.profile['canManageAtendente'].isActive
-          },
-          canManageGerente: {
-            isActive: user.profile['canManageGerente'].isActive
-          },
-          canManageTeacher: {
-            isActive: user.profile['canManageTeacher'].isActive
-          },
-          canManageTurma: {
-            isActive: user.profile['canManageTurma'].isActive
-          },
-          canSeeTurmas: {
-            isActive: user.profile['canSeeTurmas'].isActive
-          },
-          canSeeAulas: {
-            isActive: user.profile['canSeeAulas'].isActive
-          },
-          canManageAula: {
-            isActive: user.profile['canManageAula'].isActive
-          }
-        },
         avatar: user?.avatar?.url || ''
       }
 
@@ -94,7 +57,6 @@ const options = {
         token = {
           ...token,
           institution: user.institution,
-          profile: user.profile,
           avatar: user.avatar
         }
       }
@@ -107,10 +69,6 @@ const options = {
 const Auth = (req: NextApiRequest, res: NextApiResponse) =>
   NextAuth(req, res, options)
 
-type CanProfileProps = {
-  isActive: boolean
-}
-
 export type SessionProps = {
   id: string
   user: {
@@ -118,22 +76,6 @@ export type SessionProps = {
     email?: string | null | undefined
     image?: string | null | undefined
     institution: string
-    profile: {
-      canManageAluno: CanProfileProps
-      canManageAtendente: CanProfileProps
-      canManageAula: CanProfileProps
-      canManageGerente: CanProfileProps
-      canManageRoles: CanProfileProps
-      canManageTeacher: CanProfileProps
-      canManageTurma: CanProfileProps
-      canManageUsers: CanProfileProps
-      canSeeAulas: CanProfileProps
-      canSeeOtherUsers: CanProfileProps
-      canSeeTurmas: CanProfileProps
-
-      id: string
-      name: string
-    }
     avatar: string
   }
 }

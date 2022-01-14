@@ -13,6 +13,8 @@ import { v4 as uuidV4 } from 'uuid'
 import { ENUM_ALUNOS_SEXO } from 'graphql/generated/globalTypes'
 import { useToast } from '@chakra-ui/toast'
 import { useSession } from 'next-auth/client'
+import { useUser } from 'hooks/use-user'
+import CheckingProfile from 'components/CheckingProfile'
 import PrivatePage from 'components/PrivatePage'
 import { initializeApollo } from 'utils/apollo'
 import {
@@ -36,6 +38,7 @@ export type Values = Omit<
 export default function CreateStudentPage(props: UsersRegisterTemplateProps) {
   const { addStudent } = useStudent()
   const toast = useToast()
+  const { getProfiles, loading: loadingProfiles } = useUser()
   const [session] = useSession()
 
   const initialValues = {
@@ -104,8 +107,11 @@ export default function CreateStudentPage(props: UsersRegisterTemplateProps) {
     })
   }
 
-  const canManageStudent = (session as SessionProps)?.user.profile
-    .canManageAluno
+  const canManageStudent = getProfiles()?.canManageAluno
+
+  if (loadingProfiles) {
+    return <CheckingProfile />
+  }
 
   if (session && !canManageStudent?.isActive) {
     return <PrivatePage />
