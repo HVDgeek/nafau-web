@@ -17,6 +17,7 @@ import themes from 'styles/alt-themes'
 import { shade } from 'polished'
 import ClassSession, { ClassSessionTitle } from 'components/ClassSession'
 import TextContent from 'components/TextContent'
+import { formateDate } from 'utils/formatDate'
 
 export type ClassContent = {
   id: string
@@ -33,6 +34,7 @@ export type ClassItemProps = {
   audios?: ClassContent[]
   files?: ClassContent[]
   links?: ClassContent[]
+  updated_at?: string
 }
 
 const ClassItem = ({
@@ -41,7 +43,8 @@ const ClassItem = ({
   videos,
   audios,
   files,
-  links
+  links,
+  updated_at
 }: ClassItemProps) => {
   return (
     <AccordionItem
@@ -57,6 +60,9 @@ const ClassItem = ({
               <Box flex="1" textAlign="left">
                 <Text fontWeight="medium" fontSize={['sm', 'md']}>
                   🚀 {title}
+                </Text>
+                <Text mt={2} fontSize="small" color="gray.300">
+                  Modificada em {formateDate(updated_at!)}
                 </Text>
               </Box>
               {isExpanded ? (

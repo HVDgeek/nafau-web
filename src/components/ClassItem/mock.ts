@@ -52,7 +52,8 @@ export default [
         description: 'uma introducao a programacao',
         url: 'https://google.com'
       }
-    ]
+    ],
+    updated_at: '2021-11-03T07:13:56.595Z'
   },
   {
     id: '2',
@@ -62,7 +63,8 @@ export default [
     files: [],
     audios: [],
     videos: [],
-    links: []
+    links: [],
+    updated_at: '2021-11-03T07:13:56.595Z'
   },
   {
     id: '3',
@@ -72,6 +74,7 @@ export default [
     files: [],
     audios: [],
     videos: [],
-    links: []
+    links: [],
+    updated_at: '2021-11-03T07:13:56.595Z'
   }
 ]

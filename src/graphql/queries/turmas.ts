@@ -11,6 +11,7 @@ import {
   QueryTurmaById,
   QueryTurmaByIdVariables
 } from 'graphql/generated/QueryTurmaById'
+import { AulaFragment } from 'graphql/fragments/aula'
 
 export const QUERY_TURMAS = gql`
   query QueryTurmas($limit: Int!, $start: Int, $institutionId: ID!) {
@@ -70,9 +71,8 @@ export const QUERY_TURMA_BY_ID = gql`
           ...UserFragment
         }
       }
-      aulas {
-        id
-        title
+      aulas(sort: "created_at:asc") {
+        ...AulaFragment
       }
     }
   }
@@ -81,6 +81,7 @@ export const QUERY_TURMA_BY_ID = gql`
   ${ProfessorFragment}
   ${UserFragment}
   ${InstitutionFragment}
+  ${AulaFragment}
 `
 
 export function useQueryTurmas(

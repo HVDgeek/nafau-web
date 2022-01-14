@@ -52,7 +52,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
-      lessons: lessonsMock,
+      lessons: turma.aulas.map((aula) => ({
+        id: aula.id,
+        title: aula.title,
+        description: aula.description,
+        files: [],
+        audios: [],
+        videos: [],
+        links: [],
+        updated_at: aula.updated_at
+      })),
       courseInfo: {
         title: turma?.title,
         status: turma?.status,

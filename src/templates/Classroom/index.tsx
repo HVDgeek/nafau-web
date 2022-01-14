@@ -11,6 +11,7 @@ import ClassroomHeader, {
 } from 'components/ClassroomHeader'
 import { LinkProps } from 'components/Sidebar'
 import { useRouter } from 'next/router'
+import Empty from 'components/Empty'
 
 export type ClassroomTemplateProps = {
   lessons: ClassItemProps[]
@@ -44,6 +45,13 @@ const Classroom = ({ lessons, courseInfo, links }: ClassroomTemplateProps) => {
                     <Box mt={2} />
                   </Box>
                 ))}
+                {!lessons.length && (
+                  <Empty
+                    title={`Nenhuma aula foi adicionada!`}
+                    description={`Adicione uma aula para que apareça aqui. Abraços 😃`}
+                    hasLink
+                  />
+                )}
               </Accordion>
             </Box>
           </ScaleFade>

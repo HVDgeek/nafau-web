@@ -68,10 +68,55 @@ export interface QueryTurmaById_turma_teachers {
   user: QueryTurmaById_turma_teachers_user | null;
 }
 
+export interface QueryTurmaById_turma_aulas_arquivo_files {
+  __typename: "UploadFile";
+  url: string;
+}
+
+export interface QueryTurmaById_turma_aulas_arquivo {
+  __typename: "ComponentAulasArquivo";
+  id: string;
+  name: string | null;
+  description: string | null;
+  url: string | null;
+  files: QueryTurmaById_turma_aulas_arquivo_files[];
+}
+
+export interface QueryTurmaById_turma_aulas_links {
+  __typename: "ComponentAulasLinks";
+  id: string;
+  title: string | null;
+  url: string | null;
+  description: string | null;
+}
+
+export interface QueryTurmaById_turma_aulas_video {
+  __typename: "ComponentAulasVideo";
+  id: string;
+  title: string | null;
+  description: string | null;
+  url: string | null;
+}
+
+export interface QueryTurmaById_turma_aulas_audio {
+  __typename: "ComponentAulasAudio";
+  id: string;
+  title: string | null;
+  description: string | null;
+  url: string | null;
+}
+
 export interface QueryTurmaById_turma_aulas {
   __typename: "Aulas";
   id: string;
   title: string;
+  description: string | null;
+  created_at: any;
+  updated_at: any;
+  arquivo: (QueryTurmaById_turma_aulas_arquivo | null)[] | null;
+  links: (QueryTurmaById_turma_aulas_links | null)[] | null;
+  video: (QueryTurmaById_turma_aulas_video | null)[] | null;
+  audio: (QueryTurmaById_turma_aulas_audio | null)[] | null;
 }
 
 export interface QueryTurmaById_turma {
