@@ -63,8 +63,18 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
           description: file?.description,
           url: `${getImageUrl(file?.files[0].url)}`
         })),
-        audios: [],
-        videos: [],
+        audios: aula.audio?.map((aud) => ({
+          id: aud?.id,
+          title: aud?.title,
+          description: aud?.description,
+          url: aud?.url
+        })),
+        videos: aula.video?.map((vid) => ({
+          id: vid?.id,
+          title: vid?.title,
+          description: vid?.description,
+          url: vid?.url
+        })),
         links: aula.links?.map((link) => ({
           id: link?.id,
           title: link?.title,
