@@ -53,9 +53,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
-      lessons: turma.aulas.map((aula) => ({
+      lessons: turma.aulas.map((aula, index) => ({
         id: aula.id,
-        title: aula.title,
+        title: `Aula ${index + 1} - ${aula.title}`,
         description: aula.description,
         files: aula.arquivo?.map((file) => ({
           id: file?.id,
