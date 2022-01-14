@@ -20,7 +20,7 @@ const Heading = ({
 
   return (
     <ChakraHeading
-      as="h2"
+      // as="h2"
       size={huge ? 'lg' : size || 'md'}
       fontWeight="semibold"
       color={color}
