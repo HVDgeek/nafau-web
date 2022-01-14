@@ -12,6 +12,7 @@ import {
 } from 'graphql/generated/QueryTurmaById'
 import { QUERY_TURMA_BY_ID } from 'graphql/queries/turmas'
 import { Base64 } from 'js-base64'
+import { getImageUrl } from 'utils/getImageUrl'
 
 export default function Index(props: ClassroomTemplateProps) {
   const router = useRouter()
@@ -56,7 +57,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         id: aula.id,
         title: aula.title,
         description: aula.description,
-        files: [],
+        files: aula.arquivo?.map((file) => ({
+          id: file?.id,
+          title: file?.name,
+          description: file?.description,
+          url: `${getImageUrl(file?.files[0].url)}`
+        })),
         audios: [],
         videos: [],
         links: [],
