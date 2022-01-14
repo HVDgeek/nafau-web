@@ -15,6 +15,8 @@ import IconButton from 'components/IconButton'
 import SideMenu from './SideMenu'
 import Link from 'components/Link'
 import UserDropdown from 'components/UserDropdown'
+import CheckingProfile from 'components/CheckingProfile'
+import { useUser } from 'hooks/use-user'
 import { useSession } from 'next-auth/client'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
 
@@ -27,21 +29,7 @@ const Menu = ({ username, avatar }: MenuProps) => {
   const disclosure = useDisclosure()
   const { asPath } = useRouter()
   const [session] = useSession()
-
-  // const canManage =
-  //   session &&
-  //   (session as SessionProps)?.user.profile.canManageTurma?.isActive &&
-  //   (session as SessionProps)?.user.profile.canManageAluno?.isActive &&
-  //   (session as SessionProps)?.user.profile.canManageAtendente?.isActive &&
-  //   (session as SessionProps)?.user.profile.canManageTeacher?.isActive
-
-  // const canSeeClassroom =
-  //   session &&
-  //   (session as SessionProps)?.user.profile.canSeeTurmas?.isActive &&
-  //   (session as SessionProps)?.user.profile.canSeeAulas?.isActive
-
-  const canManage = true
-  const canSeeClassroom = true
+  const { getProfiles, loading } = useUser()
 
   const { onOpen } = disclosure
 
@@ -54,6 +42,22 @@ const Menu = ({ username, avatar }: MenuProps) => {
     base: 18,
     md: 24
   })
+
+  if (loading) {
+    return <CheckingProfile />
+  }
+
+  const canManage =
+    getProfiles() &&
+    getProfiles()?.canManageTurma?.isActive &&
+    getProfiles()?.canManageAluno?.isActive &&
+    getProfiles()?.canManageAtendente?.isActive &&
+    getProfiles()?.canManageTeacher?.isActive
+
+  const canSeeClassroom =
+    getProfiles() &&
+    getProfiles()?.canSeeTurmas?.isActive &&
+    getProfiles()?.canSeeAulas?.isActive
 
   return (
     <Flex as="nav" align="center" py={2} px={0} justify="space-between">
