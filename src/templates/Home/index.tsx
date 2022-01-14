@@ -16,7 +16,8 @@ import Heading from 'components/Heading'
 import theme from 'styles/alt-themes'
 import { ApexOptions } from 'apexcharts'
 import Base from 'templates/Base'
-import * as C from './style'
+import { useSession } from 'next-auth/client'
+import * as S from './style'
 import { Icon } from '@chakra-ui/react'
 import {
   FaBookReader,
@@ -87,21 +88,22 @@ const options: ApexOptions = {
 const series = [{ name: 'series1', data: [31, 120, 10, 28, 61, 16, 109] }]
 
 const Home = () => {
+  const [session] = useSession()
   return (
     <Base>
       <Container>
-        <C.MainTitle>
-          <C.HelloImage
+        <S.MainTitle>
+          <S.HelloImage
             src="https://user-images.githubusercontent.com/87288949/137050624-a4e7733f-499a-4f53-8ac1-915bdac4df12.png"
             alt="Hello"
           />
-          <C.MainGreeting>
+          <S.MainGreeting>
             <Stack spacing={3}>
-              <Heading>Olá, Wilson Dos Santos</Heading>
+              <Heading>Olá, {session?.user?.name}</Heading>
               <Text fontSize="sm">Seja Bem Vindo à Platatafoma NAFAU</Text>
             </Stack>
-          </C.MainGreeting>
-        </C.MainTitle>
+          </S.MainGreeting>
+        </S.MainTitle>
 
         <Box mt={8}>
           <Heading lineLeft>Resumo</Heading>
@@ -111,32 +113,32 @@ const Home = () => {
           <Heading lineLeft>STUDENT</Heading>
         </Box>
 
-        <C.BoxRow>
-          <C.Card style={{ background: '#3498DB', marginRight: 10 }}>
-            <C.Number>5</C.Number>
-            <C.Title>DISCIPLINAS</C.Title>
-          </C.Card>
-          <C.Card style={{ background: '#F1C40F', marginRight: 10 }}>
-            <C.Number>7</C.Number>
-            <C.Title>TAREFAS</C.Title>
-          </C.Card>
-          <C.Card style={{ background: '#2ECC71', marginRight: 10 }}>
-            <C.Number>8</C.Number>
-            <C.Title>MATERIAIS</C.Title>
-          </C.Card>
-          <C.Card style={{ background: '#9B59B6', marginRight: 10 }}>
-            <C.Number>2</C.Number>
-            <C.Title>AVISOS</C.Title>
-          </C.Card>
-          <C.Card style={{ background: '#34495E', marginRight: 10 }}>
-            <C.Number>5</C.Number>
-            <C.Title>FORUM</C.Title>
-          </C.Card>
-          <C.Card style={{ background: '#F39C12' }}>
-            <C.Number>3</C.Number>
-            <C.Title>NOTAS</C.Title>
-          </C.Card>
-        </C.BoxRow>
+        <S.BoxRow>
+          <S.Card style={{ background: '#3498DB', marginRight: 10 }}>
+            <S.Number>5</S.Number>
+            <S.Title>DISCIPLINAS</S.Title>
+          </S.Card>
+          <S.Card style={{ background: '#F1C40F', marginRight: 10 }}>
+            <S.Number>7</S.Number>
+            <S.Title>TAREFAS</S.Title>
+          </S.Card>
+          <S.Card style={{ background: '#2ECC71', marginRight: 10 }}>
+            <S.Number>8</S.Number>
+            <S.Title>MATERIAIS</S.Title>
+          </S.Card>
+          <S.Card style={{ background: '#9B59B6', marginRight: 10 }}>
+            <S.Number>2</S.Number>
+            <S.Title>AVISOS</S.Title>
+          </S.Card>
+          <S.Card style={{ background: '#34495E', marginRight: 10 }}>
+            <S.Number>5</S.Number>
+            <S.Title>FORUM</S.Title>
+          </S.Card>
+          <S.Card style={{ background: '#F39C12' }}>
+            <S.Number>3</S.Number>
+            <S.Title>NOTAS</S.Title>
+          </S.Card>
+        </S.BoxRow>
 
         <SimpleGrid
           m={2}
@@ -164,8 +166,8 @@ const Home = () => {
           </Box>
         </SimpleGrid>
 
-        <C.BoxRow>
-          <C.NewCard style={{ border: '1px solid #50a7ff' }}>
+        <S.BoxRow>
+          <S.NewCard style={{ border: '1px solid #50a7ff' }}>
             <StatGroup justifyContent="center" alignItems="center">
               <Stat>
                 <StatLabel>Alunos</StatLabel>
@@ -194,94 +196,94 @@ const Home = () => {
                 </StatHelpText>
               </Stat>
             </StatGroup>
-          </C.NewCard>
-          <C.NewCard style={{ background: '#50a7ff' }}>
+          </S.NewCard>
+          <S.NewCard style={{ background: '#50a7ff' }}>
             Em desenvolvimento
-          </C.NewCard>
-          <C.NewCard style={{ background: '#50a7ff' }}>
+          </S.NewCard>
+          <S.NewCard style={{ background: '#50a7ff' }}>
             Em desenvolvimento
-          </C.NewCard>
-        </C.BoxRow>
+          </S.NewCard>
+        </S.BoxRow>
 
         <Box mt={8}>
           <Heading lineLeft>TEACHERS</Heading>
         </Box>
 
-        <C.MainCards>
-          <C.Cards>
+        <S.MainCards>
+          <S.Cards>
             <Icon fontSize="40px" color="#50a7ff" as={FaUsers} />
-            <C.CardInner>
-              <C.CardInnerText>Número de Inscritos</C.CardInnerText>
-              <C.CardInnerSpan>576</C.CardInnerSpan>
-            </C.CardInner>
-          </C.Cards>
+            <S.CardInner>
+              <S.CardInnerText>Número de Inscritos</S.CardInnerText>
+              <S.CardInnerSpan>576</S.CardInnerSpan>
+            </S.CardInner>
+          </S.Cards>
 
-          <C.Cards>
+          <S.Cards>
             <Icon fontSize="40px" color="#F39C12" as={FaCalendarAlt} />
-            <C.CardInner>
-              <C.CardInnerText>Tempo na Plataforma</C.CardInnerText>
-              <C.CardInnerSpan>32</C.CardInnerSpan>
-            </C.CardInner>
-          </C.Cards>
+            <S.CardInner>
+              <S.CardInnerText>Tempo na Plataforma</S.CardInnerText>
+              <S.CardInnerSpan>32</S.CardInnerSpan>
+            </S.CardInner>
+          </S.Cards>
 
-          <C.Cards>
+          <S.Cards>
             <Icon fontSize="40px" color="#9B59B6" as={FaUsers} />
-            <C.CardInner>
-              <C.CardInnerText>Número de Inscritos</C.CardInnerText>
-              <C.CardInnerSpan>576</C.CardInnerSpan>
-            </C.CardInner>
-          </C.Cards>
+            <S.CardInner>
+              <S.CardInnerText>Número de Inscritos</S.CardInnerText>
+              <S.CardInnerSpan>576</S.CardInnerSpan>
+            </S.CardInner>
+          </S.Cards>
 
-          <C.Cards>
+          <S.Cards>
             <Icon fontSize="40px" color="#2ECC71" as={FaMoneyCheckAlt} />
-            <C.CardInner>
-              <C.CardInnerText>Número de Inscritos</C.CardInnerText>
-              <C.CardInnerSpan>576</C.CardInnerSpan>
-            </C.CardInner>
-          </C.Cards>
-        </C.MainCards>
+            <S.CardInner>
+              <S.CardInnerText>Número de Inscritos</S.CardInnerText>
+              <S.CardInnerSpan>576</S.CardInnerSpan>
+            </S.CardInner>
+          </S.Cards>
+        </S.MainCards>
 
-        <C.BoxRow>
-          <C.NewCardContent>Em desenvolvimento</C.NewCardContent>
-        </C.BoxRow>
+        <S.BoxRow>
+          <S.NewCardContent>Em desenvolvimento</S.NewCardContent>
+        </S.BoxRow>
 
         <Box mt={8}>
           <Heading lineLeft>MANAGER</Heading>
         </Box>
 
-        <C.MainCards>
-          <C.Cards>
+        <S.MainCards>
+          <S.Cards>
             <Icon fontSize="40px" color="#50a7ff" as={FaBookReader} />
-            <C.CardInner>
-              <C.CardInnerText>Estudantes</C.CardInnerText>
-              <C.CardInnerSpan>1245</C.CardInnerSpan>
-            </C.CardInner>
-          </C.Cards>
+            <S.CardInner>
+              <S.CardInnerText>Estudantes</S.CardInnerText>
+              <S.CardInnerSpan>1245</S.CardInnerSpan>
+            </S.CardInner>
+          </S.Cards>
 
-          <C.Cards>
+          <S.Cards>
             <Icon fontSize="40px" color="#F39C12" as={FaUsers} />
-            <C.CardInner>
-              <C.CardInnerText>Colaboradores</C.CardInnerText>
-              <C.CardInnerSpan>239</C.CardInnerSpan>
-            </C.CardInner>
-          </C.Cards>
+            <S.CardInner>
+              <S.CardInnerText>Colaboradores</S.CardInnerText>
+              <S.CardInnerSpan>239</S.CardInnerSpan>
+            </S.CardInner>
+          </S.Cards>
 
-          <C.Cards>
+          <S.Cards>
             <Icon fontSize="40px" color="#9B59B6" as={FaBookOpen} />
-            <C.CardInner>
-              <C.CardInnerText>Cursos</C.CardInnerText>
-              <C.CardInnerSpan>576</C.CardInnerSpan>
-            </C.CardInner>
-          </C.Cards>
+            <S.CardInner>
+              <S.CardInnerText>Cursos</S.CardInnerText>
+              <S.CardInnerSpan>576</S.CardInnerSpan>
+            </S.CardInner>
+          </S.Cards>
 
-          <C.Cards>
+          <S.Cards>
             <Icon fontSize="40px" color="#2ECC71" as={FaMoneyCheckAlt} />
-            <C.CardInner>
-              <C.CardInnerText>Receita</C.CardInnerText>
-              <C.CardInnerSpan>15.235.568</C.CardInnerSpan>
-            </C.CardInner>
-          </C.Cards>
-        </C.MainCards>
+            <S.CardInner>
+              <S.CardInnerText>Receita</S.CardInnerText>
+              <S.CardInnerSpan>15.235.568</S.CardInnerSpan>
+            </S.CardInner>
+          </S.Cards>
+        </S.MainCards>
       </Container>
     </Base>
   )
