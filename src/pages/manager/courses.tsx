@@ -43,7 +43,7 @@ export default function Courses(props: CourseTemplateProps) {
     status: turma.status,
     // timing: 50,
     lastLesson: turma.aulas.length && {
-      title: turma.aulas[turma.aulas.length].title
+      title: turma.aulas[turma.aulas.length]?.title
     },
     teacher: {
       name: turma?.teachers[0]?.name,
