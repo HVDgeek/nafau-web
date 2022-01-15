@@ -55,7 +55,6 @@ const FormLesson = ({ onSubmit, initialValues }: FormLessonProps) => {
                 <FormLabel fontSize="sm" htmlFor="description">
                   Descrição
                 </FormLabel>
-                <EditorText />
               </FormControl>
               <Box display="flex" justifyContent="flex-end">
                 {/* <Button

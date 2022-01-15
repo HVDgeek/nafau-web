@@ -147,9 +147,7 @@ const YourUsersTemplate = ({
                           key={item.email}
                           {...item}
                           route={route}
-                          onRemove={() => {
-                            console.log('REMOVE USER')
-                          }}
+                          onRemove={onRemove}
                         />
                       ))}
                       {!users.length && (
@@ -196,7 +194,7 @@ const YourUsersTemplate = ({
           )}
         </MainContainer>
       </Container>
-      <Modal onClose={onClose} size="md" isOpen={isOpen}>
+      <Modal onClose={onClose} size="md" isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent bgColor="#353646">
           <ModalHeader
@@ -223,23 +221,21 @@ const YourUsersTemplate = ({
                 )
             )}
           </ModalBody>
-          <ModalFooter
-            bgColor="#353646"
-            borderRadius={themes.border.radius}
-          ></ModalFooter>
-          <Button color="red" size="xs" onClick={onClose}>
-            Cancelar
-          </Button>
-          <Box mr={2} />
-          <Button
-            size="xs"
-            onClick={() => {
-              onSubmit()
-              onClose()
-            }}
-          >
-            Adicionar
-          </Button>
+          <ModalFooter bgColor="#353646" borderRadius={themes.border.radius}>
+            <Button color="red" size="xs" onClick={onClose}>
+              Cancelar
+            </Button>
+            <Box mr={2} />
+            <Button
+              size="xs"
+              onClick={() => {
+                onSubmit()
+                onClose()
+              }}
+            >
+              Adicionar
+            </Button>
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </Base>

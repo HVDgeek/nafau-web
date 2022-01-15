@@ -97,24 +97,24 @@ const UserCard = ({
         </Button>
       </Link>
 
-      <Modal onClose={onClose} size="md" isOpen={isOpen}>
+      <Modal onClose={onClose} size="md" isOpen={isOpen} isCentered>
         <ModalOverlay />
-        <ModalContent bgColor="#353646">
+        <ModalContent bgColor="gray.800">
           <ModalHeader
             fontWeight="medium"
             fontSize="medium"
-            bgColor="#353646"
+            bgColor="gray.800"
             borderRadius={themes.border.radius}
           >
             Remover usuário
           </ModalHeader>
           <ModalCloseButton _focus={{ shadow: 'none' }} />
-          <ModalBody bgColor="#353646" borderRadius={themes.border.radius}>
+          <ModalBody bgColor="gray.800" borderRadius={themes.border.radius}>
             <Text fontWeight="light" mr={2}>
               Tem certeza que deseja remover {name} ?
             </Text>
           </ModalBody>
-          <ModalFooter bgColor="#353646" borderRadius={themes.border.radius}>
+          <ModalFooter bgColor="gray.800" borderRadius={themes.border.radius}>
             <Button color="red" size="xs" onClick={onClose}>
               Não
             </Button>

@@ -183,7 +183,7 @@ const YourCoursesTemplate = ({
           )}
         </MainContainer>
       </Container>
-      <Modal onClose={onClose} size="md" isOpen={isOpen}>
+      <Modal onClose={onClose} size="md" isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent bgColor="#353646">
           <ModalHeader
