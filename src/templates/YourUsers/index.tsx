@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import {
   Grid,
@@ -194,7 +194,13 @@ const YourUsersTemplate = ({
           )}
         </MainContainer>
       </Container>
-      <Modal onClose={onClose} size="md" isOpen={isOpen} isCentered>
+      <Modal
+        scrollBehavior="inside"
+        onClose={onClose}
+        size="md"
+        isOpen={isOpen}
+        isCentered
+      >
         <ModalOverlay />
         <ModalContent bgColor="#353646">
           <ModalHeader
