@@ -99,7 +99,11 @@ const Home = () => {
           />
           <S.MainGreeting>
             <Stack spacing={3}>
-              <Heading>Olá, {session?.user?.name}</Heading>
+              <Heading>
+                Olá,{' '}
+                {session?.user?.name?.split('*#nafau#*')[0] ||
+                  session?.user?.name}
+              </Heading>
               <Text fontSize="sm">Seja Bem Vindo à Platatafoma NAFAU</Text>
             </Stack>
           </S.MainGreeting>
