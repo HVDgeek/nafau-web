@@ -1,4 +1,18 @@
-import { Box, Flex, Accordion, Icon, ScaleFade } from '@chakra-ui/react'
+import {
+  Box,
+  Flex,
+  Accordion,
+  Icon,
+  ScaleFade,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalBody,
+  ModalContent,
+  ModalCloseButton,
+  ModalHeader,
+  ModalFooter
+} from '@chakra-ui/react'
 import { FaPlus } from 'react-icons/fa'
 import Base from 'templates/Base'
 import Button from 'components/Button'
@@ -12,14 +26,23 @@ import ClassroomHeader, {
 import { LinkProps } from 'components/Sidebar'
 import { useRouter } from 'next/router'
 import Empty from 'components/Empty'
+import themes from 'styles/alt-themes'
+import FormLesson from 'components/FormLesson'
 
 export type ClassroomTemplateProps = {
   lessons: ClassItemProps[]
   courseInfo: ClassroomHeaderProps
   links: LinkProps[]
+  handleAddClass: () => void
 }
 
-const Classroom = ({ lessons, courseInfo, links }: ClassroomTemplateProps) => {
+const Classroom = ({
+  lessons,
+  courseInfo,
+  links,
+  handleAddClass
+}: ClassroomTemplateProps) => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const { asPath } = useRouter()
 
   return (
@@ -32,7 +55,11 @@ const Classroom = ({ lessons, courseInfo, links }: ClassroomTemplateProps) => {
               <ClassroomHeader {...courseInfo} />
             </Box>
             <Flex mt={8} mr={8} justify="flex-end">
-              <Button size="sm" leftIcon={<Icon as={FaPlus} />}>
+              <Button
+                onClick={onOpen}
+                size="sm"
+                leftIcon={<Icon as={FaPlus} />}
+              >
                 Adicionar aula
               </Button>
             </Flex>
@@ -57,6 +84,38 @@ const Classroom = ({ lessons, courseInfo, links }: ClassroomTemplateProps) => {
           </ScaleFade>
         </Main>
       </Container>
+      <Modal onClose={onClose} size="md" isOpen={isOpen} isCentered>
+        <ModalOverlay />
+        <ModalContent bgColor="gray.800">
+          <ModalHeader
+            fontWeight="medium"
+            fontSize="medium"
+            bgColor="gray.800"
+            borderRadius={themes.border.radius}
+          >
+            Adicionar uma Aula
+          </ModalHeader>
+          <ModalCloseButton _focus={{ shadow: 'none' }} />
+          <ModalBody bgColor="gray.800" borderRadius={themes.border.radius}>
+            <FormLesson />
+          </ModalBody>
+          <ModalFooter bgColor="gray.800" borderRadius={themes.border.radius}>
+            <Button color="red" size="xs" onClick={onClose}>
+              Cancelar
+            </Button>
+            <Box mr={2} />
+            <Button
+              size="xs"
+              onClick={() => {
+                handleAddClass()
+                onClose()
+              }}
+            >
+              Adicionar
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Base>
   )
 }

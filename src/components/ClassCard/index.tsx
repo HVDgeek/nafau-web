@@ -246,6 +246,10 @@ const ClassCard = ({
             </Text>
           </ModalBody>
           <ModalFooter bgColor="#353646" borderRadius={themes.border.radius}>
+            <Button color="red" size="xs" onClick={onClose}>
+              Não
+            </Button>
+            <Box mr={2} />
             <Button
               size="xs"
               onClick={() => {
@@ -254,10 +258,6 @@ const ClassCard = ({
               }}
             >
               Sim
-            </Button>
-            <Box mr={2} />
-            <Button color="red" size="xs" onClick={onClose}>
-              Não
             </Button>
           </ModalFooter>
         </ModalContent>

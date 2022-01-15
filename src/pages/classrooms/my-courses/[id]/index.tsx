@@ -18,12 +18,23 @@ export default function Index(props: ClassroomTemplateProps) {
   const router = useRouter()
   const [session, loadingSession] = useSession()
 
+  const handleAddClass = () => {
+    console.log('ADICIONAR AULA')
+  }
+
   if (typeof window !== undefined && loadingSession) return null
 
   if (!session) {
     window.location.href = `/sign-in?callbackUrl=${router.asPath}`
   }
-  return <Classroom {...props} links={classroomsMock} />
+
+  return (
+    <Classroom
+      {...props}
+      links={classroomsMock}
+      handleAddClass={handleAddClass}
+    />
+  )
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {

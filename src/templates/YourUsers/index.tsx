@@ -223,21 +223,23 @@ const YourUsersTemplate = ({
                 )
             )}
           </ModalBody>
-          <ModalFooter bgColor="#353646" borderRadius={themes.border.radius}>
-            <Button
-              size="xs"
-              onClick={() => {
-                onSubmit()
-                onClose()
-              }}
-            >
-              Adicionar
-            </Button>
-            <Box mr={2} />
-            <Button color="red" size="xs" onClick={onClose}>
-              cancelar
-            </Button>
-          </ModalFooter>
+          <ModalFooter
+            bgColor="#353646"
+            borderRadius={themes.border.radius}
+          ></ModalFooter>
+          <Button color="red" size="xs" onClick={onClose}>
+            Cancelar
+          </Button>
+          <Box mr={2} />
+          <Button
+            size="xs"
+            onClick={() => {
+              onSubmit()
+              onClose()
+            }}
+          >
+            Adicionar
+          </Button>
         </ModalContent>
       </Modal>
     </Base>

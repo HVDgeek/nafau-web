@@ -210,6 +210,10 @@ const YourCoursesTemplate = ({
             )}
           </ModalBody>
           <ModalFooter bgColor="#353646" borderRadius={themes.border.radius}>
+            <Button color="red" size="xs" onClick={onClose}>
+              Cancelar
+            </Button>
+            <Box mr={2} />
             <Button
               size="xs"
               onClick={() => {
@@ -218,10 +222,6 @@ const YourCoursesTemplate = ({
               }}
             >
               Adicionar
-            </Button>
-            <Box mr={2} />
-            <Button color="red" size="xs" onClick={onClose}>
-              cancelar
             </Button>
           </ModalFooter>
         </ModalContent>
