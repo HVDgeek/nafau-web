@@ -1,4 +1,4 @@
-:root {
+.editor {
   /* Overrides the border radius setting in the theme. */
   --ck-border-radius: 2px;
   --ck-color-focus-border: #322659;
@@ -32,4 +32,6 @@
 
   --ck-font-size-base: 12px;
   --ck-spacing-unit: 20px;
+
+  z-index: 9999999;
 }

@@ -7,8 +7,8 @@ export default {
   component: EditorText
 } as Meta
 
-export const Default: Story<EditorTextProps> = (args) => (
+export const Default = () => (
   <Box m="auto">
-    <EditorText {...args} />
+    <EditorText />
   </Box>
 )
