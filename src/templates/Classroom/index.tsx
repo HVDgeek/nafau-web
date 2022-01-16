@@ -84,7 +84,13 @@ const Classroom = ({
           </ScaleFade>
         </Main>
       </Container>
-      <Modal onClose={onClose} size="md" isOpen={isOpen} isCentered>
+      <Modal
+        onClose={onClose}
+        size="md"
+        isOpen={isOpen}
+        isCentered
+        scrollBehavior="inside"
+      >
         <ModalOverlay />
         <ModalContent bgColor="gray.800">
           <ModalHeader
@@ -99,7 +105,7 @@ const Classroom = ({
           <ModalBody bgColor="gray.800" borderRadius={themes.border.radius}>
             <FormLesson />
           </ModalBody>
-          <ModalFooter bgColor="gray.800" borderRadius={themes.border.radius}>
+          {/* <ModalFooter bgColor="gray.800" borderRadius={themes.border.radius}>
             <Button color="red" size="xs" onClick={onClose}>
               Cancelar
             </Button>
@@ -113,7 +119,7 @@ const Classroom = ({
             >
               Adicionar
             </Button>
-          </ModalFooter>
+          </ModalFooter> */}
         </ModalContent>
       </Modal>
     </Base>

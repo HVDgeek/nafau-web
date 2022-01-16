@@ -41,7 +41,7 @@ const EditorText = () => {
               'bold',
               'italic',
               '|',
-              'link',
+              // 'link',
               'bulletedList',
               'numberedList',
               'blockQuote',

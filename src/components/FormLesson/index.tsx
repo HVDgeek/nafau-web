@@ -58,13 +58,13 @@ const FormLesson = ({ onSubmit, initialValues }: FormLessonProps) => {
                 <EditorText />
               </FormControl>
               <Box display="flex" justifyContent="flex-end">
-                {/* <Button
+                <Button
                   type="submit"
                   fullWidth={isDesktopVersion ? false : true}
                   size="sm"
                 >
                   Salvar
-                </Button> */}
+                </Button>
               </Box>
             </Form>
           )}
