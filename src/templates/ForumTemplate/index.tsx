@@ -50,7 +50,6 @@ const ForumTemplate = ({
   const { turmaSelected, selectTurma } = useForum()
 
   const handleSelect = (id: string, title: string, code?: string) => {
-    console.log('DATA', id, title, code)
     const data = {
       id,
       title,

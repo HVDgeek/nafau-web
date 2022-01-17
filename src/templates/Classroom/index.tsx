@@ -34,10 +34,15 @@ import FormLesson from 'components/FormLesson'
 import { FormikHelpers } from 'formik'
 import { useAula } from 'hooks/use-aula'
 import { AiOutlineClose } from 'react-icons/ai'
+import LoadingClient from 'components/LoadingClient'
+import ShowMore from 'components/ShowMore'
 
 export type ClassroomTemplateProps = {
   lessons: ClassItemProps[]
   courseInfo: ClassroomHeaderProps
+  loading: boolean
+  hasMore: boolean
+  handleShowMore: () => void
   idTurma: string
   links: LinkProps[]
   onSubmit: (
@@ -48,11 +53,14 @@ export type ClassroomTemplateProps = {
 }
 
 const Classroom = ({
-  lessons,
+  lessons = [],
   courseInfo,
   links,
   onSubmit,
-  onRemove
+  onRemove,
+  loading,
+  hasMore,
+  handleShowMore
 }: ClassroomTemplateProps) => {
   const { isOpen, onOpen, onClose } = useAula()
   const {
@@ -68,6 +76,7 @@ const Classroom = ({
       <Container>
         <Main>
           <Sidebar links={links} activeLink={asPath} />
+
           <ScaleFade initialScale={0.9} in={true}>
             <Box ml={4}>
               <ClassroomHeader {...courseInfo} />
@@ -82,34 +91,44 @@ const Classroom = ({
               </Button>
             </Flex>
 
-            <Box w="100%" maxW="800px" margin="0 auto" mt={6} px={4}>
-              <Accordion allowToggle>
-                {lessons?.map((lesson) => (
-                  <Box position="relative" key={lesson.id}>
-                    <ClassItem {...lesson} />
-                    <Box position="absolute" right={-10} bottom={5}>
-                      <IconButton
-                        onClick={() => {
-                          setIdAula(lesson.id)
-                          onOpenRemoveAula()
-                        }}
-                        ariaLabel="Remover usuário"
-                      >
-                        <AiOutlineClose size={18} />
-                      </IconButton>
+            {loading ? (
+              <LoadingClient title="as minhas aulas" />
+            ) : (
+              <Box w="100%" maxW="800px" margin="0 auto" mt={6} px={4}>
+                <Accordion allowToggle>
+                  {lessons?.map((lesson) => (
+                    <Box position="relative" key={lesson.id}>
+                      <ClassItem {...lesson} />
+                      <Box position="absolute" right={-10} bottom={5}>
+                        <IconButton
+                          onClick={() => {
+                            setIdAula(lesson.id)
+                            onOpenRemoveAula()
+                          }}
+                          ariaLabel="Remover usuário"
+                        >
+                          <AiOutlineClose size={18} />
+                        </IconButton>
+                      </Box>
+                      <Box mt={2} />
                     </Box>
-                    <Box mt={2} />
-                  </Box>
-                ))}
-                {!lessons.length && (
-                  <Empty
-                    title={`Nenhuma aula foi adicionada!`}
-                    description={`Adicione uma aula para que apareça aqui. Abraços 😃`}
-                    hasLink
-                  />
-                )}
-              </Accordion>
-            </Box>
+                  ))}
+                  {!lessons.length && (
+                    <Empty
+                      title={`Nenhuma aula foi adicionada!`}
+                      description={`Adicione uma aula para que apareça aqui. Abraços 😃`}
+                      hasLink
+                    />
+                  )}
+                </Accordion>
+              </Box>
+            )}
+            {hasMore && (
+              <ShowMore
+                tooltipText="Carregar mais aulas!"
+                onClick={handleShowMore}
+              />
+            )}
           </ScaleFade>
         </Main>
       </Container>

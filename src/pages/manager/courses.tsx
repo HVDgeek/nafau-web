@@ -52,8 +52,6 @@ export default function Courses(props: CourseTemplateProps) {
     countAlunos: turma.alunos.length
   })) as ClassCardProps[]
 
-  console.log('AULAS =>', courses)
-
   const canManageTurma = getProfiles()?.canManageTurma
 
   if (loadingProfiles) {

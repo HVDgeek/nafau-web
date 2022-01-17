@@ -15,6 +15,8 @@ import { Base64 } from 'js-base64'
 import { getImageUrl } from 'utils/getImageUrl'
 import { FormikHelpers } from 'formik'
 import { useAula } from 'hooks/use-aula'
+import { useQueryAulas } from 'graphql/queries/aulas'
+import { ClassItemProps } from 'components/ClassItem'
 
 export type Values = {
   title: string
@@ -26,6 +28,22 @@ export default function Index(props: ClassroomTemplateProps) {
   const [session, loadingSession] = useSession()
   const toast = useToast()
   const { onClose, addAula } = useAula()
+
+  let hasMoreAulas = false
+  const { data, loading, fetchMore } = useQueryAulas({
+    notifyOnNetworkStatusChange: true,
+    skip: !session?.user?.email, // Não roda se não tiver session
+    context: { session }, // passando a session de autentication
+    variables: {
+      limit: 20,
+      idTurma: props.idTurma
+    }
+  })
+
+  if (data) {
+    hasMoreAulas =
+      data?.aulas.length < (data?.aulasConnection?.values?.length || 0)
+  }
 
   const onSubmit = async (
     values: Values,
@@ -49,8 +67,50 @@ export default function Index(props: ClassroomTemplateProps) {
     }
   }
 
+  /// Carregando as aulas...
+  const lessons = data?.aulas.map((aula, index) => ({
+    id: aula.id,
+    title: `Aula ${index + 1} - ${aula.title}`,
+    description: aula.description,
+    files: aula.arquivo?.map((file) => ({
+      id: file?.id,
+      title: file?.name,
+      description: file?.description,
+      url: `${getImageUrl(file?.files[0].url)}`
+    })),
+    audios: aula.audio?.map((aud) => ({
+      id: aud?.id,
+      title: aud?.title,
+      description: aud?.description,
+      url: aud?.url
+    })),
+    videos: aula.video?.map((vid) => ({
+      id: vid?.id,
+      title: vid?.title,
+      description: vid?.description,
+      url: vid?.url
+    })),
+    links: aula.links?.map((link) => ({
+      id: link?.id,
+      title: link?.title,
+      description: link?.description,
+      url: link?.url
+    })),
+    updated_at: aula.updated_at
+  })) as ClassItemProps[]
+
   const onRemove = (id: string) => {
     console.log('ID da AULA => ', id)
+  }
+
+  const handleShowMore = () => {
+    fetchMore({
+      variables: {
+        limit: 20,
+        start: data?.aulas.length,
+        idTurma: props.idTurma
+      }
+    })
   }
 
   if (typeof window !== undefined && loadingSession) return null
@@ -62,6 +122,10 @@ export default function Index(props: ClassroomTemplateProps) {
   return (
     <Classroom
       {...props}
+      lessons={lessons}
+      loading={loading}
+      hasMore={hasMoreAulas}
+      handleShowMore={handleShowMore}
       links={classroomsMock}
       onSubmit={onSubmit}
       onRemove={onRemove}
@@ -96,36 +160,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
-      lessons: turma.aulas.map((aula, index) => ({
-        id: aula.id,
-        title: `Aula ${index + 1} - ${aula.title}`,
-        description: aula.description,
-        files: aula.arquivo?.map((file) => ({
-          id: file?.id,
-          title: file?.name,
-          description: file?.description,
-          url: `${getImageUrl(file?.files[0].url)}`
-        })),
-        audios: aula.audio?.map((aud) => ({
-          id: aud?.id,
-          title: aud?.title,
-          description: aud?.description,
-          url: aud?.url
-        })),
-        videos: aula.video?.map((vid) => ({
-          id: vid?.id,
-          title: vid?.title,
-          description: vid?.description,
-          url: vid?.url
-        })),
-        links: aula.links?.map((link) => ({
-          id: link?.id,
-          title: link?.title,
-          description: link?.description,
-          url: link?.url
-        })),
-        updated_at: aula.updated_at
-      })),
       courseInfo: {
         title: turma?.title,
         status: turma?.status,
