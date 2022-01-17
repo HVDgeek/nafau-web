@@ -28,7 +28,7 @@ export default function Classrooms(props: ForumTemplateProps) {
     status: turma.status,
     // timing: 50,
     lastLesson: turma.aulas.length && {
-      title: turma.aulas[turma.aulas.length]?.title
+      title: turma.aulas[turma.aulas.length - 1]?.title
     },
     teacher: {
       name: turma?.teachers[0]?.name,
