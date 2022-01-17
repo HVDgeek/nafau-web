@@ -25,7 +25,7 @@ export default function Index(props: ClassroomTemplateProps) {
   const router = useRouter()
   const [session, loadingSession] = useSession()
   const toast = useToast()
-  const { onClose } = useAula()
+  const { onClose, addAula } = useAula()
 
   const onSubmit = async (
     values: Values,
@@ -37,13 +37,15 @@ export default function Index(props: ClassroomTemplateProps) {
         // variant: 'left-accent',
         position: 'bottom',
         description: 'A descrição é obrigatória para o cadastro da aula',
-        status: 'error',
+        status: 'warning',
         isClosable: true
       })
     } else {
-      console.log({ values })
-      console.log('ID da TURMA => ', props.idTurma)
-      onClose()
+      addAula({
+        description: values.description,
+        title: values.title,
+        idTurma: props.idTurma
+      })
     }
   }
 
