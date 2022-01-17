@@ -28,21 +28,26 @@ import { useRouter } from 'next/router'
 import Empty from 'components/Empty'
 import themes from 'styles/alt-themes'
 import FormLesson from 'components/FormLesson'
+import { FormikHelpers } from 'formik'
+import { useAula } from 'hooks/use-aula'
 
 export type ClassroomTemplateProps = {
   lessons: ClassItemProps[]
   courseInfo: ClassroomHeaderProps
   links: LinkProps[]
-  handleAddClass: () => void
+  onSubmit: (
+    values: any,
+    formikHelpers: FormikHelpers<any>
+  ) => void | Promise<any>
 }
 
 const Classroom = ({
   lessons,
   courseInfo,
   links,
-  handleAddClass
+  onSubmit
 }: ClassroomTemplateProps) => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useAula()
   const { asPath } = useRouter()
 
   return (
@@ -103,23 +108,8 @@ const Classroom = ({
           </ModalHeader>
           <ModalCloseButton _focus={{ shadow: 'none' }} />
           <ModalBody bgColor="gray.800" borderRadius={themes.border.radius}>
-            <FormLesson />
+            <FormLesson onSubmit={onSubmit} />
           </ModalBody>
-          {/* <ModalFooter bgColor="gray.800" borderRadius={themes.border.radius}>
-            <Button color="red" size="xs" onClick={onClose}>
-              Cancelar
-            </Button>
-            <Box mr={2} />
-            <Button
-              size="xs"
-              onClick={() => {
-                handleAddClass()
-                onClose()
-              }}
-            >
-              Adicionar
-            </Button>
-          </ModalFooter> */}
         </ModalContent>
       </Modal>
     </Base>

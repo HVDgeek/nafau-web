@@ -13,13 +13,22 @@ import {
 import { QUERY_TURMA_BY_ID } from 'graphql/queries/turmas'
 import { Base64 } from 'js-base64'
 import { getImageUrl } from 'utils/getImageUrl'
+import { FormikHelpers } from 'formik'
+
+export type Values = {
+  title: string
+  description: string
+}
 
 export default function Index(props: ClassroomTemplateProps) {
   const router = useRouter()
   const [session, loadingSession] = useSession()
 
-  const handleAddClass = () => {
-    console.log('ADICIONAR AULA')
+  const onSubmit = async (
+    values: Values,
+    { setErrors, resetForm }: FormikHelpers<Values>
+  ) => {
+    console.log('DATA => ', values)
   }
 
   if (typeof window !== undefined && loadingSession) return null
@@ -28,13 +37,7 @@ export default function Index(props: ClassroomTemplateProps) {
     window.location.href = `/sign-in?callbackUrl=${router.asPath}`
   }
 
-  return (
-    <Classroom
-      {...props}
-      links={classroomsMock}
-      handleAddClass={handleAddClass}
-    />
-  )
+  return <Classroom {...props} links={classroomsMock} onSubmit={onSubmit} />
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {

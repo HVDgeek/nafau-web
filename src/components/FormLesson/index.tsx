@@ -1,74 +1,67 @@
 import {
   Box,
   ScaleFade,
-  Grid,
   useBreakpointValue,
   FormControl,
-  Select,
   FormLabel,
-  Textarea,
-  Text
+  useDisclosure
 } from '@chakra-ui/react'
 import TextField from 'components/TextField'
 import Button from 'components/Button'
-import { Form, Formik, Field, FormikHelpers } from 'formik'
+import { Form, FormikHelpers, FormikProvider, useFormik } from 'formik'
 import themes from 'styles/alt-themes'
 import EditorText from 'components/EditorText'
-
-type FieldType = {
-  field: any
-}
+import { useAula } from 'hooks/use-aula'
 
 export type FormLessonProps = {
-  initialValues: any
   onSubmit: (
     values: any,
     formikHelpers: FormikHelpers<any>
   ) => void | Promise<any>
 }
 
-const FormLesson = ({ onSubmit, initialValues }: FormLessonProps) => {
-  const isDesktopVersion = useBreakpointValue({
-    base: false,
-    md: true,
-    lg: true
+const FormLesson = ({ onSubmit }: FormLessonProps) => {
+  const { onClose } = useAula()
+
+  const handleDescription = (event, editor) => {
+    const description = editor.getData()
+    formik.setFieldValue('description', description)
+  }
+
+  const formik = useFormik({
+    initialValues: { description: '', title: '' },
+    onSubmit
   })
 
   return (
     <Box borderRadius={themes.border.radius} backgroundColor="gray.800" p={4}>
       <ScaleFade initialScale={0.9} in={true}>
-        <Formik
-          // validationSchema={SignInSchema}
-          initialValues={initialValues}
-          onSubmit={onSubmit}
-        >
-          {({ isSubmitting }) => (
-            <Form>
-              <TextField
-                label="Tema da aula"
-                name="title"
-                isRequired
-                placeholder="Tema desta aula"
-              />
-              <Box mt={4} />
-              <FormControl id="description" isRequired>
-                <FormLabel fontSize="sm" htmlFor="description">
-                  Descrição
-                </FormLabel>
-                <EditorText />
-              </FormControl>
-              <Box display="flex" justifyContent="flex-end">
-                <Button
-                  type="submit"
-                  fullWidth={isDesktopVersion ? false : true}
-                  size="sm"
-                >
-                  Salvar
-                </Button>
-              </Box>
-            </Form>
-          )}
-        </Formik>
+        <FormikProvider value={formik}>
+          <Form>
+            <TextField
+              label="Tema da aula"
+              name="title"
+              isRequired
+              placeholder="Tema desta aula"
+            />
+            <Box mt={4} />
+            <FormControl id="description" isRequired>
+              <FormLabel fontSize="sm" htmlFor="description">
+                Descrição
+              </FormLabel>
+              <EditorText onChange={handleDescription} />
+            </FormControl>
+            <Box display="flex" justifyContent="flex-end" mt={4}>
+              <Button color="red" size="xs" onClick={onClose}>
+                Cancelar
+              </Button>
+              <Box mr={2} />
+              <Button type="submit" size="xs">
+                Salvar
+              </Button>
+            </Box>
+          </Form>
+        </FormikProvider>
       </ScaleFade>
     </Box>
   )
