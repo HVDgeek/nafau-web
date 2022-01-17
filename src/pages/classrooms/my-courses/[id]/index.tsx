@@ -1,8 +1,8 @@
-import Classroom, { ClassroomTemplateProps } from 'templates/Classroom'
-import lessonsMock from 'components/ClassItem/mock'
-import { useSession } from 'next-auth/client'
+import { useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
+import { useSession } from 'next-auth/client'
 import classroomsMock from 'components/Sidebar/classroomsMock'
+import Classroom, { ClassroomTemplateProps } from 'templates/Classroom'
 import { GetServerSidePropsContext } from 'next'
 import protectedRoutes from 'utils/protected-routes'
 import { initializeApollo } from 'utils/apollo'
@@ -14,6 +14,7 @@ import { QUERY_TURMA_BY_ID } from 'graphql/queries/turmas'
 import { Base64 } from 'js-base64'
 import { getImageUrl } from 'utils/getImageUrl'
 import { FormikHelpers } from 'formik'
+import { useAula } from 'hooks/use-aula'
 
 export type Values = {
   title: string
@@ -23,12 +24,31 @@ export type Values = {
 export default function Index(props: ClassroomTemplateProps) {
   const router = useRouter()
   const [session, loadingSession] = useSession()
+  const toast = useToast()
+  const { onClose } = useAula()
 
   const onSubmit = async (
     values: Values,
     { setErrors, resetForm }: FormikHelpers<Values>
   ) => {
-    console.log('DATA => ', values)
+    if (values.description === '') {
+      toast({
+        title: `Descrição é obrigatória 😢`,
+        // variant: 'left-accent',
+        position: 'bottom',
+        description: 'A descrição é obrigatória para o cadastro da aula',
+        status: 'error',
+        isClosable: true
+      })
+    } else {
+      console.log({ values })
+      console.log('ID da TURMA => ', props.idTurma)
+      onClose()
+    }
+  }
+
+  const onRemove = (id: string) => {
+    console.log('ID da AULA => ', id)
   }
 
   if (typeof window !== undefined && loadingSession) return null
@@ -37,7 +57,14 @@ export default function Index(props: ClassroomTemplateProps) {
     window.location.href = `/sign-in?callbackUrl=${router.asPath}`
   }
 
-  return <Classroom {...props} links={classroomsMock} onSubmit={onSubmit} />
+  return (
+    <Classroom
+      {...props}
+      links={classroomsMock}
+      onSubmit={onSubmit}
+      onRemove={onRemove}
+    />
+  )
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
@@ -102,7 +129,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         status: turma?.status,
         description: turma?.description,
         code: turma?.code
-      }
+      },
+      idTurma: turma.id
     }
   }
 }

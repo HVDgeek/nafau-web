@@ -1,17 +1,19 @@
+import React, { useState } from 'react'
 import {
   Box,
   Flex,
   Accordion,
   Icon,
   ScaleFade,
-  useDisclosure,
   Modal,
   ModalOverlay,
   ModalBody,
   ModalContent,
   ModalCloseButton,
   ModalHeader,
-  ModalFooter
+  ModalFooter,
+  Text,
+  useDisclosure
 } from '@chakra-ui/react'
 import { FaPlus } from 'react-icons/fa'
 import Base from 'templates/Base'
@@ -20,6 +22,7 @@ import ClassItem, { ClassItemProps } from 'components/ClassItem'
 import { Main } from 'templates/Users'
 import Sidebar from 'components/Sidebar'
 import { Container } from 'components/Container'
+import IconButton from 'components/IconButton'
 import ClassroomHeader, {
   ClassroomHeaderProps
 } from 'components/ClassroomHeader'
@@ -30,25 +33,35 @@ import themes from 'styles/alt-themes'
 import FormLesson from 'components/FormLesson'
 import { FormikHelpers } from 'formik'
 import { useAula } from 'hooks/use-aula'
+import { AiOutlineClose } from 'react-icons/ai'
 
 export type ClassroomTemplateProps = {
   lessons: ClassItemProps[]
   courseInfo: ClassroomHeaderProps
+  idTurma: string
   links: LinkProps[]
   onSubmit: (
     values: any,
     formikHelpers: FormikHelpers<any>
   ) => void | Promise<any>
+  onRemove: (id: string) => void
 }
 
 const Classroom = ({
   lessons,
   courseInfo,
   links,
-  onSubmit
+  onSubmit,
+  onRemove
 }: ClassroomTemplateProps) => {
   const { isOpen, onOpen, onClose } = useAula()
+  const {
+    isOpen: isOpenRemoveAula,
+    onOpen: onOpenRemoveAula,
+    onClose: onCloseRemoveAula
+  } = useDisclosure()
   const { asPath } = useRouter()
+  const [idAula, setIdAula] = useState<string>('')
 
   return (
     <Base>
@@ -72,8 +85,19 @@ const Classroom = ({
             <Box w="100%" maxW="800px" margin="0 auto" mt={6} px={4}>
               <Accordion allowToggle>
                 {lessons?.map((lesson) => (
-                  <Box key={lesson.id}>
+                  <Box position="relative" key={lesson.id}>
                     <ClassItem {...lesson} />
+                    <Box position="absolute" right={-10} bottom={5}>
+                      <IconButton
+                        onClick={() => {
+                          setIdAula(lesson.id)
+                          onOpenRemoveAula()
+                        }}
+                        ariaLabel="Remover usuário"
+                      >
+                        <AiOutlineClose size={18} />
+                      </IconButton>
+                    </Box>
                     <Box mt={2} />
                   </Box>
                 ))}
@@ -110,6 +134,45 @@ const Classroom = ({
           <ModalBody bgColor="gray.800" borderRadius={themes.border.radius}>
             <FormLesson onSubmit={onSubmit} />
           </ModalBody>
+        </ModalContent>
+      </Modal>
+      <Modal
+        onClose={onCloseRemoveAula}
+        size="md"
+        isOpen={isOpenRemoveAula}
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent bgColor="gray.800">
+          <ModalHeader
+            fontWeight="medium"
+            fontSize="medium"
+            bgColor="gray.800"
+            borderRadius={themes.border.radius}
+          >
+            Remover Aula
+          </ModalHeader>
+          <ModalCloseButton _focus={{ shadow: 'none' }} />
+          <ModalBody bgColor="gray.800" borderRadius={themes.border.radius}>
+            <Text fontWeight="light" mr={2}>
+              Tem certeza que deseja esta aula ?
+            </Text>
+          </ModalBody>
+          <ModalFooter bgColor="gray.800" borderRadius={themes.border.radius}>
+            <Button color="red" size="xs" onClick={onCloseRemoveAula}>
+              Não
+            </Button>
+            <Box mr={2} />
+            <Button
+              size="xs"
+              onClick={() => {
+                onRemove(idAula)
+                onCloseRemoveAula()
+              }}
+            >
+              Sim
+            </Button>
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </Base>
