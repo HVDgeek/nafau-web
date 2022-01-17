@@ -27,15 +27,15 @@ export default function Index(props: ClassroomTemplateProps) {
   const router = useRouter()
   const [session, loadingSession] = useSession()
   const toast = useToast()
-  const { onClose, addAula } = useAula()
+  const { onClose, addAula, removeAula } = useAula()
 
   let hasMoreAulas = false
   const { data, loading, fetchMore } = useQueryAulas({
-    notifyOnNetworkStatusChange: true,
+    // notifyOnNetworkStatusChange: true,
     skip: !session?.user?.email, // Não roda se não tiver session
     context: { session }, // passando a session de autentication
     variables: {
-      limit: 20,
+      limit: 40,
       idTurma: props.idTurma
     }
   })
@@ -100,13 +100,13 @@ export default function Index(props: ClassroomTemplateProps) {
   })) as ClassItemProps[]
 
   const onRemove = (id: string) => {
-    console.log('ID da AULA => ', id)
+    removeAula({ idAula: id })
   }
 
   const handleShowMore = () => {
     fetchMore({
       variables: {
-        limit: 20,
+        limit: 40,
         start: data?.aulas.length,
         idTurma: props.idTurma
       }

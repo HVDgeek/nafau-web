@@ -104,7 +104,7 @@ const StudentProvider = ({ children }: StudentProviderProps) => {
         query: QUERY_ALUNOS,
         context: { session },
         variables: {
-          limit: 9,
+          limit: 40,
           institutionId: (session as SessionProps)?.user?.institution
         }
       }
@@ -121,7 +121,7 @@ const StudentProvider = ({ children }: StudentProviderProps) => {
         query: QUERY_ALUNOS,
         context: { session },
         variables: {
-          limit: 9,
+          limit: 40,
           institutionId: (session as SessionProps)?.user?.institution
         }
       }

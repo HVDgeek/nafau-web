@@ -103,7 +103,7 @@ const AtendenteProvider = ({ children }: AtendenteProviderProps) => {
         query: QUERY_ATENDENTES,
         context: { session },
         variables: {
-          limit: 9,
+          limit: 15,
           institutionId: (session as SessionProps)?.user?.institution
         }
       }
@@ -120,7 +120,7 @@ const AtendenteProvider = ({ children }: AtendenteProviderProps) => {
         query: QUERY_ATENDENTES,
         context: { session },
         variables: {
-          limit: 9,
+          limit: 15,
           institutionId: (session as SessionProps)?.user?.institution
         }
       }

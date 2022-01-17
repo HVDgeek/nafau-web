@@ -71,7 +71,7 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
         query: QUERY_TURMAS,
         context: { session },
         variables: {
-          limit: 10,
+          limit: 40,
           institutionId: (session as SessionProps)?.user?.institution
         }
       }
@@ -88,7 +88,7 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
         query: QUERY_TURMAS,
         context: { session },
         variables: {
-          limit: 10,
+          limit: 40,
           institutionId: (session as SessionProps)?.user?.institution
         }
       }

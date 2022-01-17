@@ -24,7 +24,7 @@ export default function AttendantsPage(props: UsersTemplateProps) {
     skip: !session?.user?.email, // Não roda se não tiver session
     context: { session }, // passando a session de autentication
     variables: {
-      limit: 9,
+      limit: 40,
       institutionId: (props.session as SessionProps)?.user?.institution
     }
   })
@@ -67,7 +67,7 @@ export default function AttendantsPage(props: UsersTemplateProps) {
   const handleShowMore = () => {
     fetchMore({
       variables: {
-        limit: 9,
+        limit: 15,
         start: data?.atendentes.length,
         institutionId: (props.session as SessionProps).user?.institution
       }

@@ -103,7 +103,7 @@ const TeacherProvider = ({ children }: TeacherProviderProps) => {
         query: QUERY_PROFESSORES,
         context: { session },
         variables: {
-          limit: 9,
+          limit: 40,
           institutionId: (session as SessionProps)?.user?.institution
         }
       }
@@ -120,7 +120,7 @@ const TeacherProvider = ({ children }: TeacherProviderProps) => {
         query: QUERY_PROFESSORES,
         context: { session },
         variables: {
-          limit: 9,
+          limit: 40,
           institutionId: (session as SessionProps)?.user?.institution
         }
       }
