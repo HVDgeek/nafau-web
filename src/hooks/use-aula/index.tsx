@@ -5,7 +5,8 @@ import { useDisclosure, useToast } from '@chakra-ui/react'
 import { useMutation } from '@apollo/client'
 import {
   MUTATION_CREATE_AULA,
-  MUTATION_DELETE_AULA
+  MUTATION_DELETE_AULA,
+  MUTATION_UPDATE_AULA
 } from 'graphql/mutations/aula'
 import {
   MutationCreateAula,
@@ -15,9 +16,22 @@ import {
   MutationDeleteAula,
   MutationDeleteAulaVariables
 } from 'graphql/generated/MutationDeleteAula'
+import {
+  MutationUpdateAula,
+  MutationUpdateAulaVariables
+} from 'graphql/generated/MutationUpdateAula'
 import { SessionProps } from 'pages/api/auth/[...nextauth]'
 import { QUERY_AULAS } from 'graphql/queries/aulas'
 import { Base64 } from 'js-base64'
+
+export type DataPayload = {
+  title: string
+  url: string
+  description: string
+}
+export type PayloadProps = {
+  data: DataPayload[]
+}
 
 export type AulaPayload = {
   idTurma: string
@@ -30,8 +44,12 @@ export type AulaContextData = {
   isOpen: boolean
   onOpen: () => void
   onClose: () => void
+  isOpenLinkToAula: boolean
+  onOpenLinkToAula: () => void
+  onCloseLinkToAula: () => void
   addAula: (data: Omit<AulaPayload, 'idAula'>) => void
   removeAula: (data: Pick<AulaPayload, 'idAula'>) => void
+  addLinkToAula: (aula: Pick<AulaPayload, 'idAula'>, data: PayloadProps) => void
 }
 
 export const AulaContextDefaultValues = {
@@ -39,7 +57,11 @@ export const AulaContextDefaultValues = {
   onOpen: () => null,
   onClose: () => null,
   addAula: () => null,
-  removeAula: () => null
+  isOpenLinkToAula: false,
+  onOpenLinkToAula: () => null,
+  onCloseLinkToAula: () => null,
+  removeAula: () => null,
+  addLinkToAula: () => null
 }
 
 export type AulaProviderProps = {
@@ -53,6 +75,12 @@ export const AulaContext = createContext<AulaContextData>(
 const AulaProvider = ({ children }: AulaProviderProps) => {
   const [session] = useSession()
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const {
+    isOpen: isOpenLinkToAula,
+    onOpen: onOpenLinkToAula,
+    onClose: onCloseLinkToAula
+  } = useDisclosure()
+
   const toast = useToast()
   const router = useRouter()
 
@@ -66,7 +94,7 @@ const AulaProvider = ({ children }: AulaProviderProps) => {
         query: QUERY_AULAS,
         context: { session },
         variables: {
-          limit: 40,
+          limit: 200,
           idTurma:
             (router.query.id as string) &&
             Base64.decode(router.query.id as string)
@@ -85,7 +113,26 @@ const AulaProvider = ({ children }: AulaProviderProps) => {
         query: QUERY_AULAS,
         context: { session },
         variables: {
-          limit: 40,
+          limit: 200,
+          idTurma:
+            (router.query.id as string) &&
+            Base64.decode(router.query.id as string)
+        }
+      }
+    ]
+  })
+
+  const [updateAula, { loading: loadingUpdateAula }] = useMutation<
+    MutationUpdateAula,
+    MutationUpdateAulaVariables
+  >(MUTATION_UPDATE_AULA, {
+    context: { session },
+    refetchQueries: [
+      {
+        query: QUERY_AULAS,
+        context: { session },
+        variables: {
+          limit: 200,
           idTurma:
             (router.query.id as string) &&
             Base64.decode(router.query.id as string)
@@ -157,6 +204,42 @@ const AulaProvider = ({ children }: AulaProviderProps) => {
       })
   }
 
+  const addLinkToAula = (
+    { idAula }: Pick<AulaPayload, 'idAula'>,
+    { data }: PayloadProps
+  ) => {
+    updateAula({
+      variables: {
+        idAula,
+        input: {
+          links: data
+        }
+      }
+    })
+      .then(({ data }) => {
+        toast({
+          title: `O link ${data?.updateAula?.aula?.title} foi adicionado 😃`,
+          // variant: 'left-accent',
+          position: 'top-right',
+          // description: 'Verifique as suas credenciais e tente novamente',
+          status: 'success',
+          isClosable: true
+        })
+        onCloseLinkToAula()
+      })
+      .catch((error) => {
+        toast({
+          title: `Não foi possível adicionar este link 😢`,
+          // variant: 'left-accent',
+          position: 'top-right',
+          description: 'Verifique os dados e tente novamente',
+          status: 'error',
+          isClosable: true
+        })
+        onCloseLinkToAula()
+      })
+  }
+
   return (
     <AulaContext.Provider
       value={{
@@ -164,7 +247,11 @@ const AulaProvider = ({ children }: AulaProviderProps) => {
         onClose,
         onOpen,
         addAula,
-        removeAula
+        removeAula,
+        addLinkToAula,
+        isOpenLinkToAula,
+        onOpenLinkToAula,
+        onCloseLinkToAula
       }}
     >
       {children}

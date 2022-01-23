@@ -31,6 +31,7 @@ import { useRouter } from 'next/router'
 import Empty from 'components/Empty'
 import themes from 'styles/alt-themes'
 import FormLesson from 'components/FormLesson'
+import FormAddContentToAula from 'components/FormAddContentToAula'
 import { FormikHelpers } from 'formik'
 import { useAula } from 'hooks/use-aula'
 import { AiOutlineClose } from 'react-icons/ai'
@@ -43,6 +44,10 @@ export type ClassroomTemplateProps = {
   loading: boolean
   hasMore: boolean
   handleShowMore: () => void
+  addLinkToAula: (
+    values: any,
+    formikHelpers: FormikHelpers<any>
+  ) => void | Promise<any>
   idTurma: string
   links: LinkProps[]
   onSubmit: (
@@ -60,14 +65,17 @@ const Classroom = ({
   onRemove,
   loading,
   hasMore,
-  handleShowMore
+  handleShowMore,
+  addLinkToAula
 }: ClassroomTemplateProps) => {
-  const { isOpen, onOpen, onClose } = useAula()
+  const { isOpen, onOpen, onClose, isOpenLinkToAula, onCloseLinkToAula } =
+    useAula()
   const {
     isOpen: isOpenRemoveAula,
     onOpen: onOpenRemoveAula,
     onClose: onCloseRemoveAula
   } = useDisclosure()
+
   const { asPath } = useRouter()
   const [idAula, setIdAula] = useState<string>('')
 
@@ -98,7 +106,11 @@ const Classroom = ({
                 <Accordion allowToggle>
                   {lessons?.map((lesson) => (
                     <Box position="relative" key={lesson.id}>
-                      <ClassItem {...lesson} />
+                      <ClassItem
+                        {...lesson}
+                        setIdAula={setIdAula}
+                        id={lesson.id}
+                      />
                       <Box position="absolute" right={-10} bottom={5}>
                         <IconButton
                           onClick={() => {
@@ -132,6 +144,7 @@ const Classroom = ({
           </ScaleFade>
         </Main>
       </Container>
+      {/*Modal de Adição de aula*/}
       <Modal
         onClose={onClose}
         size="md"
@@ -155,6 +168,7 @@ const Classroom = ({
           </ModalBody>
         </ModalContent>
       </Modal>
+      {/*Modal de Remoção de aula*/}
       <Modal
         onClose={onCloseRemoveAula}
         size="md"
@@ -192,6 +206,44 @@ const Classroom = ({
               Sim
             </Button>
           </ModalFooter>
+        </ModalContent>
+      </Modal>
+      {/*Modal de Remoção de aula*/}
+      <Modal
+        onClose={onCloseLinkToAula}
+        size="md"
+        isOpen={isOpenLinkToAula}
+        isCentered
+        scrollBehavior="inside"
+      >
+        <ModalOverlay />
+        <ModalContent bgColor="gray.800">
+          <ModalHeader
+            fontWeight="medium"
+            fontSize="medium"
+            bgColor="gray.800"
+            borderRadius={themes.border.radius}
+          >
+            Adicionar link à Aula
+          </ModalHeader>
+          <ModalCloseButton _focus={{ shadow: 'none' }} />
+          <ModalBody bgColor="gray.800" borderRadius={themes.border.radius}>
+            <FormAddContentToAula
+              placeholders={{
+                title: 'Título do link',
+                url: 'https://example.com/introducao.pdf',
+                description: 'Descrição do link'
+              }}
+              onClose={onCloseLinkToAula}
+              onSubmit={addLinkToAula}
+              initialValues={{
+                idAula,
+                title: '',
+                description: '',
+                url: ''
+              }}
+            />
+          </ModalBody>
         </ModalContent>
       </Modal>
     </Base>

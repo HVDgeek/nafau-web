@@ -3,6 +3,7 @@ import { FaPlus } from 'react-icons/fa'
 import { ClassContent } from 'components/ClassItem'
 import LessonItem from 'components/LessonItem'
 import Button from 'components/Button'
+import { useAula } from 'hooks/use-aula'
 
 export type ClassSessionTitleProps = {
   children: React.ReactNode
@@ -16,6 +17,7 @@ export type ClassSessionProps = {
   dataType: 'Arquivos' | 'Áudios' | 'Vídeos' | 'Tarefas' | 'Links úteis'
   icon: React.ReactNode | any
   color: string
+  onOpenModal: () => void
 }
 
 export const ClassSessionTitle = ({
@@ -34,7 +36,13 @@ export const ClassSessionTitle = ({
   )
 }
 
-const ClassSession = ({ data, dataType, icon, color }: ClassSessionProps) => {
+const ClassSession = ({
+  data,
+  dataType,
+  icon,
+  color,
+  onOpenModal
+}: ClassSessionProps) => {
   return (
     <VStack>
       <ClassSessionTitle title={dataType} color={`${color}.300`}>
@@ -61,7 +69,7 @@ const ClassSession = ({ data, dataType, icon, color }: ClassSessionProps) => {
         ))}
       </Box>
       <Box />
-      <Button size="xs" leftIcon={<Icon as={FaPlus} />}>
+      <Button onClick={onOpenModal} size="xs" leftIcon={<Icon as={FaPlus} />}>
         Adicionar {dataType}
       </Button>
     </VStack>

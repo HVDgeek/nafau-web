@@ -18,6 +18,7 @@ import { shade } from 'polished'
 import ClassSession, { ClassSessionTitle } from 'components/ClassSession'
 import TextContent from 'components/TextContent'
 import { formateDate } from 'utils/formatDate'
+import { useAula } from 'hooks/use-aula'
 
 export type ClassContent = {
   id: string
@@ -35,17 +36,21 @@ export type ClassItemProps = {
   files?: ClassContent[]
   links?: ClassContent[]
   updated_at?: string
+  setIdAula: (id: string) => void
 }
 
 const ClassItem = ({
+  id,
   title,
   description,
   videos,
   audios,
   files,
   links,
-  updated_at
+  updated_at,
+  setIdAula
 }: ClassItemProps) => {
+  const { onOpenLinkToAula } = useAula()
   return (
     <AccordionItem
       backgroundColor="gray.800"
@@ -80,24 +85,31 @@ const ClassItem = ({
                 color="green"
                 dataType="Arquivos"
                 icon={AiOutlineFile}
+                onOpenModal={() => null}
               />
               <ClassSession
                 data={links!}
                 color="blue"
                 dataType="Links úteis"
                 icon={AiOutlineLink}
+                onOpenModal={() => {
+                  setIdAula(id)
+                  onOpenLinkToAula()
+                }}
               />
               <ClassSession
                 data={videos!}
                 color="orange"
                 dataType="Vídeos"
                 icon={FaVideo}
+                onOpenModal={() => null}
               />
               <ClassSession
                 data={audios!}
                 color="yellow"
                 dataType="Áudios"
                 icon={FaMusic}
+                onOpenModal={() => null}
               />
               <VStack>
                 <ClassSessionTitle title="Tarefas" color="pink.300">

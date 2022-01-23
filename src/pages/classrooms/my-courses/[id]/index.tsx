@@ -19,7 +19,9 @@ import { useQueryAulas } from 'graphql/queries/aulas'
 import { ClassItemProps } from 'components/ClassItem'
 
 export type Values = {
+  idAula: string
   title: string
+  url: string
   description: string
 }
 
@@ -27,7 +29,7 @@ export default function Index(props: ClassroomTemplateProps) {
   const router = useRouter()
   const [session, loadingSession] = useSession()
   const toast = useToast()
-  const { onClose, addAula, removeAula } = useAula()
+  const { onClose, addAula, removeAula, addLinkToAula: addLink } = useAula()
 
   let hasMoreAulas = false
   const { data, loading, fetchMore } = useQueryAulas({
@@ -35,7 +37,7 @@ export default function Index(props: ClassroomTemplateProps) {
     skip: !session?.user?.email, // Não roda se não tiver session
     context: { session }, // passando a session de autentication
     variables: {
-      limit: 40,
+      limit: 200,
       idTurma: props.idTurma
     }
   })
@@ -46,8 +48,8 @@ export default function Index(props: ClassroomTemplateProps) {
   }
 
   const onSubmit = async (
-    values: Values,
-    { setErrors, resetForm }: FormikHelpers<Values>
+    values: Omit<Values, 'url' | 'idAula'>,
+    { setErrors, resetForm }: FormikHelpers<Omit<Values, 'url' | 'idAula'>>
   ) => {
     if (values.description === '') {
       toast({
@@ -113,6 +115,27 @@ export default function Index(props: ClassroomTemplateProps) {
     })
   }
 
+  const addLinkToAula = (
+    { description, idAula, title, url }: Values,
+    { setErrors, resetForm }: FormikHelpers<Values>
+  ) => {
+    const aulaExists = lessons.find((less) => less.id === idAula)
+
+    if (idAula && aulaExists) {
+      addLink(
+        {
+          idAula
+        },
+        {
+          data: [
+            ...(aulaExists.links as Omit<Values, 'idAula'>[]),
+            { title, description, url }
+          ]
+        }
+      )
+    }
+  }
+
   if (typeof window !== undefined && loadingSession) return null
 
   if (!session) {
@@ -129,6 +152,7 @@ export default function Index(props: ClassroomTemplateProps) {
       links={classroomsMock}
       onSubmit={onSubmit}
       onRemove={onRemove}
+      addLinkToAula={addLinkToAula}
     />
   )
 }
