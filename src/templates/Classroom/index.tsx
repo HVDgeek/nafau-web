@@ -48,7 +48,7 @@ export type ClassroomTemplateProps = {
     values: any,
     formikHelpers: FormikHelpers<any>
   ) => void | Promise<any>
-  removeLinkFromAula: (id: string) => void
+  removeLinkFromAula: (id: string, idItem: string) => void
   idTurma: string
   links: LinkProps[]
   onSubmit: (
@@ -87,6 +87,7 @@ const Classroom = ({
 
   const { asPath } = useRouter()
   const [idAula, setIdAula] = useState<string>('')
+  const [idItem, setIdItem] = useState<string>('')
 
   return (
     <Base>
@@ -118,6 +119,7 @@ const Classroom = ({
                       <ClassItem
                         {...lesson}
                         setIdAula={setIdAula}
+                        setIdItem={setIdItem}
                         id={lesson.id}
                       />
                       <Box position="absolute" right={-10} bottom={5}>
@@ -286,7 +288,7 @@ const Classroom = ({
             <Button
               size="xs"
               onClick={() => {
-                removeLinkFromAula(idAula)
+                removeLinkFromAula(idAula, idItem)
                 onCloseRemoveLinkToAula()
               }}
             >

@@ -14,7 +14,7 @@ import { QUERY_TURMA_BY_ID } from 'graphql/queries/turmas'
 import { Base64 } from 'js-base64'
 import { getImageUrl } from 'utils/getImageUrl'
 import { FormikHelpers } from 'formik'
-import { useAula } from 'hooks/use-aula'
+import { DataPayload, useAula } from 'hooks/use-aula'
 import { useQueryAulas } from 'graphql/queries/aulas'
 import { ClassItemProps } from 'components/ClassItem'
 
@@ -136,8 +136,21 @@ export default function Index(props: ClassroomTemplateProps) {
     }
   }
 
-  const removeLinkFromAula = (idAula: string) => {
-    console.log('REMOVE LINK FROM AULA => ', idAula)
+  const removeLinkFromAula = (idAula: string, idItem: string) => {
+    const aulaExists = lessons.find((less) => less.id === idAula)
+
+    if (idAula && idItem && aulaExists) {
+      addLink(
+        {
+          idAula
+        },
+        {
+          data: aulaExists.links?.filter(
+            (lin) => lin.id !== idItem
+          ) as DataPayload[]
+        }
+      )
+    }
   }
 
   if (typeof window !== undefined && loadingSession) return null

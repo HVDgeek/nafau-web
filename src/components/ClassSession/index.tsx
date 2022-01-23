@@ -18,7 +18,7 @@ export type ClassSessionProps = {
   icon: React.ReactNode | any
   color: string
   onOpenModal: () => void
-  onOpenRemoveModal: () => void
+  onOpenRemoveModal: (id: string) => void
 }
 
 export const ClassSessionTitle = ({
@@ -69,7 +69,7 @@ const ClassSession = ({
             <LessonItem
               {...item}
               dataType={dataType}
-              onOpenRemoveModal={onOpenRemoveModal}
+              onOpenRemoveModal={() => onOpenRemoveModal(item.id)}
             />
           </VStack>
         ))}

@@ -230,7 +230,7 @@ const AulaProvider = ({ children }: AulaProviderProps) => {
     })
       .then(({ data }) => {
         toast({
-          title: `O link ${data?.updateAula?.aula?.title} foi adicionado 😃`,
+          title: `Os links da aula ${data?.updateAula?.aula?.title}  foram atualizados 😃`,
           // variant: 'left-accent',
           position: 'top-right',
           // description: 'Verifique as suas credenciais e tente novamente',

@@ -37,6 +37,7 @@ export type ClassItemProps = {
   links?: ClassContent[]
   updated_at?: string
   setIdAula: (id: string) => void
+  setIdItem: (id: string) => void
 }
 
 const ClassItem = ({
@@ -48,7 +49,8 @@ const ClassItem = ({
   files,
   links,
   updated_at,
-  setIdAula
+  setIdAula,
+  setIdItem
 }: ClassItemProps) => {
   const { onOpenLinkToAula, onOpenRemoveLinkToAula } = useAula()
   return (
@@ -97,8 +99,9 @@ const ClassItem = ({
                   setIdAula(id)
                   onOpenLinkToAula()
                 }}
-                onOpenRemoveModal={() => {
+                onOpenRemoveModal={(idItem) => {
                   setIdAula(id)
+                  setIdItem(idItem)
                   onOpenRemoveLinkToAula()
                 }}
               />
