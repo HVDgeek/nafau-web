@@ -47,6 +47,9 @@ export type AulaContextData = {
   isOpenLinkToAula: boolean
   onOpenLinkToAula: () => void
   onCloseLinkToAula: () => void
+  isOpenRemoveLinkToAula: boolean
+  onOpenRemoveLinkToAula: () => void
+  onCloseRemoveLinkToAula: () => void
   addAula: (data: Omit<AulaPayload, 'idAula'>) => void
   removeAula: (data: Pick<AulaPayload, 'idAula'>) => void
   addLinkToAula: (aula: Pick<AulaPayload, 'idAula'>, data: PayloadProps) => void
@@ -60,6 +63,9 @@ export const AulaContextDefaultValues = {
   isOpenLinkToAula: false,
   onOpenLinkToAula: () => null,
   onCloseLinkToAula: () => null,
+  isOpenRemoveLinkToAula: false,
+  onOpenRemoveLinkToAula: () => null,
+  onCloseRemoveLinkToAula: () => null,
   removeAula: () => null,
   addLinkToAula: () => null
 }
@@ -79,6 +85,12 @@ const AulaProvider = ({ children }: AulaProviderProps) => {
     isOpen: isOpenLinkToAula,
     onOpen: onOpenLinkToAula,
     onClose: onCloseLinkToAula
+  } = useDisclosure()
+
+  const {
+    isOpen: isOpenRemoveLinkToAula,
+    onOpen: onOpenRemoveLinkToAula,
+    onClose: onCloseRemoveLinkToAula
   } = useDisclosure()
 
   const toast = useToast()
@@ -251,7 +263,10 @@ const AulaProvider = ({ children }: AulaProviderProps) => {
         addLinkToAula,
         isOpenLinkToAula,
         onOpenLinkToAula,
-        onCloseLinkToAula
+        onCloseLinkToAula,
+        isOpenRemoveLinkToAula,
+        onOpenRemoveLinkToAula,
+        onCloseRemoveLinkToAula
       }}
     >
       {children}

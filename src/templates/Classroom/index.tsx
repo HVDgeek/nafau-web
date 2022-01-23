@@ -48,6 +48,7 @@ export type ClassroomTemplateProps = {
     values: any,
     formikHelpers: FormikHelpers<any>
   ) => void | Promise<any>
+  removeLinkFromAula: (id: string) => void
   idTurma: string
   links: LinkProps[]
   onSubmit: (
@@ -66,10 +67,18 @@ const Classroom = ({
   loading,
   hasMore,
   handleShowMore,
-  addLinkToAula
+  addLinkToAula,
+  removeLinkFromAula
 }: ClassroomTemplateProps) => {
-  const { isOpen, onOpen, onClose, isOpenLinkToAula, onCloseLinkToAula } =
-    useAula()
+  const {
+    isOpen,
+    onOpen,
+    onClose,
+    isOpenLinkToAula,
+    onCloseLinkToAula,
+    isOpenRemoveLinkToAula,
+    onCloseRemoveLinkToAula
+  } = useAula()
   const {
     isOpen: isOpenRemoveAula,
     onOpen: onOpenRemoveAula,
@@ -208,7 +217,7 @@ const Classroom = ({
           </ModalFooter>
         </ModalContent>
       </Modal>
-      {/*Modal de Remoção de aula*/}
+      {/*Modal de Adição do link à aula*/}
       <Modal
         onClose={onCloseLinkToAula}
         size="md"
@@ -244,6 +253,46 @@ const Classroom = ({
               }}
             />
           </ModalBody>
+        </ModalContent>
+      </Modal>
+      {/*Modal de Remoção do link da aula*/}
+      <Modal
+        onClose={onCloseRemoveLinkToAula}
+        size="md"
+        isOpen={isOpenRemoveLinkToAula}
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent bgColor="gray.800">
+          <ModalHeader
+            fontWeight="medium"
+            fontSize="medium"
+            bgColor="gray.800"
+            borderRadius={themes.border.radius}
+          >
+            Remover Link da Aula
+          </ModalHeader>
+          <ModalCloseButton _focus={{ shadow: 'none' }} />
+          <ModalBody bgColor="gray.800" borderRadius={themes.border.radius}>
+            <Text fontWeight="light" mr={2}>
+              Tem certeza que deseja este link da aula ?
+            </Text>
+          </ModalBody>
+          <ModalFooter bgColor="gray.800" borderRadius={themes.border.radius}>
+            <Button color="red" size="xs" onClick={onCloseRemoveLinkToAula}>
+              Não
+            </Button>
+            <Box mr={2} />
+            <Button
+              size="xs"
+              onClick={() => {
+                removeLinkFromAula(idAula)
+                onCloseRemoveLinkToAula()
+              }}
+            >
+              Sim
+            </Button>
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </Base>

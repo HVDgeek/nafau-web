@@ -136,6 +136,10 @@ export default function Index(props: ClassroomTemplateProps) {
     }
   }
 
+  const removeLinkFromAula = (idAula: string) => {
+    console.log('REMOVE LINK FROM AULA => ', idAula)
+  }
+
   if (typeof window !== undefined && loadingSession) return null
 
   if (!session) {
@@ -153,6 +157,7 @@ export default function Index(props: ClassroomTemplateProps) {
       onSubmit={onSubmit}
       onRemove={onRemove}
       addLinkToAula={addLinkToAula}
+      removeLinkFromAula={removeLinkFromAula}
     />
   )
 }
