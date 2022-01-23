@@ -217,6 +217,52 @@ export interface editAtendenteInput {
   updated_by?: string | null;
 }
 
+export interface editAulaInput {
+  title?: string | null;
+  description?: string | null;
+  arquivo?: (editComponentAulasArquivoInput | null)[] | null;
+  video?: (editComponentAulasVideoInput | null)[] | null;
+  links?: (editComponentAulasLinkInput | null)[] | null;
+  audio?: (editComponentAulasAudioInput | null)[] | null;
+  views?: number | null;
+  tarefas?: (string | null)[] | null;
+  turma?: string | null;
+  published_at?: any | null;
+  created_by?: string | null;
+  updated_by?: string | null;
+}
+
+export interface editComponentAulasArquivoInput {
+  id?: string | null;
+  files?: (string | null)[] | null;
+  name?: string | null;
+  description?: string | null;
+  url?: string | null;
+}
+
+export interface editComponentAulasAudioInput {
+  id?: string | null;
+  title?: string | null;
+  description?: string | null;
+  file?: (string | null)[] | null;
+  url?: string | null;
+}
+
+export interface editComponentAulasLinkInput {
+  id?: string | null;
+  title?: string | null;
+  url?: string | null;
+  description?: string | null;
+}
+
+export interface editComponentAulasVideoInput {
+  id?: string | null;
+  title?: string | null;
+  url?: string | null;
+  file?: (string | null)[] | null;
+  description?: string | null;
+}
+
 export interface editComponentRegisterEnderecoInput {
   id?: string | null;
   pais?: string | null;

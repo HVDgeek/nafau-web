@@ -29,3 +29,14 @@ export const MUTATION_DELETE_AULA = gql`
     }
   }
 `
+
+export const MUTATION_UPDATE_AULA = gql`
+  mutation MutationUpdateAula($idAula: ID!, $input: editAulaInput) {
+    updateAula(input: { where: { id: $idAula }, data: $input }) {
+      aula {
+        id
+        title
+      }
+    }
+  }
+`
