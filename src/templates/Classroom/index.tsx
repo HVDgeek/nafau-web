@@ -49,6 +49,16 @@ export type ClassroomTemplateProps = {
     formikHelpers: FormikHelpers<any>
   ) => void | Promise<any>
   removeLinkFromAula: (id: string, idItem: string) => void
+  addVideoToAula: (
+    values: any,
+    formikHelpers: FormikHelpers<any>
+  ) => void | Promise<any>
+  removeVideoFromAula: (id: string, idItem: string) => void
+  addAudioToAula: (
+    values: any,
+    formikHelpers: FormikHelpers<any>
+  ) => void | Promise<any>
+  removeAudioFromAula: (id: string, idItem: string) => void
   idTurma: string
   links: LinkProps[]
   onSubmit: (
@@ -68,7 +78,11 @@ const Classroom = ({
   hasMore,
   handleShowMore,
   addLinkToAula,
-  removeLinkFromAula
+  removeLinkFromAula,
+  addVideoToAula,
+  removeVideoFromAula,
+  addAudioToAula,
+  removeAudioFromAula
 }: ClassroomTemplateProps) => {
   const {
     isOpen,
@@ -77,7 +91,15 @@ const Classroom = ({
     isOpenLinkToAula,
     onCloseLinkToAula,
     isOpenRemoveLinkToAula,
-    onCloseRemoveLinkToAula
+    onCloseRemoveLinkToAula,
+    isOpenVideoToAula,
+    onCloseVideoToAula,
+    isOpenRemoveVideoToAula,
+    onCloseRemoveVideoToAula,
+    isOpenAudioToAula,
+    onCloseAudioToAula,
+    isOpenRemoveAudioToAula,
+    onCloseRemoveAudioToAula
   } = useAula()
   const {
     isOpen: isOpenRemoveAula,
@@ -277,7 +299,7 @@ const Classroom = ({
           <ModalCloseButton _focus={{ shadow: 'none' }} />
           <ModalBody bgColor="gray.800" borderRadius={themes.border.radius}>
             <Text fontWeight="light" mr={2}>
-              Tem certeza que deseja este link da aula ?
+              Tem certeza que deseja remover este link da aula ?
             </Text>
           </ModalBody>
           <ModalFooter bgColor="gray.800" borderRadius={themes.border.radius}>
@@ -290,6 +312,161 @@ const Classroom = ({
               onClick={() => {
                 removeLinkFromAula(idAula, idItem)
                 onCloseRemoveLinkToAula()
+              }}
+            >
+              Sim
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+      {/*Modal de Adição de Vídeo à aula*/}
+      <Modal
+        onClose={onCloseVideoToAula}
+        size="md"
+        isOpen={isOpenVideoToAula}
+        isCentered
+        scrollBehavior="inside"
+      >
+        <ModalOverlay />
+        <ModalContent bgColor="gray.800">
+          <ModalHeader
+            fontWeight="medium"
+            fontSize="medium"
+            bgColor="gray.800"
+            borderRadius={themes.border.radius}
+          >
+            Adicionar Vídeo à Aula
+          </ModalHeader>
+          <ModalCloseButton _focus={{ shadow: 'none' }} />
+          <ModalBody bgColor="gray.800" borderRadius={themes.border.radius}>
+            <FormAddContentToAula
+              placeholders={{
+                title: 'Título do vídeo',
+                url: 'https://youtu.be/tZaWOKhCNi8',
+                description: 'Descrição do vídeo'
+              }}
+              onClose={onCloseVideoToAula}
+              onSubmit={addVideoToAula}
+              initialValues={{
+                idAula,
+                title: '',
+                description: '',
+                url: ''
+              }}
+            />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+      {/*Modal de Remoção do Audio da aula*/}
+      <Modal
+        onClose={onCloseRemoveVideoToAula}
+        size="md"
+        isOpen={isOpenRemoveVideoToAula}
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent bgColor="gray.800">
+          <ModalHeader
+            fontWeight="medium"
+            fontSize="medium"
+            bgColor="gray.800"
+            borderRadius={themes.border.radius}
+          >
+            Remover Vídeo da Aula
+          </ModalHeader>
+          <ModalCloseButton _focus={{ shadow: 'none' }} />
+          <ModalBody bgColor="gray.800" borderRadius={themes.border.radius}>
+            <Text fontWeight="light" mr={2}>
+              Tem certeza que deseja remover este vídeo da aula ?
+            </Text>
+          </ModalBody>
+          <ModalFooter bgColor="gray.800" borderRadius={themes.border.radius}>
+            <Button color="red" size="xs" onClick={onCloseRemoveVideoToAula}>
+              Não
+            </Button>
+            <Box mr={2} />
+            <Button
+              size="xs"
+              onClick={() => {
+                removeVideoFromAula(idAula, idItem)
+                onCloseRemoveVideoToAula()
+              }}
+            >
+              Sim
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+      <Modal
+        onClose={onCloseAudioToAula}
+        size="md"
+        isOpen={isOpenAudioToAula}
+        isCentered
+        scrollBehavior="inside"
+      >
+        <ModalOverlay />
+        <ModalContent bgColor="gray.800">
+          <ModalHeader
+            fontWeight="medium"
+            fontSize="medium"
+            bgColor="gray.800"
+            borderRadius={themes.border.radius}
+          >
+            Adicionar Áudio à Aula
+          </ModalHeader>
+          <ModalCloseButton _focus={{ shadow: 'none' }} />
+          <ModalBody bgColor="gray.800" borderRadius={themes.border.radius}>
+            <FormAddContentToAula
+              placeholders={{
+                title: 'Título do áudio',
+                url: 'https://soundcloud.com/lambdatres/259-empreendedorismo',
+                description: 'Descrição do áudio'
+              }}
+              onClose={onCloseAudioToAula}
+              onSubmit={addAudioToAula}
+              initialValues={{
+                idAula,
+                title: '',
+                description: '',
+                url: ''
+              }}
+            />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+      {/*Modal de Remoção do Audio da aula*/}
+      <Modal
+        onClose={onCloseRemoveAudioToAula}
+        size="md"
+        isOpen={isOpenRemoveAudioToAula}
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent bgColor="gray.800">
+          <ModalHeader
+            fontWeight="medium"
+            fontSize="medium"
+            bgColor="gray.800"
+            borderRadius={themes.border.radius}
+          >
+            Remover Áudio da Aula
+          </ModalHeader>
+          <ModalCloseButton _focus={{ shadow: 'none' }} />
+          <ModalBody bgColor="gray.800" borderRadius={themes.border.radius}>
+            <Text fontWeight="light" mr={2}>
+              Tem certeza que deseja remover este áudio da aula ?
+            </Text>
+          </ModalBody>
+          <ModalFooter bgColor="gray.800" borderRadius={themes.border.radius}>
+            <Button color="red" size="xs" onClick={onCloseRemoveAudioToAula}>
+              Não
+            </Button>
+            <Box mr={2} />
+            <Button
+              size="xs"
+              onClick={() => {
+                removeAudioFromAula(idAula, idItem)
+                onCloseRemoveAudioToAula()
               }}
             >
               Sim

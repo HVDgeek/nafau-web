@@ -29,7 +29,14 @@ export default function Index(props: ClassroomTemplateProps) {
   const router = useRouter()
   const [session, loadingSession] = useSession()
   const toast = useToast()
-  const { onClose, addAula, removeAula, addLinkToAula: addLink } = useAula()
+  const {
+    onClose,
+    addAula,
+    removeAula,
+    addLinkToAula: addLink,
+    addVideoToAula: addVideo,
+    addAudioToAula: addAudio
+  } = useAula()
 
   let hasMoreAulas = false
   const { data, loading, fetchMore } = useQueryAulas({
@@ -153,6 +160,82 @@ export default function Index(props: ClassroomTemplateProps) {
     }
   }
 
+  const addVideoToAula = (
+    { description, idAula, title, url }: Values,
+    { setErrors, resetForm }: FormikHelpers<Values>
+  ) => {
+    const aulaExists = lessons.find((less) => less.id === idAula)
+
+    if (idAula && aulaExists) {
+      addVideo(
+        {
+          idAula
+        },
+        {
+          data: [
+            ...(aulaExists.videos as Omit<Values, 'idAula'>[]),
+            { title, description, url }
+          ]
+        }
+      )
+    }
+  }
+
+  const removeVideoFromAula = (idAula: string, idItem: string) => {
+    const aulaExists = lessons.find((less) => less.id === idAula)
+
+    if (idAula && idItem && aulaExists) {
+      addVideo(
+        {
+          idAula
+        },
+        {
+          data: aulaExists.videos?.filter(
+            (vid) => vid.id !== idItem
+          ) as DataPayload[]
+        }
+      )
+    }
+  }
+
+  const addAudioToAula = (
+    { description, idAula, title, url }: Values,
+    { setErrors, resetForm }: FormikHelpers<Values>
+  ) => {
+    const aulaExists = lessons.find((less) => less.id === idAula)
+
+    if (idAula && aulaExists) {
+      addAudio(
+        {
+          idAula
+        },
+        {
+          data: [
+            ...(aulaExists.audios as Omit<Values, 'idAula'>[]),
+            { title, description, url }
+          ]
+        }
+      )
+    }
+  }
+
+  const removeAudioFromAula = (idAula: string, idItem: string) => {
+    const aulaExists = lessons.find((less) => less.id === idAula)
+
+    if (idAula && idItem && aulaExists) {
+      addAudio(
+        {
+          idAula
+        },
+        {
+          data: aulaExists.audios?.filter(
+            (aud) => aud.id !== idItem
+          ) as DataPayload[]
+        }
+      )
+    }
+  }
+
   if (typeof window !== undefined && loadingSession) return null
 
   if (!session) {
@@ -171,6 +254,10 @@ export default function Index(props: ClassroomTemplateProps) {
       onRemove={onRemove}
       addLinkToAula={addLinkToAula}
       removeLinkFromAula={removeLinkFromAula}
+      addVideoToAula={addVideoToAula}
+      removeVideoFromAula={removeVideoFromAula}
+      addAudioToAula={addAudioToAula}
+      removeAudioFromAula={removeAudioFromAula}
     />
   )
 }

@@ -50,9 +50,29 @@ export type AulaContextData = {
   isOpenRemoveLinkToAula: boolean
   onOpenRemoveLinkToAula: () => void
   onCloseRemoveLinkToAula: () => void
+  isOpenVideoToAula: boolean
+  onOpenVideoToAula: () => void
+  onCloseVideoToAula: () => void
+  isOpenRemoveVideoToAula: boolean
+  onOpenRemoveVideoToAula: () => void
+  onCloseRemoveVideoToAula: () => void
+  isOpenAudioToAula: boolean
+  onOpenAudioToAula: () => void
+  onCloseAudioToAula: () => void
+  isOpenRemoveAudioToAula: boolean
+  onOpenRemoveAudioToAula: () => void
+  onCloseRemoveAudioToAula: () => void
   addAula: (data: Omit<AulaPayload, 'idAula'>) => void
   removeAula: (data: Pick<AulaPayload, 'idAula'>) => void
   addLinkToAula: (aula: Pick<AulaPayload, 'idAula'>, data: PayloadProps) => void
+  addVideoToAula: (
+    aula: Pick<AulaPayload, 'idAula'>,
+    data: PayloadProps
+  ) => void
+  addAudioToAula: (
+    aula: Pick<AulaPayload, 'idAula'>,
+    data: PayloadProps
+  ) => void
 }
 
 export const AulaContextDefaultValues = {
@@ -66,8 +86,22 @@ export const AulaContextDefaultValues = {
   isOpenRemoveLinkToAula: false,
   onOpenRemoveLinkToAula: () => null,
   onCloseRemoveLinkToAula: () => null,
+  isOpenVideoToAula: false,
+  onOpenVideoToAula: () => null,
+  onCloseVideoToAula: () => null,
+  isOpenRemoveVideoToAula: false,
+  onOpenRemoveVideoToAula: () => null,
+  onCloseRemoveVideoToAula: () => null,
+  isOpenAudioToAula: false,
+  onOpenAudioToAula: () => null,
+  onCloseAudioToAula: () => null,
+  isOpenRemoveAudioToAula: false,
+  onOpenRemoveAudioToAula: () => null,
+  onCloseRemoveAudioToAula: () => null,
   removeAula: () => null,
-  addLinkToAula: () => null
+  addLinkToAula: () => null,
+  addVideoToAula: () => null,
+  addAudioToAula: () => null
 }
 
 export type AulaProviderProps = {
@@ -91,6 +125,30 @@ const AulaProvider = ({ children }: AulaProviderProps) => {
     isOpen: isOpenRemoveLinkToAula,
     onOpen: onOpenRemoveLinkToAula,
     onClose: onCloseRemoveLinkToAula
+  } = useDisclosure()
+
+  const {
+    isOpen: isOpenVideoToAula,
+    onOpen: onOpenVideoToAula,
+    onClose: onCloseVideoToAula
+  } = useDisclosure()
+
+  const {
+    isOpen: isOpenRemoveVideoToAula,
+    onOpen: onOpenRemoveVideoToAula,
+    onClose: onCloseRemoveVideoToAula
+  } = useDisclosure()
+
+  const {
+    isOpen: isOpenAudioToAula,
+    onOpen: onOpenAudioToAula,
+    onClose: onCloseAudioToAula
+  } = useDisclosure()
+
+  const {
+    isOpen: isOpenRemoveAudioToAula,
+    onOpen: onOpenRemoveAudioToAula,
+    onClose: onCloseRemoveAudioToAula
   } = useDisclosure()
 
   const toast = useToast()
@@ -252,6 +310,78 @@ const AulaProvider = ({ children }: AulaProviderProps) => {
       })
   }
 
+  const addVideoToAula = (
+    { idAula }: Pick<AulaPayload, 'idAula'>,
+    { data }: PayloadProps
+  ) => {
+    updateAula({
+      variables: {
+        idAula,
+        input: {
+          video: data
+        }
+      }
+    })
+      .then(({ data }) => {
+        toast({
+          title: `Os vídeos da aula ${data?.updateAula?.aula?.title}  foram atualizados 😃`,
+          // variant: 'left-accent',
+          position: 'top-right',
+          // description: 'Verifique as suas credenciais e tente novamente',
+          status: 'success',
+          isClosable: true
+        })
+        onCloseVideoToAula()
+      })
+      .catch((error) => {
+        toast({
+          title: `Não foi possível adicionar este vídeo 😢`,
+          // variant: 'left-accent',
+          position: 'top-right',
+          description: 'Verifique os dados e tente novamente',
+          status: 'error',
+          isClosable: true
+        })
+        onCloseVideoToAula()
+      })
+  }
+
+  const addAudioToAula = (
+    { idAula }: Pick<AulaPayload, 'idAula'>,
+    { data }: PayloadProps
+  ) => {
+    updateAula({
+      variables: {
+        idAula,
+        input: {
+          audio: data
+        }
+      }
+    })
+      .then(({ data }) => {
+        toast({
+          title: `Os áudios da aula ${data?.updateAula?.aula?.title}  foram atualizados 😃`,
+          // variant: 'left-accent',
+          position: 'top-right',
+          // description: 'Verifique as suas credenciais e tente novamente',
+          status: 'success',
+          isClosable: true
+        })
+        onCloseAudioToAula()
+      })
+      .catch((error) => {
+        toast({
+          title: `Não foi possível adicionar este vídeo 😢`,
+          // variant: 'left-accent',
+          position: 'top-right',
+          description: 'Verifique os dados e tente novamente',
+          status: 'error',
+          isClosable: true
+        })
+        onCloseAudioToAula()
+      })
+  }
+
   return (
     <AulaContext.Provider
       value={{
@@ -261,12 +391,26 @@ const AulaProvider = ({ children }: AulaProviderProps) => {
         addAula,
         removeAula,
         addLinkToAula,
+        addVideoToAula,
+        addAudioToAula,
         isOpenLinkToAula,
         onOpenLinkToAula,
         onCloseLinkToAula,
         isOpenRemoveLinkToAula,
         onOpenRemoveLinkToAula,
-        onCloseRemoveLinkToAula
+        onCloseRemoveLinkToAula,
+        isOpenVideoToAula,
+        onOpenVideoToAula,
+        onCloseVideoToAula,
+        isOpenRemoveVideoToAula,
+        onOpenRemoveVideoToAula,
+        onCloseRemoveVideoToAula,
+        isOpenAudioToAula,
+        onOpenAudioToAula,
+        onCloseAudioToAula,
+        isOpenRemoveAudioToAula,
+        onOpenRemoveAudioToAula,
+        onCloseRemoveAudioToAula
       }}
     >
       {children}

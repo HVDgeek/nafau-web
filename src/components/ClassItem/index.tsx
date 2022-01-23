@@ -52,7 +52,14 @@ const ClassItem = ({
   setIdAula,
   setIdItem
 }: ClassItemProps) => {
-  const { onOpenLinkToAula, onOpenRemoveLinkToAula } = useAula()
+  const {
+    onOpenLinkToAula,
+    onOpenRemoveLinkToAula,
+    onOpenVideoToAula,
+    onOpenRemoveVideoToAula,
+    onOpenAudioToAula,
+    onOpenRemoveAudioToAula
+  } = useAula()
   return (
     <AccordionItem
       backgroundColor="gray.800"
@@ -110,16 +117,30 @@ const ClassItem = ({
                 color="orange"
                 dataType="Vídeos"
                 icon={FaVideo}
-                onOpenModal={() => null}
-                onOpenRemoveModal={() => null}
+                onOpenModal={() => {
+                  setIdAula(id)
+                  onOpenVideoToAula()
+                }}
+                onOpenRemoveModal={(idItem) => {
+                  setIdAula(id)
+                  setIdItem(idItem)
+                  onOpenRemoveVideoToAula()
+                }}
               />
               <ClassSession
                 data={audios!}
                 color="yellow"
                 dataType="Áudios"
                 icon={FaMusic}
-                onOpenModal={() => null}
-                onOpenRemoveModal={() => null}
+                onOpenModal={() => {
+                  setIdAula(id)
+                  onOpenAudioToAula()
+                }}
+                onOpenRemoveModal={(idItem) => {
+                  setIdAula(id)
+                  setIdItem(idItem)
+                  onOpenRemoveAudioToAula()
+                }}
               />
               <VStack>
                 <ClassSessionTitle title="Tarefas" color="pink.300">
