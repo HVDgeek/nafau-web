@@ -59,7 +59,7 @@ const UserCard = ({
       <Avatar size="xl" mb={2} name={name} src={avatar} />
       <VStack mb={8} spacing={1}>
         <Box mb={2}>
-          <Text isTruncated fontSize="sm">
+          <Text fontSize="sm" noOfLines={2}>
             {name}
           </Text>
           <Text fontSize="small" color="gray.300">
