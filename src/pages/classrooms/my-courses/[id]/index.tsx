@@ -17,6 +17,9 @@ import { FormikHelpers } from 'formik'
 import { DataPayload, useAula } from 'hooks/use-aula'
 import { useQueryAulas } from 'graphql/queries/aulas'
 import { ClassItemProps } from 'components/ClassItem'
+import { useUser } from 'hooks/use-user'
+import CheckingProfile from 'components/CheckingProfile'
+import PrivatePage from 'components/PrivatePage'
 
 export type Values = {
   idAula: string
@@ -27,6 +30,7 @@ export type Values = {
 
 export default function Index(props: ClassroomTemplateProps) {
   const router = useRouter()
+  const { getProfiles, loading: loadingProfiles } = useUser()
   const [session, loadingSession] = useSession()
   const toast = useToast()
   const {
@@ -234,6 +238,16 @@ export default function Index(props: ClassroomTemplateProps) {
         }
       )
     }
+  }
+
+  const canSeeAulas = getProfiles()?.canSeeAulas
+
+  if (loadingProfiles) {
+    return <CheckingProfile />
+  }
+
+  if (session && !canSeeAulas?.isActive) {
+    return <PrivatePage />
   }
 
   if (typeof window !== undefined && loadingSession) return null

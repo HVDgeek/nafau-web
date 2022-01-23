@@ -4,6 +4,8 @@ import { ClassContent } from 'components/ClassItem'
 import LessonItem from 'components/LessonItem'
 import Button from 'components/Button'
 import { useAula } from 'hooks/use-aula'
+import { useUser } from 'hooks/use-user'
+import CheckingProfile from 'components/CheckingProfile'
 
 export type ClassSessionTitleProps = {
   children: React.ReactNode
@@ -45,6 +47,15 @@ const ClassSession = ({
   onOpenModal,
   onOpenRemoveModal
 }: ClassSessionProps) => {
+  const { getProfiles, loading: loadingProfiles } = useUser()
+
+  if (loadingProfiles) {
+    return <CheckingProfile />
+  }
+
+  const canManage =
+    (getProfiles() && getProfiles()?.canManageAula?.isActive) || false
+
   return (
     <VStack>
       <ClassSessionTitle title={dataType} color={`${color}.300`}>
@@ -69,15 +80,18 @@ const ClassSession = ({
             <LessonItem
               {...item}
               dataType={dataType}
+              canManage={canManage}
               onOpenRemoveModal={() => onOpenRemoveModal(item.id)}
             />
           </VStack>
         ))}
       </Box>
       <Box />
-      <Button onClick={onOpenModal} size="xs" leftIcon={<Icon as={FaPlus} />}>
-        Adicionar {dataType}
-      </Button>
+      {canManage && (
+        <Button onClick={onOpenModal} size="xs" leftIcon={<Icon as={FaPlus} />}>
+          Adicionar {dataType}
+        </Button>
+      )}
     </VStack>
   )
 }

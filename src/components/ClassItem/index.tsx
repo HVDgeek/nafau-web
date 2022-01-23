@@ -159,9 +159,9 @@ const ClassItem = ({
                     Nenhuma tarefa nesta aula!
                   </Alert>
                 </Box>
-                <Button size="xs" leftIcon={<Icon as={FaPlus} />}>
+                {/* <Button size="xs" leftIcon={<Icon as={FaPlus} />}>
                   Adicionar Tarefas
-                </Button>
+                </Button> */}
               </VStack>
             </VStack>
           </AccordionPanel>

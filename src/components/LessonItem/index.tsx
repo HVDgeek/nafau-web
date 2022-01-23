@@ -17,6 +17,7 @@ export type LessonItemProps = {
   url: string
   dataType: 'Arquivos' | 'Áudios' | 'Vídeos' | 'Tarefas' | 'Links úteis'
   onOpenRemoveModal: () => void
+  canManage: boolean
 }
 
 const getIcon = (format: string) => {
@@ -48,7 +49,8 @@ const LessonItem = ({
   description,
   url,
   dataType,
-  onOpenRemoveModal
+  onOpenRemoveModal,
+  canManage
 }: LessonItemProps) => {
   const isMobileVersion = useBreakpointValue({
     base: false,
@@ -84,7 +86,7 @@ const LessonItem = ({
           </Box>
         )}
       </Box>
-      {isMobileVersion && (
+      {isMobileVersion && canManage && (
         <IconButton ariaLabel="remove item" onClick={onOpenRemoveModal}>
           <AiOutlineClose />
         </IconButton>

@@ -14,10 +14,30 @@ import {
 } from 'graphql/generated/QueryTurmaById'
 import { QUERY_TURMA_BY_ID } from 'graphql/queries/turmas'
 import { Base64 } from 'js-base64'
+import { useUser } from 'hooks/use-user'
+import CheckingProfile from 'components/CheckingProfile'
+import PrivatePage from 'components/PrivatePage'
 
 export default function Classrooms(props: VideoConferenceTemplateProps) {
   const router = useRouter()
   const [session, loadingSession] = useSession()
+
+  const {
+    getTurmas,
+    loading,
+    getProfiles,
+    loading: loadingProfiles
+  } = useUser()
+
+  const canSeeAulas = getProfiles()?.canSeeAulas
+
+  if (loadingProfiles) {
+    return <CheckingProfile />
+  }
+
+  if (session && !canSeeAulas?.isActive) {
+    return <PrivatePage />
+  }
 
   if (typeof window !== undefined && loadingSession) return null
 

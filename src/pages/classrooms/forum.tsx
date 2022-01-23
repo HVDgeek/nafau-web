@@ -9,11 +9,29 @@ import ForumTemplate, { ForumTemplateProps } from 'templates/ForumTemplate'
 import { useUser } from 'hooks/use-user'
 import { getImageUrl } from 'utils/getImageUrl'
 import { ClassCardProps } from 'components/ClassCard'
+import CheckingProfile from 'components/CheckingProfile'
+import PrivatePage from 'components/PrivatePage'
 
 export default function Classrooms(props: ForumTemplateProps) {
   const router = useRouter()
   const [session, loadingSession] = useSession()
-  const { getTurmas, loading } = useUser()
+
+  const {
+    getTurmas,
+    loading,
+    getProfiles,
+    loading: loadingProfiles
+  } = useUser()
+
+  const canSeeAulas = getProfiles()?.canSeeAulas
+
+  if (loadingProfiles) {
+    return <CheckingProfile />
+  }
+
+  if (session && !canSeeAulas?.isActive) {
+    return <PrivatePage />
+  }
 
   if (typeof window !== undefined && loadingSession) return null
 

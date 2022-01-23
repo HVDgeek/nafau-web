@@ -37,6 +37,8 @@ import { useAula } from 'hooks/use-aula'
 import { AiOutlineClose } from 'react-icons/ai'
 import LoadingClient from 'components/LoadingClient'
 import ShowMore from 'components/ShowMore'
+import { useUser } from 'hooks/use-user'
+import CheckingProfile from 'components/CheckingProfile'
 
 export type ClassroomTemplateProps = {
   lessons: ClassItemProps[]
@@ -110,6 +112,13 @@ const Classroom = ({
   const { asPath } = useRouter()
   const [idAula, setIdAula] = useState<string>('')
   const [idItem, setIdItem] = useState<string>('')
+  const { getProfiles, loading: loadingProfiles } = useUser()
+
+  if (loadingProfiles) {
+    return <CheckingProfile />
+  }
+
+  const canManage = getProfiles() && getProfiles()?.canManageAula?.isActive
 
   return (
     <Base>
@@ -144,17 +153,19 @@ const Classroom = ({
                         setIdItem={setIdItem}
                         id={lesson.id}
                       />
-                      <Box position="absolute" right={-10} bottom={5}>
-                        <IconButton
-                          onClick={() => {
-                            setIdAula(lesson.id)
-                            onOpenRemoveAula()
-                          }}
-                          ariaLabel="Remover usuário"
-                        >
-                          <AiOutlineClose size={18} />
-                        </IconButton>
-                      </Box>
+                      {canManage && (
+                        <Box position="absolute" right={-10} bottom={5}>
+                          <IconButton
+                            onClick={() => {
+                              setIdAula(lesson.id)
+                              onOpenRemoveAula()
+                            }}
+                            ariaLabel="Remover usuário"
+                          >
+                            <AiOutlineClose size={18} />
+                          </IconButton>
+                        </Box>
+                      )}
                       <Box mt={2} />
                     </Box>
                   ))}
