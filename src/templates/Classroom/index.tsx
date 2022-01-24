@@ -130,15 +130,17 @@ const Classroom = ({
             <Box ml={4}>
               <ClassroomHeader {...courseInfo} />
             </Box>
-            <Flex mt={8} mr={8} justify="flex-end">
-              <Button
-                onClick={onOpen}
-                size="sm"
-                leftIcon={<Icon as={FaPlus} />}
-              >
-                Adicionar aula
-              </Button>
-            </Flex>
+            {canManage && (
+              <Flex mt={8} mr={8} justify="flex-end">
+                <Button
+                  onClick={onOpen}
+                  size="sm"
+                  leftIcon={<Icon as={FaPlus} />}
+                >
+                  Adicionar aula
+                </Button>
+              </Flex>
+            )}
 
             {loading ? (
               <LoadingClient title="as minhas aulas" />

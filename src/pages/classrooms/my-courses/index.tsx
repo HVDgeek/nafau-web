@@ -13,7 +13,6 @@ import PrivatePage from 'components/PrivatePage'
 export default function Classrooms(props: CourseTemplateProps) {
   const router = useRouter()
   const [session, loadingSession] = useSession()
-
   const {
     getTurmas,
     loading,
