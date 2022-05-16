@@ -14,7 +14,7 @@ export const HelloImage = styled.img`
 `
 
 export const MainGreeting = styled.div`
-  margin-left: 1rem;
+  margin-left: 2rem;
 `
 
 export const BoxRow = styled.div`
