@@ -1,5 +1,6 @@
 import NextLink from 'next/link'
-import { Text, Flex, useBreakpointValue, Box } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
+import { Text, Flex, useBreakpointValue } from '@chakra-ui/react'
 import { VscAccount } from 'react-icons/vsc'
 import { IoIosLogOut } from 'react-icons/io'
 import { IoSchoolOutline } from 'react-icons/io5'
@@ -51,6 +52,8 @@ const Link = ({ title, href, icon, isActive }: LinkProps) => {
 }
 
 const ProfileMenu = ({ activeLink }: ProfileMenuProps) => {
+  const { push } = useRouter()
+
   const border = useBreakpointValue({
     md: 0
   })
@@ -86,7 +89,10 @@ const ProfileMenu = ({ activeLink }: ProfileMenuProps) => {
         _hover={{
           background: 'purple.500'
         }}
-        onClick={() => signOut()}
+        onClick={async () => {
+          const data = await signOut({ redirect: false, callbackUrl: '/' })
+          push(data.url)
+        }}
       >
         <IoIosLogOut size={18} />
         <Text

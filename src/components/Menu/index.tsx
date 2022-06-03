@@ -15,14 +15,21 @@ import IconButton from 'components/IconButton'
 import SideMenu from './SideMenu'
 import Link from 'components/Link'
 import UserDropdown from 'components/UserDropdown'
+import CheckingProfile from 'components/CheckingProfile'
+import { useUser } from 'hooks/use-user'
+import { useSession } from 'next-auth/client'
+import { SessionProps } from 'pages/api/auth/[...nextauth]'
 
 export type MenuProps = {
   username?: string | null
+  avatar?: string
 }
 
-const Menu = ({ username }: MenuProps) => {
+const Menu = ({ username, avatar }: MenuProps) => {
   const disclosure = useDisclosure()
   const { asPath } = useRouter()
+  const [session] = useSession()
+  const { getProfiles, loading } = useUser()
 
   const { onOpen } = disclosure
 
@@ -35,6 +42,22 @@ const Menu = ({ username }: MenuProps) => {
     base: 18,
     md: 24
   })
+
+  if (loading) {
+    return <CheckingProfile />
+  }
+
+  const canManage =
+    getProfiles() &&
+    getProfiles()?.canManageTurma?.isActive &&
+    getProfiles()?.canManageAluno?.isActive &&
+    getProfiles()?.canManageAtendente?.isActive &&
+    getProfiles()?.canManageTeacher?.isActive
+
+  const canSeeClassroom =
+    getProfiles() &&
+    getProfiles()?.canSeeTurmas?.isActive &&
+    getProfiles()?.canSeeAulas?.isActive
 
   return (
     <Flex as="nav" align="center" py={2} px={0} justify="space-between">
@@ -58,18 +81,22 @@ const Menu = ({ username }: MenuProps) => {
                 <Link isActive={asPath === '/'}>Início</Link>
               </a>
             </NextLink>
-            <NextLink href="/manager/students">
-              <a>
-                <Link isActive={asPath.includes('/manager')}>Gestão</Link>
-              </a>
-            </NextLink>
-            <NextLink href="/classrooms/my-courses">
-              <a>
-                <Link isActive={asPath.includes('/classrooms')}>
-                  Salas de aula
-                </Link>
-              </a>
-            </NextLink>
+            {canManage && (
+              <NextLink href="/manager/students">
+                <a>
+                  <Link isActive={asPath.includes('/manager')}>Gestão</Link>
+                </a>
+              </NextLink>
+            )}
+            {canSeeClassroom && (
+              <NextLink href="/classrooms/my-courses">
+                <a>
+                  <Link isActive={asPath.includes('/classrooms')}>
+                    Salas de aula
+                  </Link>
+                </a>
+              </NextLink>
+            )}
           </HStack>
         )}
 
@@ -80,18 +107,22 @@ const Menu = ({ username }: MenuProps) => {
                 <Link isActive={asPath === '/'}>Início</Link>
               </a>
             </NextLink>
-            <NextLink href="/manager/students">
-              <a>
-                <Link isActive={asPath.includes('/manager')}>Gestão</Link>
-              </a>
-            </NextLink>
-            <NextLink href="/classrooms/my-courses">
-              <a>
-                <Link isActive={asPath.includes('/classrooms')}>
-                  Salas de aula
-                </Link>
-              </a>
-            </NextLink>
+            {canManage && (
+              <NextLink href="/manager/students">
+                <a>
+                  <Link isActive={asPath.includes('/manager')}>Gestão</Link>
+                </a>
+              </NextLink>
+            )}
+            {canSeeClassroom && (
+              <NextLink href="/classrooms/my-courses">
+                <a>
+                  <Link isActive={asPath.includes('/classrooms')}>
+                    Salas de aula
+                  </Link>
+                </a>
+              </NextLink>
+            )}
           </HStack>
         )}
       </HStack>
@@ -99,7 +130,7 @@ const Menu = ({ username }: MenuProps) => {
         <IconButton ariaLabel="Notifications">
           <Box position="relative" mr={4}>
             <IoMdNotificationsOutline size={iconSize} />
-            <Box
+            {/* <Box
               fontSize="10px"
               position="absolute"
               right={5}
@@ -110,10 +141,13 @@ const Menu = ({ username }: MenuProps) => {
               transform="translateX(10px)"
             >
               8
-            </Box>
+            </Box> */}
           </Box>
         </IconButton>
-        <UserDropdown username={username} />
+        <UserDropdown
+          username={username?.split('*#nafau#*')[0] || username}
+          avatar={avatar}
+        />
       </HStack>
       {!isDesktopVersion && isDesktopVersion !== undefined && (
         <SideMenu {...disclosure} />

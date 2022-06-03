@@ -21,6 +21,12 @@ export interface QueryAtendenteById_atendente_user_institution {
   name: string;
 }
 
+export interface QueryAtendenteById_atendente_user_profile {
+  __typename: "Perfis";
+  id: string;
+  name: string;
+}
+
 export interface QueryAtendenteById_atendente_user {
   __typename: "UsersPermissionsUser";
   id: string;
@@ -29,6 +35,7 @@ export interface QueryAtendenteById_atendente_user {
   blocked: boolean | null;
   avatar: QueryAtendenteById_atendente_user_avatar | null;
   institution: QueryAtendenteById_atendente_user_institution | null;
+  profile: QueryAtendenteById_atendente_user_profile | null;
 }
 
 export interface QueryAtendenteById_atendente {

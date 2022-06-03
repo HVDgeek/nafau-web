@@ -17,6 +17,8 @@ import themes from 'styles/alt-themes'
 import { shade } from 'polished'
 import ClassSession, { ClassSessionTitle } from 'components/ClassSession'
 import TextContent from 'components/TextContent'
+import { formateDate } from 'utils/formatDate'
+import { useAula } from 'hooks/use-aula'
 
 export type ClassContent = {
   id: string
@@ -33,16 +35,31 @@ export type ClassItemProps = {
   audios?: ClassContent[]
   files?: ClassContent[]
   links?: ClassContent[]
+  updated_at?: string
+  setIdAula: (id: string) => void
+  setIdItem: (id: string) => void
 }
 
 const ClassItem = ({
+  id,
   title,
   description,
   videos,
   audios,
   files,
-  links
+  links,
+  updated_at,
+  setIdAula,
+  setIdItem
 }: ClassItemProps) => {
+  const {
+    onOpenLinkToAula,
+    onOpenRemoveLinkToAula,
+    onOpenVideoToAula,
+    onOpenRemoveVideoToAula,
+    onOpenAudioToAula,
+    onOpenRemoveAudioToAula
+  } = useAula()
   return (
     <AccordionItem
       backgroundColor="gray.800"
@@ -57,6 +74,9 @@ const ClassItem = ({
               <Box flex="1" textAlign="left">
                 <Text fontWeight="medium" fontSize={['sm', 'md']}>
                   🚀 {title}
+                </Text>
+                <Text mt={2} fontSize="small" color="gray.300">
+                  Modificada em {formateDate(updated_at!)}
                 </Text>
               </Box>
               {isExpanded ? (
@@ -74,24 +94,53 @@ const ClassItem = ({
                 color="green"
                 dataType="Arquivos"
                 icon={AiOutlineFile}
+                onOpenModal={() => null}
+                onOpenRemoveModal={() => null}
               />
               <ClassSession
                 data={links!}
                 color="blue"
                 dataType="Links úteis"
                 icon={AiOutlineLink}
+                onOpenModal={() => {
+                  setIdAula(id)
+                  onOpenLinkToAula()
+                }}
+                onOpenRemoveModal={(idItem) => {
+                  setIdAula(id)
+                  setIdItem(idItem)
+                  onOpenRemoveLinkToAula()
+                }}
               />
               <ClassSession
                 data={videos!}
                 color="orange"
                 dataType="Vídeos"
                 icon={FaVideo}
+                onOpenModal={() => {
+                  setIdAula(id)
+                  onOpenVideoToAula()
+                }}
+                onOpenRemoveModal={(idItem) => {
+                  setIdAula(id)
+                  setIdItem(idItem)
+                  onOpenRemoveVideoToAula()
+                }}
               />
               <ClassSession
                 data={audios!}
                 color="yellow"
                 dataType="Áudios"
                 icon={FaMusic}
+                onOpenModal={() => {
+                  setIdAula(id)
+                  onOpenAudioToAula()
+                }}
+                onOpenRemoveModal={(idItem) => {
+                  setIdAula(id)
+                  setIdItem(idItem)
+                  onOpenRemoveAudioToAula()
+                }}
               />
               <VStack>
                 <ClassSessionTitle title="Tarefas" color="pink.300">
@@ -110,9 +159,9 @@ const ClassItem = ({
                     Nenhuma tarefa nesta aula!
                   </Alert>
                 </Box>
-                <Button size="xs" leftIcon={<Icon as={FaPlus} />}>
+                {/* <Button size="xs" leftIcon={<Icon as={FaPlus} />}>
                   Adicionar Tarefas
-                </Button>
+                </Button> */}
               </VStack>
             </VStack>
           </AccordionPanel>

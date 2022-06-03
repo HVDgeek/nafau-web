@@ -4,14 +4,18 @@ import { Text, Box, Flex } from '@chakra-ui/react'
 import { RiAccountCircleLine, RiLogoutBoxLine } from 'react-icons/ri'
 import Dropdown from 'components/Dropdown'
 import ProfileHeader from 'components/Menu/ProfileHeader'
+import { useRouter } from 'next/router'
 
 export type UserDropdownProps = {
   username?: string | null
+  avatar?: string
 }
 
-const UserDropdown = ({ username }: UserDropdownProps) => {
+const UserDropdown = ({ username, avatar }: UserDropdownProps) => {
+  const { push } = useRouter()
+
   return (
-    <Dropdown title={<ProfileHeader username={username} />}>
+    <Dropdown title={<ProfileHeader username={username} avatar={avatar} />}>
       <Box as="nav" w="200px" p={2}>
         <Link href="/profile/me" passHref>
           <Flex
@@ -44,7 +48,10 @@ const UserDropdown = ({ username }: UserDropdownProps) => {
           _hover={{
             background: 'purple.500'
           }}
-          onClick={() => signOut()}
+          onClick={async () => {
+            const data = await signOut({ redirect: false, callbackUrl: '/' })
+            push(data.url)
+          }}
         >
           <RiLogoutBoxLine color="#ffffff" />
           <Text fontSize="small" color="white" marginLeft={2} as="span">

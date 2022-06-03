@@ -3,6 +3,9 @@ import { FaPlus } from 'react-icons/fa'
 import { ClassContent } from 'components/ClassItem'
 import LessonItem from 'components/LessonItem'
 import Button from 'components/Button'
+import { useAula } from 'hooks/use-aula'
+import { useUser } from 'hooks/use-user'
+import CheckingProfile from 'components/CheckingProfile'
 
 export type ClassSessionTitleProps = {
   children: React.ReactNode
@@ -16,6 +19,8 @@ export type ClassSessionProps = {
   dataType: 'Arquivos' | 'Áudios' | 'Vídeos' | 'Tarefas' | 'Links úteis'
   icon: React.ReactNode | any
   color: string
+  onOpenModal: () => void
+  onOpenRemoveModal: (id: string) => void
 }
 
 export const ClassSessionTitle = ({
@@ -34,7 +39,23 @@ export const ClassSessionTitle = ({
   )
 }
 
-const ClassSession = ({ data, dataType, icon, color }: ClassSessionProps) => {
+const ClassSession = ({
+  data,
+  dataType,
+  icon,
+  color,
+  onOpenModal,
+  onOpenRemoveModal
+}: ClassSessionProps) => {
+  const { getProfiles, loading: loadingProfiles } = useUser()
+
+  if (loadingProfiles) {
+    return <CheckingProfile />
+  }
+
+  const canManage =
+    (getProfiles() && getProfiles()?.canManageAula?.isActive) || false
+
   return (
     <VStack>
       <ClassSessionTitle title={dataType} color={`${color}.300`}>
@@ -56,14 +77,21 @@ const ClassSession = ({ data, dataType, icon, color }: ClassSessionProps) => {
         )}
         {data.map((item) => (
           <VStack key={item.id}>
-            <LessonItem {...item} dataType={dataType} />
+            <LessonItem
+              {...item}
+              dataType={dataType}
+              canManage={canManage}
+              onOpenRemoveModal={() => onOpenRemoveModal(item.id)}
+            />
           </VStack>
         ))}
       </Box>
       <Box />
-      <Button size="xs" leftIcon={<Icon as={FaPlus} />}>
-        Adicionar {dataType}
-      </Button>
+      {canManage && (
+        <Button onClick={onOpenModal} size="xs" leftIcon={<Icon as={FaPlus} />}>
+          Adicionar {dataType}
+        </Button>
+      )}
     </VStack>
   )
 }

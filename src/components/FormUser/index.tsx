@@ -20,19 +20,45 @@ import {
 } from 'react-icons/hi'
 import themes from 'styles/alt-themes'
 
+function formatProfile(name: string) {
+  if (name === 'STUDENT') {
+    return 'Estudante'
+  }
+  if (name === 'TEACHER_ONLY') {
+    return 'Apenas Professor'
+  }
+  if (name === 'TEACHER_MANAGER') {
+    return 'Professor Gerente'
+  }
+  if (name === 'ATTENDANT') return 'Atendente'
+  return ''
+}
+
 type FieldType = {
   field: any
 }
 
+export type ProfileProps = {
+  id: string
+  name: string
+}
+
 export type FormUserProps = {
   initialValues: any
+  createForm: boolean
+  perfis: ProfileProps[]
   onSubmit: (
     values: any,
     formikHelpers: FormikHelpers<any>
   ) => void | Promise<any>
 }
 
-const FormUser = ({ onSubmit, initialValues }: FormUserProps) => {
+const FormUser = ({
+  onSubmit,
+  initialValues,
+  createForm,
+  perfis
+}: FormUserProps) => {
   const isDesktopVersion = useBreakpointValue({
     base: false,
     md: true,
@@ -41,9 +67,9 @@ const FormUser = ({ onSubmit, initialValues }: FormUserProps) => {
 
   return (
     <Box borderRadius={themes.border.radius} backgroundColor="gray.800" p={4}>
-      <Text mb={4} fontWeight="bold" fontSize="md">
+      {/* <Text mb={4} fontWeight="bold" fontSize="md">
         Dados do usuário
-      </Text>
+      </Text> */}
       <ScaleFade initialScale={0.9} in={true}>
         <Formik
           // validationSchema={SignInSchema}
@@ -61,12 +87,15 @@ const FormUser = ({ onSubmit, initialValues }: FormUserProps) => {
                 <TextField
                   label="Nome Completo"
                   name="name"
+                  isRequired
                   placeholder="Nome completo"
                 />
                 <Field name="sexo">
                   {({ field }: FieldType) => (
-                    <FormControl isRequired id="sexo">
-                      <FormLabel htmlFor="sexo">Sexo</FormLabel>
+                    <FormControl id="sexo" isRequired>
+                      <FormLabel fontSize="sm" htmlFor="sexo">
+                        Sexo
+                      </FormLabel>
                       <Select
                         {...field}
                         name="sexo"
@@ -117,6 +146,7 @@ const FormUser = ({ onSubmit, initialValues }: FormUserProps) => {
                 />
                 <TextField
                   label="E-mail"
+                  isRequired
                   name="email"
                   placeholder="E-mail"
                   autoComplete="email"
@@ -124,26 +154,31 @@ const FormUser = ({ onSubmit, initialValues }: FormUserProps) => {
                   withIcon={true}
                 />
                 <TextField
+                  isRequired
                   label="Nome do Usuário"
                   name="username"
                   placeholder="Nome do Usuário"
                 />
-                <TextField
-                  label="Senha"
-                  placeholder="Senha"
-                  name="password"
-                  IconField={HiOutlineLockClosed}
-                  isPasswordField
-                  withIcon={true}
-                />
-                <TextField
-                  label="Confirmar senha"
-                  placeholder="Confirmar senha"
-                  name="confirm_password"
-                  IconField={HiOutlineLockClosed}
-                  isPasswordField
-                  withIcon={true}
-                />
+                {createForm && (
+                  <TextField
+                    label="Senha"
+                    placeholder="Senha"
+                    name="password"
+                    IconField={HiOutlineLockClosed}
+                    isPasswordField
+                    withIcon={true}
+                  />
+                )}
+                {createForm && (
+                  <TextField
+                    label="Confirmar senha"
+                    placeholder="Confirmar senha"
+                    name="confirm_password"
+                    IconField={HiOutlineLockClosed}
+                    isPasswordField
+                    withIcon={true}
+                  />
+                )}
                 <Field name="isActive">
                   {({ field }: FieldType) => (
                     <FormControl
@@ -151,7 +186,7 @@ const FormUser = ({ onSubmit, initialValues }: FormUserProps) => {
                       display="flex"
                       alignItems="center"
                     >
-                      <FormLabel htmlFor="isActive" mb="0">
+                      <FormLabel fontSize="sm" htmlFor="isActive" mb="0">
                         Conceder acesso à plataforma ?
                       </FormLabel>
                       <Switch
@@ -174,6 +209,43 @@ const FormUser = ({ onSubmit, initialValues }: FormUserProps) => {
                         //   }
                         // }}
                       />
+                    </FormControl>
+                  )}
+                </Field>
+                <Field name="profile">
+                  {({ field }: FieldType) => (
+                    <FormControl id="profile" isRequired>
+                      <FormLabel fontSize="sm" htmlFor="sexo">
+                        Permissões dentro da plataforma
+                      </FormLabel>
+                      <Select
+                        {...field}
+                        name="profile"
+                        placeholder="Selecione a permissão"
+                        bg="gray.900"
+                        variant="filled"
+                        borderRadius={themes.border.radius}
+                        borderWidth={1}
+                        fontSize="sm"
+                        // _focus={{ shadow: 'none' }}
+                        _hover={{
+                          bgColor: 'gray.900'
+                        }}
+                        focusBorderColor="purple.500"
+                        errorBorderColor="red.300"
+                        css={{
+                          ':focus': {
+                            background: '#181b23'
+                          }
+                        }}
+                      >
+                        {perfis &&
+                          perfis.map((perfil) => (
+                            <option key={perfil.id} value={perfil.id}>
+                              {formatProfile(perfil.name)}
+                            </option>
+                          ))}
+                      </Select>
                     </FormControl>
                   )}
                 </Field>

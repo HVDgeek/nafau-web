@@ -21,6 +21,7 @@ import themes from 'styles/alt-themes'
 import ShowMore from 'components/ShowMore'
 import Empty from 'components/Empty'
 import LoadingClient from 'components/LoadingClient'
+import { Session } from 'next-auth'
 
 const titles = {
   student: 'Estudante',
@@ -39,7 +40,9 @@ export type UsersTemplateProps = {
   loading: boolean
   hasMore: boolean
   onSubmit: () => void
+  onRemove: (id: string) => void
   handleShowMore: () => void
+  session: Session
 }
 
 export const Main = ({ children }: MainProps) => {
@@ -69,7 +72,8 @@ const UsersTemplate = ({
   loading,
   hasMore,
   onSubmit,
-  handleShowMore
+  handleShowMore,
+  onRemove
 }: UsersTemplateProps) => {
   const { asPath } = useRouter()
 
@@ -97,7 +101,12 @@ const UsersTemplate = ({
                 </Flex>
                 <SimpleGrid columns={3} spacing={8} minChildWidth="250px">
                   {users?.map((item) => (
-                    <UserCard key={item.email} {...item} route={route} />
+                    <UserCard
+                      key={item.email}
+                      {...item}
+                      route={route}
+                      onRemove={onRemove}
+                    />
                   ))}
                   {!users.length && (
                     <Empty

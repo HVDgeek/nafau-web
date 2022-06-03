@@ -10,7 +10,15 @@ import {
   Avatar,
   Badge,
   Tooltip,
-  useBreakpointValue
+  useBreakpointValue,
+  useDisclosure,
+  ModalCloseButton,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  ModalOverlay
 } from '@chakra-ui/react'
 import themes from 'styles/alt-themes'
 import { stringToColour } from 'utils/stringToColor'
@@ -19,6 +27,7 @@ import { IoMdSchool } from 'react-icons/io'
 import { AiOutlineRight, AiOutlineClose } from 'react-icons/ai'
 import Button from 'components/Button'
 import IconButton from 'components/IconButton'
+import { Base64 } from 'js-base64'
 
 type TeacherProps = {
   name: string
@@ -39,7 +48,10 @@ export type ClassCardProps = {
   countAlunos: number
   route?: string
   timing?: number
-  onRemove?: () => void
+  onRemove: (id: string) => void
+  module?: string
+  buttonTitle?: string
+  withRemove?: boolean
 }
 
 const ClassCard = ({
@@ -51,9 +63,13 @@ const ClassCard = ({
   countAlunos,
   lastLesson,
   route,
-  onRemove
+  onRemove,
+  buttonTitle = 'Acessar',
+  withRemove = true,
+  module = 'manager'
 }: ClassCardProps) => {
   const color = shade(0.7, stringToColour(title))
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   const sizeButton = useBreakpointValue({
     base: 'xs',
@@ -145,23 +161,37 @@ const ClassCard = ({
             PROFESSOR
           </Text>
           <Box w={250}>
-            <Tag mt={2} maxWidth={200} size="md" bg={color} borderRadius="full">
-              <Avatar
-                src={teacher?.avatar}
-                size="2xs"
-                name={teacher.name}
-                ml={-1}
-                mr={2}
-              />
-              <TagLabel
-                isTruncated
-                color="white"
-                fontSize="x-small"
-                fontWeight="normal"
+            {teacher.name ? (
+              <Tag
+                mt={2}
+                maxWidth={200}
+                size="md"
+                bg={color}
+                borderRadius="full"
               >
-                {teacher.name}
-              </TagLabel>
-            </Tag>
+                <Avatar
+                  src={teacher?.avatar}
+                  size="2xs"
+                  name={teacher.name}
+                  ml={-1}
+                  mr={2}
+                />
+                <TagLabel
+                  isTruncated
+                  color="white"
+                  fontSize="x-small"
+                  fontWeight="normal"
+                >
+                  {teacher.name}
+                </TagLabel>
+              </Tag>
+            ) : (
+              <Box>
+                <Text fontSize="x-small" color="gray.500">
+                  Sem professor
+                </Text>
+              </Box>
+            )}
           </Box>
         </Box>
 
@@ -173,24 +203,65 @@ const ClassCard = ({
         </Box> */}
 
         <Box position="absolute" right={0} bottom={0} p={4}>
-          <Link href={`/manager/${route}/${id}`} passHref>
+          <Link href={`/${module}/${route}/${Base64.encode(`${id}`)}`} passHref>
             <Button as="a" size={'xs'} rightIcon={<Icon as={AiOutlineRight} />}>
-              Acessar
+              {buttonTitle}
             </Button>
           </Link>
         </Box>
       </Box>
-      <Tooltip
-        fontSize="small"
-        label="Remover esta turma!"
-        aria-label="A tooltip"
-      >
-        <Box p={2} position="absolute" top={0} right={0}>
-          <IconButton onClick={onRemove} ariaLabel="Remover turma">
-            <AiOutlineClose size={18} />
-          </IconButton>
-        </Box>
-      </Tooltip>
+      {withRemove && (
+        <Tooltip
+          fontSize="small"
+          label="Remover esta turma!"
+          aria-label="A tooltip"
+        >
+          <Box p={2} position="absolute" top={0} right={0}>
+            <IconButton
+              onClick={() => {
+                onOpen()
+              }}
+              ariaLabel="Remover turma"
+            >
+              <AiOutlineClose size={18} />
+            </IconButton>
+          </Box>
+        </Tooltip>
+      )}
+      <Modal onClose={onClose} size="md" isOpen={isOpen} isCentered>
+        <ModalOverlay />
+        <ModalContent bgColor="gray.800">
+          <ModalHeader
+            fontWeight="medium"
+            fontSize="medium"
+            bgColor="gray.800"
+            borderRadius={themes.border.radius}
+          >
+            Remover Turma
+          </ModalHeader>
+          <ModalCloseButton _focus={{ shadow: 'none' }} />
+          <ModalBody bgColor="gray.800" borderRadius={themes.border.radius}>
+            <Text fontWeight="light" mr={2}>
+              Tem certeza que deseja remover {title} ?
+            </Text>
+          </ModalBody>
+          <ModalFooter bgColor="gray.800" borderRadius={themes.border.radius}>
+            <Button color="red" size="xs" onClick={onClose}>
+              Não
+            </Button>
+            <Box mr={2} />
+            <Button
+              size="xs"
+              onClick={() => {
+                onRemove(id)
+                onClose()
+              }}
+            >
+              Sim
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Flex>
   )
 }

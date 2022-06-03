@@ -2466,220 +2466,187 @@ input editComponentAulasVideoInput {
 type ComponentProfileCanManageAluno {
   id: ID!
   title: String!
-  description: String
   isActive: Boolean!
 }
 
 input ComponentProfileCanManageAlunoInput {
   title: String
-  description: String
   isActive: Boolean
 }
 
 input editComponentProfileCanManageAlunoInput {
   id: ID
   title: String
-  description: String
   isActive: Boolean
 }
 
 type ComponentProfileCanManageAtendente {
   id: ID!
   title: String!
-  description: String
   isActive: Boolean
 }
 
 input ComponentProfileCanManageAtendenteInput {
   title: String
-  description: String
   isActive: Boolean
 }
 
 input editComponentProfileCanManageAtendenteInput {
   id: ID
   title: String
-  description: String
   isActive: Boolean
 }
 
 type ComponentProfileCanManageAula {
   id: ID!
   title: String!
-  description: String
   isActive: Boolean
 }
 
 input ComponentProfileCanManageAulaInput {
   title: String
-  description: String
   isActive: Boolean
 }
 
 input editComponentProfileCanManageAulaInput {
   id: ID
   title: String
-  description: String
   isActive: Boolean
 }
 
 type ComponentProfileCanManageGerente {
   id: ID!
   title: String!
-  description: String
   isActive: Boolean!
 }
 
 input ComponentProfileCanManageGerenteInput {
   title: String
-  description: String
   isActive: Boolean
 }
 
 input editComponentProfileCanManageGerenteInput {
   id: ID
   title: String
-  description: String
   isActive: Boolean
 }
 
 type ComponentProfileCanManageRoles {
   id: ID!
   title: String!
-  description: String
   isActive: Boolean
 }
 
 input ComponentProfileCanManageRoleInput {
   title: String
-  description: String
   isActive: Boolean
 }
 
 input editComponentProfileCanManageRoleInput {
   id: ID
   title: String
-  description: String
   isActive: Boolean
 }
 
 type ComponentProfileCanManageTeacher {
   id: ID!
   title: String!
-  description: String
   isActive: Boolean
 }
 
 input ComponentProfileCanManageTeacherInput {
   title: String
-  description: String
   isActive: Boolean
 }
 
 input editComponentProfileCanManageTeacherInput {
   id: ID
   title: String
-  description: String
   isActive: Boolean
 }
 
 type ComponentProfileCanManageTurma {
   id: ID!
   title: String!
-  description: String
   isActive: Boolean
 }
 
 input ComponentProfileCanManageTurmaInput {
   title: String
-  description: String
   isActive: Boolean
 }
 
 input editComponentProfileCanManageTurmaInput {
   id: ID
   title: String
-  description: String
   isActive: Boolean
 }
 
 type ComponentProfileCanManageUsers {
   id: ID!
   title: String!
-  description: String
   isActive: Boolean
 }
 
 input ComponentProfileCanManageUserInput {
   title: String
-  description: String
   isActive: Boolean
 }
 
 input editComponentProfileCanManageUserInput {
   id: ID
   title: String
-  description: String
   isActive: Boolean
 }
 
 type ComponentProfileCanSeeAulas {
   id: ID!
   title: String!
-  description: String
   isActive: Boolean
 }
 
 input ComponentProfileCanSeeAulaInput {
   title: String
-  description: String
   isActive: Boolean
 }
 
 input editComponentProfileCanSeeAulaInput {
   id: ID
   title: String
-  description: String
   isActive: Boolean
 }
 
 type ComponentProfileCanSeeOtherUsers {
   id: ID!
   title: String!
-  description: String
   isActive: Boolean
 }
 
 input ComponentProfileCanSeeOtherUserInput {
   title: String
-  description: String
   isActive: Boolean
 }
 
 input editComponentProfileCanSeeOtherUserInput {
   id: ID
   title: String
-  description: String
   isActive: Boolean
 }
 
 type ComponentProfileCanSeeTurmas {
   id: ID!
   title: String!
-  description: String
   isActive: Boolean
 }
 
 input ComponentProfileCanSeeTurmaInput {
   title: String
-  description: String
   isActive: Boolean
 }
 
 input editComponentProfileCanSeeTurmaInput {
   id: ID
   title: String
-  description: String
   isActive: Boolean
 }
 

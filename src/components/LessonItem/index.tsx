@@ -7,7 +7,7 @@ import {
   useBreakpointValue
 } from '@chakra-ui/react'
 import { FaFilePdf, FaFileExcel, FaFile, FaFileImage } from 'react-icons/fa'
-import { AiFillFileWord, AiOutlineLink, AiOutlineDelete } from 'react-icons/ai'
+import { AiFillFileWord, AiOutlineLink, AiOutlineClose } from 'react-icons/ai'
 import IconButton from 'components/IconButton'
 import MediaPlayer from 'components/MediaPlayer'
 
@@ -16,6 +16,8 @@ export type LessonItemProps = {
   description?: string
   url: string
   dataType: 'Arquivos' | 'Áudios' | 'Vídeos' | 'Tarefas' | 'Links úteis'
+  onOpenRemoveModal: () => void
+  canManage: boolean
 }
 
 const getIcon = (format: string) => {
@@ -42,7 +44,14 @@ const getIcon = (format: string) => {
   return FaFile
 }
 
-const LessonItem = ({ title, description, url, dataType }: LessonItemProps) => {
+const LessonItem = ({
+  title,
+  description,
+  url,
+  dataType,
+  onOpenRemoveModal,
+  canManage
+}: LessonItemProps) => {
   const isMobileVersion = useBreakpointValue({
     base: false,
     md: true
@@ -77,9 +86,9 @@ const LessonItem = ({ title, description, url, dataType }: LessonItemProps) => {
           </Box>
         )}
       </Box>
-      {isMobileVersion && (
-        <IconButton ariaLabel="remove item">
-          <AiOutlineDelete />
+      {isMobileVersion && canManage && (
+        <IconButton ariaLabel="remove item" onClick={onOpenRemoveModal}>
+          <AiOutlineClose />
         </IconButton>
       )}
     </Flex>

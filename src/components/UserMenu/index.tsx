@@ -14,7 +14,7 @@ type LinkProps = {
   isActive?: boolean
 }
 
-const Link = ({ title, href, icon, isActive }: LinkProps) => {
+export const Link = ({ title, href, icon, isActive }: LinkProps) => {
   const isMobile = useBreakpointValue({
     base: true,
     md: false
@@ -57,19 +57,28 @@ const UserMenu = ({ activeLink }: UserMenuProps) => {
     <Flex border={border} flexDir={['row', 'row', 'column']} as="nav">
       <Link
         isActive={
-          activeLink?.includes('student') &&
+          (activeLink?.includes('student') ||
+            activeLink?.includes('teacher') ||
+            activeLink?.includes('attendant')) &&
           !activeLink?.includes('your-courses')
         }
         title="Dados do usuário"
-        href="/manager/student/5"
+        href={activeLink!.replace('your-courses', '')}
         icon={<VscAccount size={18} />}
       />
-      <Link
-        isActive={activeLink?.includes('your-courses')}
-        title="Turmas"
-        href="/manager/student/5/your-courses"
-        icon={<IoSchoolOutline size={18} />}
-      />
+      {!activeLink?.includes('attendant') &&
+        !activeLink?.includes('create') && (
+          <Link
+            isActive={activeLink?.includes('your-courses')}
+            title="Turmas"
+            href={
+              activeLink?.includes('your-courses')
+                ? `${activeLink}`
+                : `${activeLink}/your-courses`
+            }
+            icon={<IoSchoolOutline size={18} />}
+          />
+        )}
     </Flex>
   )
 }

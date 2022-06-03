@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import {
   Text,
   Box,
@@ -12,10 +13,11 @@ import { HiOutlineMail, HiOutlineLockClosed } from 'react-icons/hi'
 import themes from 'styles/alt-themes'
 
 export type FormProfileProps = {
-  children: React.ReactNode
+  username?: string
+  email?: string
 }
 
-const FormProfile = () => {
+const FormProfile = ({ email, username }: FormProfileProps) => {
   const isDesktopVersion = useBreakpointValue({
     base: false,
     md: true,
@@ -31,8 +33,8 @@ const FormProfile = () => {
         <Formik
           // validationSchema={SignInSchema}
           initialValues={{
-            name: 'John Cage',
-            email: 'john.cage@gmail.com',
+            name: username?.split('*#nafau#*')[0] || username,
+            email: email,
             password: ''
           }}
           onSubmit={async (values, { setErrors, resetForm }) => {
@@ -48,9 +50,9 @@ const FormProfile = () => {
                 mb={8}
               >
                 <TextField
-                  label="Nome"
+                  label="Nome do usuário"
                   name="name"
-                  placeholder="Nome completo"
+                  placeholder="Nome do usuário"
                 />
                 <TextField
                   label="E-mail"
@@ -61,24 +63,21 @@ const FormProfile = () => {
                   withIcon={true}
                   disabled
                 />
-                <TextField
-                  label="Senha"
-                  placeholder="Senha"
-                  name="password"
-                  IconField={HiOutlineLockClosed}
-                  isPasswordField
-                  withIcon={true}
-                />
-                <TextField
-                  label="Nova senha"
-                  placeholder="Nova senha"
-                  name="new_password"
-                  IconField={HiOutlineLockClosed}
-                  isPasswordField
-                  withIcon={true}
-                />
               </Grid>
               <Box display="flex" justifyContent="flex-end">
+                <Box marginRight={2}>
+                  <Link href={`/forgot-password?email=${email}`} passHref>
+                    <Button
+                      type="button"
+                      fullWidth={isDesktopVersion ? false : true}
+                      size="sm"
+                      variant="outline"
+                      as="a"
+                    >
+                      Alterar minha senha
+                    </Button>
+                  </Link>
+                </Box>
                 <Button
                   type="submit"
                   fullWidth={isDesktopVersion ? false : true}

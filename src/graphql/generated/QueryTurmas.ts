@@ -71,10 +71,23 @@ export interface QueryTurmas_turmas {
   aulas: QueryTurmas_turmas_aulas[];
 }
 
+export interface QueryTurmas_turmasConnection_values {
+  __typename: "Turmas";
+  id: string;
+}
+
+export interface QueryTurmas_turmasConnection {
+  __typename: "TurmasConnection";
+  values: (QueryTurmas_turmasConnection_values | null)[] | null;
+}
+
 export interface QueryTurmas {
   turmas: QueryTurmas_turmas[];
+  turmasConnection: QueryTurmas_turmasConnection | null;
 }
 
 export interface QueryTurmasVariables {
   limit: number;
+  start?: number | null;
+  institutionId: string;
 }

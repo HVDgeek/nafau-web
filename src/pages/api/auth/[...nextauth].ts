@@ -37,9 +37,14 @@ const options = {
     })
   ],
   callbacks: {
-    session: async (session: Session, user: User) => {
+    session: async (session: any, user: any) => {
       session.jwt = user.jwt
       session.id = user.id
+      session.user = {
+        ...user,
+        institution: user.institution.id,
+        avatar: user?.avatar?.url || ''
+      }
 
       return Promise.resolve(session)
     },
@@ -49,6 +54,11 @@ const options = {
         token.email = user.email
         token.name = user.username as string
         token.jwt = user.jwt
+        token = {
+          ...token,
+          institution: user.institution,
+          avatar: user.avatar
+        }
       }
 
       return Promise.resolve(token)
@@ -58,5 +68,16 @@ const options = {
 
 const Auth = (req: NextApiRequest, res: NextApiResponse) =>
   NextAuth(req, res, options)
+
+export type SessionProps = {
+  id: string
+  user: {
+    name?: string | null | undefined
+    email?: string | null | undefined
+    image?: string | null | undefined
+    institution: string
+    avatar: string
+  }
+}
 
 export default Auth

@@ -1,39 +1,106 @@
+import { GetServerSidePropsContext } from 'next'
+import { useSession } from 'next-auth/client'
+import { useRouter } from 'next/router'
+
 import UsersTemplate, { UsersTemplateProps } from 'templates/Users'
-import { initializeApollo } from 'utils/apollo'
-import {
-  QueryProfessores,
-  QueryProfessoresVariables
-} from 'graphql/generated/QueryProfessores'
-import { QUERY_PROFESSORES } from 'graphql/queries/professores'
+import { useQueryProfessores } from 'graphql/queries/professores'
+import protectedRoutes from 'utils/protected-routes'
+import { UserCardProps } from 'components/UserCard'
+import { SessionProps } from 'pages/api/auth/[...nextauth]'
+import { useTeacher } from 'hooks/use-teacher'
+import { useUser } from 'hooks/use-user'
+import { getImageUrl } from 'utils/getImageUrl'
+import PrivatePage from 'components/PrivatePage'
+import CheckingProfile from 'components/CheckingProfile'
 
 export default function StudentsPage(props: UsersTemplateProps) {
-  return <UsersTemplate {...props} route="teacher" />
-}
+  const [session, loadingSession] = useSession()
+  const { getProfiles, loading: loadingProfiles } = useUser()
+  const { asPath, push } = useRouter()
+  const { removeTeacher } = useTeacher()
 
-export async function getStaticProps() {
-  const apolloClient = initializeApollo()
-
-  const { data } = await apolloClient.query<
-    QueryProfessores,
-    QueryProfessoresVariables
-  >({
-    query: QUERY_PROFESSORES,
-    variables: { limit: 9 },
-    fetchPolicy: 'no-cache'
+  let hasMoreProfessores = false
+  const { data, loading, fetchMore } = useQueryProfessores({
+    skip: !session?.user?.email, // Não roda se não tiver session
+    context: { session }, // passando a session de autentication
+    variables: {
+      limit: 40,
+      institutionId: (props.session as SessionProps)?.user?.institution
+    }
   })
 
+  if (data) {
+    hasMoreProfessores =
+      data?.professores.length <
+      (data?.professoresConnection?.values?.length || 0)
+  }
+
+  const users = data?.professores.map((prof) => ({
+    id: prof.id,
+    name: prof.name,
+    email: prof.user?.email,
+    username: prof.user?.username,
+    avatar: `${getImageUrl(prof.user?.avatar?.src)}`,
+    isActive: !prof.user?.blocked
+  })) as UserCardProps[]
+
+  const canManageTeacher = getProfiles()?.canManageTeacher
+
+  if (loadingProfiles) {
+    return <CheckingProfile />
+  }
+
+  if (session && !canManageTeacher?.isActive) {
+    return <PrivatePage />
+  }
+
+  if (typeof window !== undefined && loadingSession) return null
+
+  if (!session) {
+    window.location.href = `/sign-in?callbackUrl=${asPath}`
+  }
+
+  const onRemove = (id: string) => {
+    removeTeacher(id)
+  }
+
+  const handleShowMore = () => {
+    fetchMore({
+      variables: {
+        limit: 15,
+        start: data?.professores.length,
+        institutionId: (props.session as SessionProps).user?.institution
+      }
+    })
+  }
+
+  return (
+    <UsersTemplate
+      {...props}
+      route="teacher"
+      loading={loading}
+      users={users}
+      hasMore={hasMoreProfessores}
+      onRemove={onRemove}
+      onSubmit={() => {
+        push('teacher/create')
+      }}
+      handleShowMore={handleShowMore}
+    />
+  )
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await protectedRoutes(context)
+
+  if (!session) {
+    return { props: {} }
+  }
+
   return {
-    revalidate: 60,
     props: {
-      users: data.professores.map((prof) => ({
-        id: prof.id,
-        name: prof.name,
-        email: prof.user?.email,
-        username: prof.user?.username,
-        avatar: `http://localhost:1337${prof.user?.avatar?.src}`,
-        isActive: !prof.user?.blocked
-      })),
-      title: 'Professores'
+      title: 'Professores',
+      session: session
     }
   }
 }

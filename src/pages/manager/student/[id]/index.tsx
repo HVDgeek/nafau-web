@@ -1,34 +1,48 @@
-import { GetStaticProps } from 'next'
-import { useRouter } from 'next/router'
+import { GetServerSidePropsContext } from 'next'
+import { initializeApollo } from 'utils/apollo'
+import { FormikHelpers } from 'formik'
+
 import UsersRegisterTemplate, {
   UsersRegisterTemplateProps
 } from 'templates/UsersRegister'
-import { initializeApollo } from 'utils/apollo'
-import { QUERY_ALUNOS, QUERY_ALUNO_BY_ID } from 'graphql/queries/alunos'
-import {
-  QueryAlunos,
-  QueryAlunosVariables
-} from 'graphql/generated/QueryAlunos'
+import { QUERY_ALUNO_BY_ID } from 'graphql/queries/alunos'
 import {
   QueryAlunoById,
   QueryAlunoByIdVariables
 } from 'graphql/generated/QueryAlunoById'
-import { FormikHelpers } from 'formik'
-
-const apolloClient = initializeApollo()
+import protectedRoutes from 'utils/protected-routes'
+import { Base64 } from 'js-base64'
+import { useStudent } from 'hooks/use-student'
+import { useUser } from 'hooks/use-user'
+import CheckingProfile from 'components/CheckingProfile'
+import { ENUM_ALUNOS_SEXO } from 'graphql/generated/globalTypes'
+import { SessionProps } from 'pages/api/auth/[...nextauth]'
+import { v4 as uuidV4 } from 'uuid'
+import { getImageUrl } from 'utils/getImageUrl'
+import PrivatePage from 'components/PrivatePage'
+import { useSession } from 'next-auth/client'
+import { QUERY_PERFIS } from 'graphql/queries/perfis'
+import {
+  QueryPerfis,
+  QueryPerfisVariables
+} from 'graphql/generated/QueryPerfis'
 
 export type Values = Omit<
   UsersRegisterTemplateProps,
   'onSubmit' | 'user' | 'initialValues'
 > & {
   username: string
+  email: string
   isActive: boolean
   password?: string
   confirm_password?: string
+  profile: string
 }
 
-export default function Index(props: UsersRegisterTemplateProps) {
-  const router = useRouter()
+export default function UpdateStudentPage(props: UsersRegisterTemplateProps) {
+  const { updateStudent } = useStudent()
+  const { getProfiles, loading: loadingProfiles } = useUser()
+  const [session] = useSession()
 
   const initialValues = {
     name: props.name,
@@ -37,66 +51,100 @@ export default function Index(props: UsersRegisterTemplateProps) {
     numero_do_BI: props.numero_do_BI,
     birthday: props.birthday,
     telefone: props.telefone,
-    username: props.user?.username,
+    username: props.user.username?.split('*#nafau#*')[0] || props.user.username,
     isActive: props.user?.isActive,
     password: '',
-    confirm_password: ''
+    confirm_password: '',
+    profile: props.profile
   }
 
   const onSubmit = async (
     values: Values,
     { setErrors, resetForm }: FormikHelpers<Values>
   ) => {
-    console.log('ON SUBMIT', JSON.stringify(values, null, 2))
+    updateStudent(props.id, {
+      blocked: !values.isActive,
+      email: values.email,
+      institution: (props.session as SessionProps).user.institution, // Não atualiza
+      password: values.password!,
+      username: `${values.username}*#nafau#*${uuidV4()}`,
+      birthday: values.birthday,
+      name: values.name,
+      numero_do_BI: values.numero_do_BI,
+      numeroDeMatricula: values.numeroDeMatricula,
+      sexo: values.sexo as ENUM_ALUNOS_SEXO,
+      telefone: values.telefone,
+      profileId: values.profile
+    })
   }
 
-  // se a rota não tiver sido gerada ainda
-  // você pode mostrar um loading
-  // uma tela de esqueleto
-  if (router.isFallback) return null
+  const canManageStudent = getProfiles()?.canManageAluno
+
+  if (loadingProfiles) {
+    return <CheckingProfile />
+  }
+
+  if (session && !canManageStudent?.isActive) {
+    return <PrivatePage />
+  }
 
   return (
     <UsersRegisterTemplate
       {...props}
+      perfis={props.perfis.filter((profile) =>
+        profile.name.includes('STUDENT')
+      )}
+      title={props.name}
       onSubmit={onSubmit}
       initialValues={initialValues}
+      createForm={false}
     />
   )
 }
 
-// gerar em build time (/aluno/bla, /aluno/foo ...)
-export async function getStaticPaths() {
-  const { data } = await apolloClient.query<QueryAlunos, QueryAlunosVariables>({
-    query: QUERY_ALUNOS,
-    variables: { limit: 9 }
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await protectedRoutes(context)
+  const apolloClient = initializeApollo(null, session)
+
+  if (!session) {
+    return { props: {} }
+  }
+
+  const { data: dataProfile } = await apolloClient.query<
+    QueryPerfis,
+    QueryPerfisVariables
+  >({
+    query: QUERY_PERFIS,
+    variables: {
+      limit: 10
+    }
   })
 
-  const paths = data.alunos.map(({ id }) => ({
-    params: { id }
-  }))
+  const { params } = context
 
-  return { paths, fallback: true }
-}
-
-export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { data } = await apolloClient.query<
     QueryAlunoById,
     QueryAlunoByIdVariables
   >({
     query: QUERY_ALUNO_BY_ID,
-    variables: { id: `${params?.id}` },
+    variables: { id: Base64.decode(`${params?.id}`) },
     fetchPolicy: 'no-cache'
   })
 
   if (!data.aluno) {
-    return { notFound: true }
+    return {
+      notFound: true
+    }
   }
 
   const { aluno } = data
 
   return {
-    revalidate: 60,
     props: {
+      perfis: dataProfile.perfis,
+      profile: aluno.user?.profile?.id,
+      id: data.aluno.id,
+      session: session,
       name: aluno.name,
       sexo: aluno.sexo,
       birthday: aluno.birthday,
@@ -106,7 +154,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       user: {
         email: aluno.user?.email,
         username: aluno.user?.username,
-        avatar: `http://localhost:1337${aluno.user?.avatar?.src}`,
+        avatar: `${getImageUrl(aluno.user?.avatar?.src)}`,
         isActive: !aluno.user?.blocked
       }
     }

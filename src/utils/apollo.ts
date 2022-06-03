@@ -1,20 +1,37 @@
 import { useMemo } from 'react'
 import { ApolloClient, HttpLink, NormalizedCacheObject } from '@apollo/client'
+import { setContext } from '@apollo/client/link/context'
+import { Session } from 'next-auth'
 import apolloCache from './apolloCache'
 
 let apolloClient: ApolloClient<NormalizedCacheObject | null>
 
-function createApolloClient() {
+function createApolloClient(session?: Session | null) {
+  const httpLink = new HttpLink({
+    uri: `${process.env.NEXT_PUBLIC_API_URL}/graphql`
+  })
+
+  const authLink = setContext(
+    async (_, { headers, session: clientSession }) => {
+      const jwt = session?.jwt || clientSession?.jwt || ''
+      const authorization = jwt ? `Bearer ${jwt}` : ''
+      return { headers: { ...headers, authorization } }
+    }
+  )
+
   return new ApolloClient({
-    ssrMode: typeof window === 'undefined', //true
-    link: new HttpLink({ uri: 'http://localhost:1337/graphql' }),
+    ssrMode: typeof window === 'undefined',
+    link: authLink.concat(httpLink),
     cache: apolloCache
   })
 }
 
-export function initializeApollo(initialState = null) {
+export function initializeApollo(
+  initialState = null,
+  session?: Session | null
+) {
   // serve para verificar se já existe uma instância, para não criar outra
-  const apolloClientGlobal = apolloClient ?? createApolloClient()
+  const apolloClientGlobal = apolloClient ?? createApolloClient(session)
 
   // se a página usar o apolloClient no lado client
   // hidratamos o estado inicial aqui
@@ -27,10 +44,13 @@ export function initializeApollo(initialState = null) {
   // cria o apolloClient se estiver no client side
   apolloClient = apolloClient ?? apolloClientGlobal
 
-  return apolloClient
+  return apolloClientGlobal
 }
 
-export function useApollo(initialState = null) {
-  const store = useMemo(() => initializeApollo(initialState), [initialState])
+export function useApollo(initialState = null, session?: Session) {
+  const store = useMemo(
+    () => initializeApollo(initialState, session),
+    [initialState, session]
+  )
   return store
 }

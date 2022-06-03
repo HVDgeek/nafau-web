@@ -1,4 +1,5 @@
 import Document, { Head, Html, Main, NextScript } from 'next/document'
+import Analytics from 'components/Analitics'
 
 export default class MyDocument extends Document {
   render() {
@@ -18,7 +19,9 @@ export default class MyDocument extends Document {
         </Head>
         <body>
           <Main />
+          <script src="https://meet.jit.si/external_api.js"></script>
           <NextScript />
+          <Analytics />
         </body>
       </Html>
     )

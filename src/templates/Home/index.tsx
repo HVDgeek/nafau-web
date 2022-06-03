@@ -2,12 +2,13 @@ import { Text, Box, Image, Stack } from '@chakra-ui/react'
 import { Container } from 'components/Container'
 import Heading from 'components/Heading'
 import Base from 'templates/Base'
-
+import { useSession } from 'next-auth/client'
 import StudentInfos from '../../components/Dashboard/Studant/'
 import TeacherInfos from '../../components/Dashboard/Teacher/'
 import ManagerInfos from '../../components/Dashboard/Manager/'
 
 const Home = () => {
+  const [session] = useSession()
   return (
     <Base>
       <Container>
@@ -19,7 +20,11 @@ const Home = () => {
           />
           <Box ml={5}>
             <Stack spacing={3}>
-              <Heading>Olá, Wilson Dos Santos</Heading>
+              <Heading>
+                Olá,{' '}
+                {session?.user?.name?.split('*#nafau#*')[0] ||
+                  session?.user?.name}
+              </Heading>
               <Text fontSize="sm">Seja Bem Vindo à Platatafoma NAFAU</Text>
             </Stack>
           </Box>

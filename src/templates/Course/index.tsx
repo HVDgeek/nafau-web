@@ -12,23 +12,40 @@ import Sidebar from 'components/Sidebar'
 import { Main } from 'templates/Users'
 import ShowMore from 'components/ShowMore'
 import { LinkProps } from 'components/Sidebar'
+import LoadingClient from 'components/LoadingClient'
+import { Session } from 'next-auth'
 
 export type CourseTemplateProps = {
   route?: string
   courses: ClassCardProps[]
-  onSubmit: () => (event: React.MouseEvent<HTMLButtonElement>) => void
+  loading: boolean
+  hasMore: boolean
+  onSubmit: () => void
+  handleShowMore: () => void
   title: string
   withRegister: boolean
   links: LinkProps[]
   titleSemTurma?: string
   descriptionSemTurma?: string
+  session: Session
+  module?: string
+  buttonTitle?: string
+  withRemove?: boolean
+  onRemove: (id: string) => void
 }
 
 const Course = ({
   route,
   courses = [],
+  loading,
+  module,
+  buttonTitle,
+  withRemove,
+  hasMore,
+  onRemove,
   onSubmit,
-  title = 'Minhas turmas',
+  handleShowMore,
+  title = 'minhas turmas',
   withRegister = false,
   links,
   titleSemTurma = 'Você ainda não tem turmas!',
@@ -41,34 +58,42 @@ const Course = ({
       <Container>
         <Main>
           <Sidebar links={links} activeLink={asPath} />
-          <ScaleFade initialScale={0.9} in={true}>
-            <Flex justifyContent="space-between" ml={4}>
-              <Heading lineLeft color={themes.colors.lightGray}>
-                {title}
-              </Heading>
-              {withRegister && (
-                <Button
-                  onClick={onSubmit}
-                  size="sm"
-                  leftIcon={<Icon as={FaPlus} />}
-                >
-                  Cadastrar
-                </Button>
+          {loading ? (
+            <LoadingClient title={title} />
+          ) : (
+            <ScaleFade initialScale={0.9} in={true}>
+              <Flex justifyContent="space-between" ml={4}>
+                <Heading lineLeft color={themes.colors.lightGray}>
+                  {title}
+                </Heading>
+                {withRegister && (
+                  <Button
+                    onClick={onSubmit}
+                    size="sm"
+                    leftIcon={<Icon as={FaPlus} />}
+                  >
+                    Cadastrar
+                  </Button>
+                )}
+              </Flex>
+              <CoursesList
+                module={module}
+                buttonTitle={buttonTitle}
+                withRemove={withRemove}
+                route={route}
+                titleSemTurma={titleSemTurma}
+                descriptionSemTurma={descriptionSemTurma}
+                courses={courses}
+                onRemove={onRemove}
+              />
+              {hasMore && (
+                <ShowMore
+                  tooltipText="Carregar mais Turmas!"
+                  onClick={handleShowMore}
+                />
               )}
-            </Flex>
-            <CoursesList
-              route={route}
-              titleSemTurma={titleSemTurma}
-              descriptionSemTurma={descriptionSemTurma}
-              courses={courses}
-            />
-            <ShowMore
-              tooltipText="Carregar mais Turmas!"
-              onClick={() => {
-                console.log('SHow more')
-              }}
-            />
-          </ScaleFade>
+            </ScaleFade>
+          )}
         </Main>
       </Container>
     </Base>

@@ -1,10 +1,12 @@
-import { Text, ScaleFade, VStack, useToast } from '@chakra-ui/react'
-import { signIn } from 'next-auth/client'
 import { useRouter } from 'next/router'
-import Button from 'components/Button'
-import TextField from 'components/TextField'
+import Link from 'next/link'
 import { Form, Formik } from 'formik'
+import { signIn } from 'next-auth/client'
+import { Text, ScaleFade, VStack, useToast } from '@chakra-ui/react'
 import { HiOutlineMail, HiOutlineLockClosed } from 'react-icons/hi'
+
+import TextField from 'components/TextField'
+import Button from 'components/Button'
 
 import * as Yup from 'yup'
 
@@ -22,7 +24,7 @@ const SignInSchema = Yup.object().shape({
 })
 
 const FormSignIn = () => {
-  const { push } = useRouter()
+  const { push, query } = useRouter()
   const toast = useToast()
 
   return (
@@ -34,10 +36,18 @@ const FormSignIn = () => {
           const result = await signIn('credentials', {
             ...values,
             redirect: false,
-            callbackUrl: '/'
+            callbackUrl: `${window.location.origin}${query?.callbackUrl || ''}`
           })
 
           if (result?.url) {
+            toast({
+              title: `Bem vindo ao NAFAU 😃`,
+              // variant: 'left-accent',
+              position: 'top-right',
+              // description: 'Verifique as suas credenciais e tente novamente',
+              status: 'success',
+              isClosable: true
+            })
             return push(result.url)
           }
 
@@ -73,19 +83,20 @@ const FormSignIn = () => {
                 isPasswordField
                 withIcon={true}
               />
-              {/* Depois colocar em volta de um Link*/}
-              <Text
-                color="gray.200"
-                _hover={{
-                  color: 'gray.300'
-                }}
-                fontSize="small"
-                alignSelf="flex-end"
-                as="a"
-                href="#"
-              >
-                Esqueceu sua senha ?
-              </Text>
+              <Link href="/forgot-password" passHref>
+                <Text
+                  color="gray.200"
+                  _hover={{
+                    color: 'gray.300'
+                  }}
+                  fontSize="small"
+                  alignSelf="flex-end"
+                  as="a"
+                  href="#"
+                >
+                  Esqueceu sua senha ?
+                </Text>
+              </Link>
             </VStack>
             <Button isLoading={isSubmitting} type="submit" fullWidth>
               Entrar
