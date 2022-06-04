@@ -10,6 +10,8 @@ import {
 import * as S from '../../../templates/Home/style'
 
 import DailyReport from '../Charts/DailyReport'
+import DashboardPieGrafico from '../Charts/DashboardPieGrafico'
+import DashboardRadialProgress from '../Charts/DashboardRadialProgress'
 
 function Student() {
   return (
@@ -158,25 +160,13 @@ function Student() {
           display="flex"
           flexDirection="column"
           alignItems="center"
-        >
-          <Text fontSize="md" mb="4">
-            Calendário
-          </Text>
-        </Box>
-
-        <Box
-          p={['4', '8']}
-          bg="gray.800"
-          borderRadius={8}
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
+          justifyContent="center"
         >
           <S.Number>678</S.Number>
           <Text fontSize="md" mb="4">
             Alunos Online
           </Text>
-          <AvatarGroup size="md" max={6}>
+          <AvatarGroup size="md" max={7}>
             <Avatar name="Ryan Florence" src="https://bit.ly/ryan-florence" />
             <Avatar
               name="Kola Tioluwani"
@@ -207,12 +197,13 @@ function Student() {
           display="flex"
           flexDirection="column"
           alignItems="center"
+          justifyContent="center"
         >
           <S.Number color="yellow">56</S.Number>
           <Text fontSize="md" mb="4">
             Professores Online
           </Text>
-          <AvatarGroup size="md" max={6}>
+          <AvatarGroup size="md" max={7}>
             <Avatar name="Ryan Florence" src="https://bit.ly/ryan-florence">
               <AvatarBadge boxSize="1em" bg="green.500" />
             </Avatar>
@@ -237,6 +228,20 @@ function Student() {
             <Avatar name="Christian Nwamba" src="https://bit.ly/code-beast" />
           </AvatarGroup>
         </Box>
+
+        <Box
+          p={['4', '8']}
+          bg="gray.800"
+          borderRadius={8}
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+        >
+          <Text fontSize="md" mb="4">
+            Progresso
+          </Text>
+          <DashboardRadialProgress />
+        </Box>
       </SimpleGrid>
 
       <SimpleGrid
@@ -251,12 +256,13 @@ function Student() {
           <Text fontSize="md" mb="4">
             Inscritos da semana
           </Text>
+          <DashboardPieGrafico />
         </Box>
         <Box p={['4', '8']} bg="gray.800" borderRadius={8} pointerEvents="none">
           <Text fontSize="md" mb="4">
             Relatório Diário
           </Text>
-          <DailyReport style={{ PointerEvent: 'none' }} />
+          <DailyReport />
         </Box>
       </SimpleGrid>
     </>

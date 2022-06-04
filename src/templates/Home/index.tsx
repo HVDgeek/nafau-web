@@ -3,16 +3,15 @@ import { Container } from 'components/Container'
 import Heading from 'components/Heading'
 import Base from 'templates/Base'
 import { useSession } from 'next-auth/client'
-import StudentInfos from '../../components/Dashboard/Studant/'
-import TeacherInfos from '../../components/Dashboard/Teacher/'
-import ManagerInfos from '../../components/Dashboard/Manager/'
+
+import GeneralDashBoard from '../../components/Dashboard/Geral'
 
 const Home = () => {
   const [session] = useSession()
   return (
     <Base>
       <Container>
-        <Box mt={6} display="flex" alignItems="center">
+        <Box mt={6} display="flex" alignItems="center" justifyContent="center">
           <Image
             boxSize="100px"
             src="https://user-images.githubusercontent.com/87288949/137050624-a4e7733f-499a-4f53-8ac1-915bdac4df12.png"
@@ -34,23 +33,11 @@ const Home = () => {
           <Heading lineLeft>Resumo</Heading>
         </Box>
 
-        {/*ESTUDANT INFOS */}
+        {/*ESTUDANT INFOS 
         <Box mt={8}>
           <Heading lineLeft>STUDENT</Heading>
-        </Box>
-        <StudentInfos />
-
-        {/*TEACHER INFOS */}
-        <Box mt={8}>
-          <Heading lineLeft>TEACHERS</Heading>
-        </Box>
-        <TeacherInfos />
-
-        {/*Manager INFOS */}
-        <Box mt={8}>
-          <Heading lineLeft>MANAGER</Heading>
-        </Box>
-        <ManagerInfos />
+        </Box>*/}
+        <GeneralDashBoard />
       </Container>
     </Base>
   )

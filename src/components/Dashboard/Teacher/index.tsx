@@ -8,7 +8,7 @@ import {
   AvatarGroup
 } from '@chakra-ui/react'
 import { Icon } from '@chakra-ui/react'
-import { FaUsers, FaCalendarAlt } from 'react-icons/fa'
+import { FaUsers, FaCalendarAlt, FaMoneyCheckAlt } from 'react-icons/fa'
 import * as S from '../../../templates/Home/style'
 import DailyReport from '../Charts/DailyReport'
 import ChartRegisterUsers from '../../Dashboard/Charts/RegisteredUsers'
@@ -38,7 +38,7 @@ function Teacher() {
               fontWeight={700}
               textTransform="uppercase"
             >
-              Número de Inscritos
+              DISCIPLINAS
             </Text>
             <Text color="#fff" fontSize="25px" fontWeight={700}>
               576
@@ -59,7 +59,7 @@ function Teacher() {
               fontWeight={700}
               textTransform="uppercase"
             >
-              Tempo na Plataforma
+              TAREFAS
             </Text>
             <Text color="#fff" fontSize="25px" fontWeight={700}>
               32
@@ -80,76 +80,76 @@ function Teacher() {
               fontWeight={700}
               textTransform="uppercase"
             >
-              Número de Inscritos
+              MATERIAIS
             </Text>
             <Text color="#fff" fontSize="25px" fontWeight={700}>
               250
             </Text>
           </Box>
         </Box>
-        {/* <Box p={['1', '8']} bg="gray.800" borderRadius={8}>
-            <Icon fontSize="40px" color="#2ECC71" as={FaMoneyCheckAlt} />
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-              mt={3}
+        <Box p={['1', '8']} bg="gray.800" borderRadius={8}>
+          <Icon fontSize="40px" color="#2ECC71" as={FaMoneyCheckAlt} />
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+            mt={3}
+          >
+            <Text
+              color="#a5aaad"
+              fontSize="14px"
+              fontWeight={700}
+              textTransform="uppercase"
             >
-              <Text
-                color="#a5aaad"
-                fontSize="14px"
-                fontWeight={700}
-                textTransform="uppercase"
-              >
-                Número de Inscritos
-              </Text>
-              <Text color="#fff" fontSize="25px" fontWeight={700}>
-                100
-              </Text>
-            </Box>
+              AVISOS
+            </Text>
+            <Text color="#fff" fontSize="25px" fontWeight={700}>
+              100
+            </Text>
           </Box>
-          <Box p={['1', '8']} bg="gray.800" borderRadius={8}>
-            <Icon fontSize="40px" color="#2ECC71" as={FaMoneyCheckAlt} />
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-              mt={3}
+        </Box>
+        <Box p={['1', '8']} bg="gray.800" borderRadius={8}>
+          <Icon fontSize="40px" color="#2ECC71" as={FaMoneyCheckAlt} />
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+            mt={3}
+          >
+            <Text
+              color="#a5aaad"
+              fontSize="14px"
+              fontWeight={700}
+              textTransform="uppercase"
             >
-              <Text
-                color="#a5aaad"
-                fontSize="14px"
-                fontWeight={700}
-                textTransform="uppercase"
-              >
-                Número de Inscritos
-              </Text>
-              <Text color="#fff" fontSize="25px" fontWeight={700}>
-                10
-              </Text>
-            </Box>
+              FORUM
+            </Text>
+            <Text color="#fff" fontSize="25px" fontWeight={700}>
+              10
+            </Text>
           </Box>
-          <Box p={['1', '8']} bg="gray.800" borderRadius={8}>
-            <Icon fontSize="40px" color="#2ECC71" as={FaMoneyCheckAlt} />
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-              mt={3}
+        </Box>
+        <Box p={['1', '8']} bg="gray.800" borderRadius={8}>
+          <Icon fontSize="40px" color="#2ECC71" as={FaMoneyCheckAlt} />
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+            mt={3}
+          >
+            <Text
+              color="#a5aaad"
+              fontSize="14px"
+              fontWeight={700}
+              textTransform="uppercase"
             >
-              <Text
-                color="#a5aaad"
-                fontSize="14px"
-                fontWeight={700}
-                textTransform="uppercase"
-              >
-                Número de Inscritos
-              </Text>
-              <Text color="#fff" fontSize="25px" fontWeight={700}>
-                50
-              </Text>
-            </Box>
-          </Box> */}
+              NOTAS
+            </Text>
+            <Text color="#fff" fontSize="25px" fontWeight={700}>
+              50
+            </Text>
+          </Box>
+        </Box>
       </SimpleGrid>
 
       <SimpleGrid
@@ -268,6 +268,90 @@ function Teacher() {
             Relatório Diário
           </Text>
           <DailyReport />
+        </Box>
+      </SimpleGrid>
+
+      <SimpleGrid
+        mt={5}
+        mb={5}
+        flex="1"
+        gap="4"
+        minChildWidth="320px"
+        align="flex-start"
+      >
+        <Box p={['4', '8']} bg="gray.800" borderRadius={8}>
+          <Text fontSize="md" mb="4">
+            Inscritos da semana
+          </Text>
+          <ChartRegisterUsers />
+        </Box>
+        <Box p={['4', '8']} bg="gray.800" borderRadius={8}>
+          <Text fontSize="md" mb="4">
+            Taxa de abertura
+          </Text>
+          <ChartRegisterUsers />
+        </Box>
+        <Box
+          p={['4', '8']}
+          bg="gray.800"
+          borderRadius={8}
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+        >
+          <S.Number color="yellow">56</S.Number>
+          <Text fontSize="md" mb="4">
+            Professores Online
+          </Text>
+          <AvatarGroup size="md" max={6}>
+            <Avatar name="Ryan Florence" src="https://bit.ly/ryan-florence">
+              <AvatarBadge boxSize="1em" bg="green.500" />
+            </Avatar>
+            <Avatar
+              name="Kola Tioluwani"
+              src="https://bit.ly/tioluwani-kolawole"
+            />
+            <Avatar name="Kent Dodds" src="https://bit.ly/kent-c-dodds" />
+            <Avatar name="Ryan Florence" src="https://bit.ly/ryan-florence" />
+            <Avatar
+              name="Prosper Otemuyiwa"
+              src="https://bit.ly/prosper-baba"
+            />
+            <Avatar name="Segun Adebayo" src="https://bit.ly/sage-adebayo" />
+            <Avatar name="Christian Nwamba" src="https://bit.ly/code-beast" />
+            <Avatar name="Kent Dodds" src="https://bit.ly/kent-c-dodds" />
+            <Avatar
+              name="Prosper Otemuyiwa"
+              src="https://bit.ly/prosper-baba"
+            />
+            <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
+            <Avatar name="Christian Nwamba" src="https://bit.ly/code-beast" />
+          </AvatarGroup>
+        </Box>
+      </SimpleGrid>
+
+      <SimpleGrid
+        mt={5}
+        mb={5}
+        flex="1"
+        gap="4"
+        minChildWidth="320px"
+        align="flex-start"
+      >
+        <Box p={['4', '8']} bg="gray.800" borderRadius={8}>
+          <Text fontSize="md" mb="4">
+            Registro de usuários por dia
+          </Text>
+        </Box>
+        <Box p={['4', '8']} bg="gray.800" borderRadius={8}>
+          <Text fontSize="md" mb="4">
+            Colaboradores
+          </Text>
+        </Box>
+        <Box p={['4', '8']} bg="gray.800" borderRadius={8}>
+          <Text fontSize="md" mb="4">
+            Radar Chart
+          </Text>
         </Box>
       </SimpleGrid>
     </>
